@@ -1,0 +1,40 @@
+<div class="register-header text-center">
+  <h2>Create Account</h2>
+  <h5 class="text-muted">Let's Create Your Buy Cheap Account</h5>
+</div>
+<hr>
+<div>
+  <div class="card">
+    <form (submit)="onHandleSubmit(registerForm)" #registerForm="ngForm">
+      <div class="card-body">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" class="form-control" placeholder="Enter Name..." [class.is-invalid]="name.invalid && name.touched" ngModel #name="ngModel" required>
+          <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required!</small>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" class="form-control" [class.is-invalid]="email.invalid && email.touched" placeholder="Enter Email..." ngModel #email="ngModel" required>
+          <small class="text-danger" [class.d-none]="email.valid || email.untouched">Email is required!</small>
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" class="form-control" [class.is-invalid]="username.invalid && username.touched" placeholder="Enter Username..." ngModel #username="ngModel" required>
+          <small class="text-danger" [class.d-none]="username.valid || username.untouched">Username is required!</small>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" class="form-control" [class.is-invalid]="password.invalid && password.touched" placeholder="Enter Password..." ngModel #password="ngModel" required>
+          <small class="text-danger" [class.d-none]="password.valid || password.untouched">Password is required!</small>
+        </div>
+        <div class="form-group">
+          <label for="password2">Confirm Password</label>
+          <input id="password2" name="password2" type="password" class="form-control" [class.is-invalid]="password2.invalid && password2.touched" placeholder="Enter Password Again..." ngModel #password2="ngModel" required [disabled]="password.invalid">
+        </div>
+      </div>
+      <div class="card-footer">
+        <button [disabled]="registerForm.invalid" id="btn-register" type="submit" class="btn text-light">REGISTER</button>
+      </div>
+    </form>
+  </div>
+</div>

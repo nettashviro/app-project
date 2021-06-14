@@ -1,0 +1,15 @@
+version: "3.5"
+services:
+  # TODO:
+  # server:
+  #   image: server-shop:latest
+  #   ports:
+  #     - "3000:3000" # Change it if you want
+  #   build: ./server
+  #   depends_on:
+  #     - mongo
+  #   restart: always
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"

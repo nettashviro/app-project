@@ -1,0 +1,14 @@
+h1 {
+  font-weight: bold;
+  text-shadow: 1px 2px 8px #111;
+}
+
+p {
+  text-shadow: 2px 1px 8px #111;
+}
+
+a {
+  box-shadow: 2px 2px 8px #111;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}

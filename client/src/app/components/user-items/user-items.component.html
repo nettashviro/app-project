@@ -1,0 +1,26 @@
+<div>
+  <ng-container *ngIf="userItem; else noItems">
+    <div class="row">
+      <div *ngFor="let item of userItem" class="col col-sm-12 col-md-4 my-3">
+        <div class="card">
+          <div class="card-body">
+            <h5>{{ item.name }}</h5>
+            <span>{{ item.price }}</span>
+          </div>
+          <div class="card-footer">
+            <button (click)="onDeleteItem(item._id)" type="button" class="btn btn-danger btn-buy">DELETE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noItems>
+    <div class="text-center">
+      <div class="card">
+        <div class="card-body">
+          <p class="text-muted"> It Seems You Have No Items Added Yet!</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

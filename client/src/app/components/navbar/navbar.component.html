@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5">
+  <a *ngIf="!authService.isLoggedIn()" class="navbar-brand" routerLink="/">{{ title | uppercase }}</a>
+  <a *ngIf="authService.isLoggedIn()" class="navbar-brand" routerLink="/dashboard">{{ title | uppercase }}</a>
+  <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+        aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavId">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li *ngIf="!authService.isLoggedIn()" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" routerLink="/">HOME</a>
+      </li>
+      <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" routerLink="/dashboard" >DASHBOARD</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" routerLink="/items" >SHOPPING ITEMS</a>
+      </li>
+      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <a class="nav-link" routerLink="/about" >ABOUT</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
+      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <a class="nav-link" routerLink="/register" >CREATE ACCOUNT</a>
+      </li>
+      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <a class="nav-link" routerLink="/authenticate" >LOGIN</a>
+      </li>
+      <li class="nav-item mr-lg-2">
+        <a href="#!" *ngIf="authService.isLoggedIn()" class="nav-link" (click)="onHandleLogOut()">LOGOUT</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.disabled]="!authService.isLoggedIn()" (click)="onCartClick()">
+          <i class="fas fa-shopping-cart fa-2x"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

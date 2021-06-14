@@ -1,0 +1,27 @@
+<div class="login-header text-center">
+  <h2>Login</h2>
+  <h5 class="text-muted">Let's Visit Your Account</h5>
+</div>
+<hr>
+<div>
+  <div class="card">
+    <form (submit)="onHandleLogin(authForm)" #authForm="ngForm">
+      <div class="card-body">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" [class.is-invalid]="username.invalid && username.touched" class="form-control" placeholder="Enter Username..." ngModel required #username="ngModel" >
+          <small class="text-danger" [class.d-none]="username.valid || username.untouched" >Invalid Username</small>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" [class.is-invalid]="password.invalid && password.touched" class="form-control" placeholder="Enter Password..." ngModel required #password="ngModel" >
+          <small class="text-danger" [class.d-none]="password.valid || password.untouched" >Invalid Password</small>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button [disabled]="authForm.invalid" id="btn-login" type="submit" class="btn btn-success">LOGIN</button>
+      </div>
+    </form>
+  </div>
+</div>
+

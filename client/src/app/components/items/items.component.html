@@ -1,0 +1,72 @@
+<div >
+  <ng-container *ngIf="items; else noItems">
+    <div class="row">
+      <div *ngFor="let item of items" class="col col-sm-12 col-md-4 my-3">
+        <div class="card">
+          <div class="card-body">
+            <h5>{{ item.name }}</h5>
+            <span>{{ item.price }}</span>
+          </div>
+          <div class="card-footer">
+            <a routerLink="/authenticate" *ngIf="!authService.isLoggedIn()" class="btn btn-success btn-buy">BUY</a>
+            <a (click)="onAddToCart(item.name, item.price)" *ngIf="authService.isLoggedIn()" class="btn btn-success text-light btn-add-cart" data-toggle="modal" data-target="#exampleModalCenter">ADD TO CART</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noItems>
+    <div class="text-center">
+      <p class="text-muted">It seems you are out of connection, make sure you connect the internet & try again!</p>
+    </div>
+  </ng-template>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Please Fill Out This Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form (submit)="onRegisterUserItem(userItem)" #userItem="ngForm">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="country">Country</label>
+              <select ngModel #country="ngModel" class="form-control" [class.is-invalid]="country.invalid && country.touched"  name="country" id="country" required>
+                <option *ngFor="let country of countries">{{ country }}</option>
+              </select>
+              <small class="text-danger" [class.d-none]="country.valid || country.untouched">Select your country!</small>
+            </div>
+            <div class="form-group">
+              <label for="contact">Contact Info</label>
+              <input ngModel #contact="ngModel" id="contact" name="contact_info" type="number" class="form-control" [class.is-invalid]="contact.touched && contact.invalid" placeholder="Enter your contact info.." required>
+              <small class="text-danger" [class.d-none]="contact.valid || contact.untouched">Invalid contact number!</small>
+            </div>
+            <div class="form-group">
+              <label for="credit-card">Credit Card Number / Papel Account</label>
+              <input ngModel #creditCard="ngModel" id="credit-card" name="credit_card" type="number" class="form-control" [class.is-invalid]="creditCard.invalid && creditCard.touched"  placeholder="Enter your credit card number.." required>
+              <small class="text-danger" [class.d-none]="creditCard.valid || creditCard.untouched">Invalid credit card number!</small>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" name="form-check" id="form-check" value="checkedValue" checked>
+                I agree with my details!
+                </label>
+              </div>
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+          <button [disabled]="userItem.form.invalid" type="submit" class="btn btn-primary">ADD TO CART</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
