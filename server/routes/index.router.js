@@ -1,9 +1,9 @@
 const express = require("express");
-const passport = require("passport");
+const jwtHelper = require("../utils/jwtHelper");
 const ctrlIndex = require("../controllers/index.controller");
 
 const router = express.Router();
 
-router.route("/dashboard").get(passport.authenticate("jwt", { session: false }), ctrlIndex.dashboard);
+router.route("/dashboard").get(jwtHelper.verifyJwtToken, ctrlIndex.dashboard);
 
 module.exports = router;

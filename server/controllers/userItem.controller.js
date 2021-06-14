@@ -9,14 +9,9 @@ module.exports.items = (req, res, next) => {
     .exec()
     .then((userItems) => {
       if (userItems.length < 1) {
-        return res.status(404).json({
-          message: `no items added...`,
-        });
+        return res.status(404).json({ message: `no items added...` });
       } else {
-        return res.status(200).json({
-          success: true,
-          userItems: userItems,
-        });
+        return res.status(200).json({ success: true, userItems: userItems });
       }
     })
     .catch((err) => {
@@ -29,25 +24,19 @@ module.exports.addItem = (req, res, next) => {
     .exec()
     .then((user) => {
       if (!user) {
-        return res.status(409).json({
-          message: `invalid user id...`,
-        });
+        return res.status(409).json({ message: `invalid user id...` });
       }
       UserItem.find({ contact_info: req.body.contact_info })
         .exec()
         .then((userItem) => {
           if (userItem.length >= 1) {
-            return res.status(409).json({
-              message: `invalid contact info...`,
-            });
+            return res.status(409).json({ message: `invalid contact info...` });
           }
           UserItem.find({ credit_card: req.body.credit_card })
             .exec()
             .then((userItem) => {
               if (userItem.length >= 1) {
-                return res.status(409).json({
-                  message: `invalid credit card info...`,
-                });
+                return res.status(409).json({ message: `invalid credit card info...` });
               }
               let newUserItem = new UserItem({
                 _id: new mongoose.Types.ObjectId(),

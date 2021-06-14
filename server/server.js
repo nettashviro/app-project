@@ -1,4 +1,6 @@
 require("./utils/database");
+require("./seeds/seeds");
+
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
@@ -45,9 +47,9 @@ app.use((req, res, next) => {
 /** Routes */
 app.get("/health", (req, res) => res.send("alive"));
 app.use("/api", itemsRoute);
-app.use("/user", userRoute);
-app.use("/user", dashboardRoute);
-app.use("/user", userItemRoute);
+app.use("/api/user", userRoute);
+app.use("/api", dashboardRoute);
+app.use("/api/user", userItemRoute);
 
 /** Setup Port & Listening to Server **/
 server.listen(port, () => console.log(`server running on port ${port}!!`));

@@ -7,7 +7,6 @@ let userItemSchema = new Schema({
   },
   name: {
     type: String,
-    match: /^[a-zA-Z ]{2,30}$/,
     required: [true, "item name is required...!"],
   },
   price: {
@@ -34,8 +33,8 @@ let userItemSchema = new Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Users",
+    ref: "User",
   },
 });
 
-module.exports = mongoose.model("User_Items", userItemSchema);
+module.exports = mongoose.model("UserItem", userItemSchema);

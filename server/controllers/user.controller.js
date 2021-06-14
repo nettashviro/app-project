@@ -1,24 +1,12 @@
-const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-const { SECRET_OR_KEY } = require("../config");
 
 module.exports.users = (req, res, next) => {
-  User.find()
-    .sort({ date: -1 })
-    .select("name email username date _id")
+  User.find({})
     .exec()
     .then((users) => {
-      if (users.length < 1) {
-        return res.status(404).json({
-          message: `users not found...`,
-        });
-      } else {
-        return res.status(200).json({
-          users: users,
-        });
-      }
+      if (users.length < 1) return res.status(404).json({ message: `users not found...` });
+      return res.status(200).json({ users: users });
     })
     .catch((err) => {
       return res.status(500).json(err);
@@ -30,31 +18,25 @@ module.exports.authenticate = (req, res, next) => {
     .exec()
     .then((user) => {
       if (!user) {
-        return res.status(409).json({
-          message: `user not found...`,
-        });
+        return res.status(409).json({ message: `user not found...` });
       } else {
-        bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
-          if (err) return res.status(500).json(err);
-          if (isMatch) {
-            let token = jwt.sign({ user }, SECRET_OR_KEY, {
-              expiresIn: "1h",
-            });
-            return res.status(200).json({
-              user: {
-                name: user.name,
-                email: user.email,
-                username: user.username,
-                date: user.date,
-                id: user._id,
-              },
-              token: `Bearer ${token}`,
-            });
-          }
-          return res.status(409).json({
-            message: `password is not match...`,
+        const isMatch = user.verifyPassword(req.body.password);
+        if (isMatch) {
+          const token = user.generateJwt();
+          return res.status(200).json({
+            user: {
+              name: user.name,
+              email: user.email,
+              username: user.username,
+              date: user.date,
+              id: user._id,
+              isAdmin: user.isAdmin,
+            },
+            token: `Bearer ${token}`,
           });
-        });
+        }
+
+        return res.status(409).json({ message: `password is not match...` });
       }
     })
     .catch((err) => {
@@ -63,47 +45,35 @@ module.exports.authenticate = (req, res, next) => {
 };
 
 module.exports.register = (req, res, next) => {
+  // Check if there is already user with this mail address
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
       if (user.length >= 1) {
-        return res.status(409).json({
-          error: `invalid email id...`,
-        });
+        return res.status(409).json({ error: "Duplicate email adrress found." });
       } else {
+        // Check if there is already user with this username
         User.find({ username: req.body.username })
           .exec()
           .then((user) => {
             if (user.length >= 1) {
-              return res.status(409).json({
-                error: `invalid username...`,
-              });
+              return res.status(409).json({ error: `Duplicate username found.` });
             } else {
-              //Encrypt the password
-              bcrypt.genSalt(10, (err, salt) => {
-                if (err) return res.status(500).json(err);
-                bcrypt.hash(req.body.password, salt, (err, hash) => {
-                  if (err) return res.status(500).json(err);
-                  let user = new User({
-                    _id: new mongoose.Types.ObjectId(),
-                    name: req.body.name,
-                    email: req.body.email,
-                    username: req.body.username,
-                    password: hash,
-                  });
-                  return user
-                    .save()
-                    .then((user) => {
-                      return res.status(200).json({
-                        success: true,
-                        user: user,
-                      });
-                    })
-                    .catch((err) => {
-                      return res.status(500).json(err);
-                    });
-                });
+              let user = new User({
+                _id: new mongoose.Types.ObjectId(),
+                name: req.body.name,
+                email: req.body.email,
+                username: req.body.username,
+                password: req.body.password,
               });
+              return user
+                .save()
+                .then((user) => {
+                  return res.status(200).json({ success: true, user: user });
+                })
+                .catch((err) => {
+                  return res.status(500).json(err);
+                });
             }
           })
           .catch((err) => {
@@ -118,10 +88,14 @@ module.exports.register = (req, res, next) => {
 
 module.exports.current = (req, res, next) => {
   let currentUser = req.user;
-  if (!currentUser) {
-    return res.status(403).json({
-      message: "current user not found...",
-    });
-  }
+  if (!currentUser) return res.status(403).json({ message: "current user not found..." });
+
   return res.status(200).json(req.user);
+};
+
+module.exports.user = (req, res, next) => {
+  User.findById({ _id: req.params.id }, (err, user) => {
+    if (!user) return res.status(404).json({ status: false, message: "User record not found." });
+    else return res.status(200).json({ status: true, user: _.pick(user, ["fullName", "email"]) });
+  });
 };

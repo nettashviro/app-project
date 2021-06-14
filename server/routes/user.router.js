@@ -1,11 +1,12 @@
 const express = require("express");
-const passport = require("passport");
 const ctrlUser = require("../controllers/user.controller");
+const jwtHelper = require("../utils/jwtHelper");
 
 const router = express.Router();
 
-router.route("/getall").get(ctrlUser.users);
-router.route("/current").get(passport.authenticate("jwt", { session: false }), ctrlUser.current);
+router.route("/").get(ctrlUser.users);
+router.route("/:id").get(ctrlUser.user);
+router.route("/current").get(jwtHelper.verifyJwtToken, ctrlUser.current);
 router.route("/register").post(ctrlUser.register);
 router.route("/authenticate").post(ctrlUser.authenticate);
 

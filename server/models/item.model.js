@@ -7,7 +7,6 @@ const itemSchema = new Schema({
   },
   name: {
     type: String,
-    match: /^[a-zA-Z ]{2,30}$/,
     required: [true, "item name is required...!"],
   },
   price: {
@@ -20,4 +19,4 @@ const itemSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Items", itemSchema);
+module.exports = mongoose.model("Item", itemSchema);

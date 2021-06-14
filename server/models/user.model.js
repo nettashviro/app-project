@@ -1,4 +1,8 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY, JWT_EXP } = require("../config");
+
 const Schema = mongoose.Schema;
 
 let userSchema = new Schema({
@@ -12,8 +16,6 @@ let userSchema = new Schema({
   },
   email: {
     type: String,
-    match:
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     unique: true,
     lowercase: true,
     required: [true, "email is required...!"],
@@ -28,11 +30,44 @@ let userSchema = new Schema({
     type: String,
     required: [true, "password is required...!"],
   },
-
   date: {
     type: Date,
     default: Date.now,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  saltSecret: String,
 });
 
-module.exports = mongoose.model("Users", userSchema);
+// Custom validation for email
+userSchema.path("email").validate((val) => {
+  emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return emailRegex.test(val);
+}, "Invalid e-mail.");
+
+//Encrypt the password
+userSchema.pre("save", function (next) {
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(this.password, salt, (err, hash) => {
+      this.password = hash;
+      this.saltSecret = salt;
+      next();
+    });
+  });
+});
+
+// Methods
+userSchema.methods.verifyPassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+userSchema.methods.generateJwt = function () {
+  return jwt.sign({ _id: this._id }, SECRET_KEY, {
+    expiresIn: JWT_EXP,
+  });
+};
+
+module.exports = mongoose.model("User", userSchema);

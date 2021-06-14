@@ -1,7 +1,8 @@
 export interface LocalUserModel {
-  name: string,
-  username: string,
-  email: string,
-  date: Date,
-  id: string
+  name: string;
+  username: string;
+  email: string;
+  date: Date;
+  id: string;
+  isAdmin: boolean;
 }
