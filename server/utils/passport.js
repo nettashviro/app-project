@@ -1,7 +1,7 @@
 const { Strategy } = require("passport-jwt");
 const { ExtractJwt } = require("passport-jwt");
 const { SECRET_KEY } = require("../config");
-const User = require("../models/customer.model");
+const Customer = require("../models/customer.model");
 
 module.exports = (passport) => {
   let opts = {};
@@ -11,12 +11,12 @@ module.exports = (passport) => {
   passport.use(
     new Strategy(opts, (jwt_payload, done) => {
       console.log(jwt_payload);
-      User.findOne({ _id: jwt_payload.user._id })
+      Customer.findOne({ _id: jwt_payload.customer._id })
         .select("name email username _id date")
         .exec()
-        .then((user) => {
-          if (user) {
-            return done(null, user);
+        .then((customer) => {
+          if (customer) {
+            return done(null, customer);
           }
           return done(null, false);
         })

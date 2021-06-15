@@ -4,8 +4,8 @@ const jwtHelper = require("../utils/jwtHelper");
 
 const router = express.Router();
 
-router.route("/").get(ctrlCustomer.users);
-router.route("/:id").get(ctrlCustomer.user);
+router.route("/").get(ctrlCustomer.customers);
+router.route("/:id").get(ctrlCustomer.customer);
 router.route("/current").get(jwtHelper.verifyJwtToken, ctrlCustomer.current);
 router.route("/register").post(ctrlCustomer.register);
 router.route("/authenticate").post(ctrlCustomer.authenticate);
