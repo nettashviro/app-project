@@ -1,0 +1,33 @@
+.card {
+    display: flex;
+    width: 220px;
+    font-family: "Gisha";
+}
+
+.itemName {
+    font-weight: 600;
+}
+
+.card-body {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itemPrice::before {
+    content: "₪";
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.itemImg {
+    height: 170px;
+}

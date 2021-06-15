@@ -45,18 +45,31 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  onAddToCart(name: string, price: string) {
-    this.name = name;
-    this.price = price;
+  onAddToCart(_id: string, name: string, price: string) {
+    let userItem = {
+      _id,
+      name,
+      price,
+    };
+
+    this.userItemService.saveUserItem(userItem).subscribe((data) => {
+      if (data) {
+        this.flashMessage.showFlashMessage({
+          messages: ["Item added to your cart!"],
+          dismissible: true,
+          timeout: 4000,
+          type: "success",
+        });
+        this.router.navigate(["items"]);
+        return true;
+      }
+    });
   }
 
   onRegisterUserItem(form: NgForm) {
     let userItem = {
       name: this.name,
       price: this.price,
-      country: form.value.country,
-      contact_info: form.value.contact_info,
-      credit_card: form.value.credit_card,
     };
     //Check for valid contact number
     /*

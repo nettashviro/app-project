@@ -10,13 +10,11 @@ const orderSchema = new Schema({
         ref: 'User',
         required: [true, "customer is required...!"],
     },
-    items: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Item'
-        }
-    ],
-    totaPrice: {
+    items: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Item'
+    }],
+    totalPrice: {
         type: String,
         required: [true, "total price is required...!"],
     },
