@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const path = require("path");
 const itemsRoute = require("./routes/item.router");
-const userRoute = require("./routes/user.router");
+const customerRoute = require("./routes/customer.router");
 const dashboardRoute = require("./routes/index.router");
 const userItemRoute = require("./routes/userItem.router");
 const jwtAuthentication = require("./utils/passport");
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 /** Routes */
 app.get("/health", (req, res) => res.send("alive"));
 app.use("/api", itemsRoute);
-app.use("/api/user", userRoute);
+app.use("/api/user", customerRoute);
 app.use("/api", dashboardRoute);
 app.use("/api/user", userItemRoute);
 

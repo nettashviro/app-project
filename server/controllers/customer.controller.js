@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const User = require("../models/user.model");
+const Customer = require("../models/customer.model");
 
 module.exports.users = (req, res, next) => {
-  User.find({})
+  Customer.find({})
     .exec()
     .then((users) => {
       if (users.length < 1) return res.status(404).json({ message: `users not found...` });
@@ -14,7 +14,7 @@ module.exports.users = (req, res, next) => {
 };
 
 module.exports.authenticate = (req, res, next) => {
-  User.findOne({ username: req.body.username })
+  Customer.findOne({ username: req.body.username })
     .exec()
     .then((user) => {
       if (!user) {
@@ -46,20 +46,20 @@ module.exports.authenticate = (req, res, next) => {
 
 module.exports.register = (req, res, next) => {
   // Check if there is already user with this mail address
-  User.find({ email: req.body.email })
+  Customer.find({ email: req.body.email })
     .exec()
     .then((user) => {
       if (user.length >= 1) {
         return res.status(409).json({ error: "Duplicate email adrress found." });
       } else {
         // Check if there is already user with this username
-        User.find({ username: req.body.username })
+        Customer.find({ username: req.body.username })
           .exec()
           .then((user) => {
             if (user.length >= 1) {
               return res.status(409).json({ error: `Duplicate username found.` });
             } else {
-              let user = new User({
+              let user = new Customer({
                 _id: new mongoose.Types.ObjectId(),
                 name: req.body.name,
                 email: req.body.email,
@@ -94,8 +94,8 @@ module.exports.current = (req, res, next) => {
 };
 
 module.exports.user = (req, res, next) => {
-  User.findById({ _id: req.params.id }, (err, user) => {
-    if (!user) return res.status(404).json({ status: false, message: "User record not found." });
+  Customer.findById({ _id: req.params.id }, (err, user) => {
+    if (!user) return res.status(404).json({ status: false, message: "Customer record not found." });
     else return res.status(200).json({ status: true, user: _.pick(user, ["fullName", "email"]) });
   });
 };
