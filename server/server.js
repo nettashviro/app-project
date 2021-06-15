@@ -12,6 +12,7 @@ const itemsRoute = require("./routes/item.router");
 const userRoute = require("./routes/user.router");
 const dashboardRoute = require("./routes/index.router");
 const userItemRoute = require("./routes/userItem.router");
+const orderRoute = require("./routes/order.router");
 const jwtAuthentication = require("./utils/passport");
 const { createServer } = require("http");
 const { port } = require("./config");
@@ -48,6 +49,7 @@ app.use((req, res, next) => {
 app.get("/health", (req, res) => res.send("alive"));
 app.use("/api", itemsRoute);
 app.use("/api/user", userRoute);
+app.use("/api/order", orderRoute);
 app.use("/api", dashboardRoute);
 app.use("/api/user", userItemRoute);
 
