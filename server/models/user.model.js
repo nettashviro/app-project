@@ -5,7 +5,7 @@ const { SECRET_KEY, JWT_EXP } = require("../config");
 
 const Schema = mongoose.Schema;
 
-let customerSchema = new Schema({
+let userSchema = new Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
   },
@@ -42,14 +42,14 @@ let customerSchema = new Schema({
 });
 
 // Custom validation for email
-customerSchema.path("email").validate((val) => {
+userSchema.path("email").validate((val) => {
   emailRegex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return emailRegex.test(val);
 }, "Invalid e-mail.");
 
 //Encrypt the password
-customerSchema.pre("save", function (next) {
+userSchema.pre("save", function (next) {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(this.password, salt, (err, hash) => {
       this.password = hash;
@@ -60,14 +60,14 @@ customerSchema.pre("save", function (next) {
 });
 
 // Methods
-customerSchema.methods.verifyPassword = function (password) {
+userSchema.methods.verifyPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-customerSchema.methods.generateJwt = function () {
+userSchema.methods.generateJwt = function () {
   return jwt.sign({ _id: this._id }, SECRET_KEY, {
     expiresIn: JWT_EXP,
   });
 };
 
-module.exports = mongoose.model("Customer", customerSchema);
+module.exports = mongoose.model("User", userSchema);

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const Customer = require("../models/customer.model");
+const User = require("../models/user.model");
 const { SECRET_KEY } = require("../config");
 
 module.exports.verifyJwtToken = (req, res, next) => {
@@ -12,15 +12,15 @@ module.exports.verifyJwtToken = (req, res, next) => {
       jwt.verify(token, SECRET_KEY, (err, decoded) => {
         if (err) return res.status(500).send({ auth: false, message: "Token authentication failed." });
         else {
-          Customer.findOne({ _id: decoded._id })
+          User.findOne({ _id: decoded._id })
             .select("name email username _id date")
             .exec()
-            .then((customer) => {
-              if (customer) {
-                req.customer = customer;
+            .then((user) => {
+              if (user) {
+                req.user = user;
                 return next();
               }
-              return res.status(500).send({ auth: false, message: "Customer not found." });
+              return res.status(500).send({ auth: false, message: "User not found." });
             })
             .catch((err) => {
               return res.status(500).send({ auth: false, message: "Token authentication failed." });
