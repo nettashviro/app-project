@@ -3,7 +3,8 @@ const ctrlItem = require("../controllers/item.controller");
 
 const router = express.Router();
 
-router.route("/items").get(ctrlItem.items);
-router.route("/item").post(ctrlItem.addItem);
+router.route("/getItems").get(ctrlItem.items);
+router.route("/deleteItem").delete(ctrlItem.deleteItem);
+router.route("/addItem").post(ctrlItem.addItem);
 
 module.exports = router;
