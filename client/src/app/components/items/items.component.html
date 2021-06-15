@@ -1,20 +1,16 @@
 <div>
-  <ng-container *ngIf="items; else noItems">
-    <div class="row">
-      <div *ngFor="let item of items" class="col col-sm-12 col-md-4 my-3">
-        <div class="card">
-          <div class="card-body">
-            <img class="itemImg" src='../../../assets/images/{{item.image}}'/>
-            <h5>{{ item.name }}</h5>
-            <!-- <h6>{{ item.category }}</h6> -->
-            <span class="itemPrice">{{ item.price }}</span>
-          </div>
-          <div class="card-footer">
-            <a
-              routerLink="/authenticate"
-              *ngIf="!authService.isLoggedIn()"
-              class="btn btn-success btn-buy"
-              >BUY</a
+    <ng-container *ngIf="items; else noItems">
+        <div class="row">
+            <div *ngFor="let item of items" class="col col-sm-12 col-md-3 my-3">
+                <div class="card">
+                    <div class="card-body">
+                        <img class="itemImg" src='../../../assets/images/{{item.image}}' />
+                        <h5 class="itemName">{{ item.name }}</h5>
+                        <!-- <h6>{{ item.category }}</h6> -->
+                        <span class="itemPrice">{{ item.price }}</span>
+                    </div>
+                    <div class="card-footer">
+                        <a routerLink="/authenticate" *ngIf="!authService.isLoggedIn()" class="btn btn-success btn-buy">BUY</a
             >
             <a
               (click)="onAddToCart(item.name, item.price)"
