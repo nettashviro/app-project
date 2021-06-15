@@ -14,7 +14,7 @@ const users = (req, res, next) => {
     });
 };
 
-const authenticate = (req, res, next) => {
+const authenticate = (req, res, next = () => {}) => {
   User.findOne({ username: req.body.username })
     .exec()
     .then((user) => {
@@ -24,6 +24,8 @@ const authenticate = (req, res, next) => {
         const isMatch = user.verifyPassword(req.body.password);
         if (isMatch) {
           const token = user.generateJwt();
+          res.locals.user = user
+          next()
           return res.status(200).json({
             user: {
               name: user.name,
