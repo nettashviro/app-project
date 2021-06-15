@@ -1,7 +1,7 @@
 const { Strategy } = require("passport-jwt");
 const { ExtractJwt } = require("passport-jwt");
 const { SECRET_KEY } = require("../config");
-const User = require("../models/user.model");
+const User = require("../models/customer.model");
 
 module.exports = (passport) => {
   let opts = {};
