@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("../models/user.model");
+const _ = require('lodash')
 
 const users = (req, res, next) => {
   User.find({})
@@ -94,6 +95,7 @@ const current = (req, res, next) => {
 };
 
 const user = (req, res, next) => {
+  console.log("req.params.id",req.params.id)
   User.findById({ _id: req.params.id }, (err, user) => {
     if (!user) return res.status(404).json({ status: false, message: "User record not found." });
     else return res.status(200).json({ status: true, user: _.pick(user, ["fullName", "email"]) });

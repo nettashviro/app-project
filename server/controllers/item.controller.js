@@ -57,10 +57,27 @@ const deleteItem = (req, res, next) => {
     });
 };
 
+const findItemByField = (req, res, next) => {
+  const { field, value } = req.params;
+  Item.find({ [field]: value })
+    .exec()
+    .then((items) => {
+      if (items.length < 1) {
+        return res.status(404).json({ message: `items not found...` });
+      } else {
+        return res.status(200).json(items);
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err);
+    });
+};
+
 
 module.exports = {
   getItems,
   addItem,
-  deleteItem
+  deleteItem,
+  findItemByField
 }
 
