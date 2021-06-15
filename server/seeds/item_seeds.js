@@ -10,6 +10,8 @@ Item.find({ name: "tshirt1" })
         _id: new mongoose.Types.ObjectId(),
         name: "tshirt1",
         price: 35,
+        category:'shirts',
+        image: 'tshirt.jpg'
       });
       newItem.save((err, doc) => {
         if (err) console.log(err);
