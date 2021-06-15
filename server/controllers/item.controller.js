@@ -1,7 +1,7 @@
 const Item = require("../models/item.model");
 const mongoose = require("mongoose");
 
-getItems = (req, res, next) => {
+const getItems = (req, res, next) => {
   Item.find()
     .exec()
     .then((items) => {
@@ -16,7 +16,7 @@ getItems = (req, res, next) => {
     });
 };
 
-addItem = (req, res, next) => {
+const addItem = (req, res, next) => {
   let item = new Item({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -33,7 +33,7 @@ addItem = (req, res, next) => {
 };
 
 
-deleteItem = (req, res, next) => {
+const deleteItem = (req, res, next) => {
   const itemId = req.params.id;
   Item.find({ _id: itemId })
     .exec()
