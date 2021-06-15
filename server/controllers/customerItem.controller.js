@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const UserItem = require("../models/userItem.model");
+const UserItem = require("../models/customerItem.model");
 const User = require("../models/customer.model");
 
-module.exports.items = (req, res, next) => {
+const items = (req, res, next) => {
   UserItem.find()
     .sort({ date: -1 })
     .select("_id contact_info country credit_card item user date")
@@ -19,7 +19,7 @@ module.exports.items = (req, res, next) => {
     });
 };
 
-module.exports.addItem = (req, res, next) => {
+const addItem = (req, res, next) => {
   User.findOne({ _id: req.user._id })
     .exec()
     .then((user) => {
@@ -36,7 +36,9 @@ module.exports.addItem = (req, res, next) => {
             .exec()
             .then((userItem) => {
               if (userItem.length >= 1) {
-                return res.status(409).json({ message: `invalid credit card info...` });
+                return res
+                  .status(409)
+                  .json({ message: `invalid credit card info...` });
               }
               let newUserItem = new UserItem({
                 _id: new mongoose.Types.ObjectId(),
@@ -69,7 +71,7 @@ module.exports.addItem = (req, res, next) => {
     });
 };
 
-module.exports.userItems = (req, res, next) => {
+const userItems = (req, res, next) => {
   const userId = req.params.id;
   UserItem.find({ user: userId })
     .sort({ date: -1 })
@@ -88,7 +90,7 @@ module.exports.userItems = (req, res, next) => {
     });
 };
 
-module.exports.deleteItem = (req, res, next) => {
+const deleteItem = (req, res, next) => {
   const itemId = req.params.id;
   UserItem.find({ user: itemId })
     .exec()
@@ -110,4 +112,11 @@ module.exports.deleteItem = (req, res, next) => {
     .catch((err) => {
       return res.status(500).json(err);
     });
+};
+
+module.exports = {
+  items,
+  addItem,
+  userItems,
+  deleteItem,
 };
