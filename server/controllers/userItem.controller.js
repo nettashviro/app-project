@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const UserItem = require("../models/userItem.model");
-const User = require("../models/user.model");
+const User = require("../models/customer.model");
 
 module.exports.items = (req, res, next) => {
   UserItem.find()
