@@ -1,40 +1,103 @@
-<nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5">
-  <a *ngIf="!authService.isLoggedIn()" class="navbar-brand" routerLink="/">{{ title | uppercase }}</a>
-  <a *ngIf="authService.isLoggedIn()" class="navbar-brand" routerLink="/dashboard">{{ title | uppercase }}</a>
-  <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-        aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="collapsibleNavId">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li *ngIf="!authService.isLoggedIn()" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link" routerLink="/">HOME</a>
-      </li>
-      <li *ngIf="authService.isLoggedIn()" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link" routerLink="/dashboard" >DASHBOARD</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link" routerLink="/items" >SHOPPING ITEMS</a>
-      </li>
-      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <a class="nav-link" routerLink="/about" >ABOUT</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
-      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <a class="nav-link" routerLink="/register" >CREATE ACCOUNT</a>
-      </li>
-      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <a class="nav-link" routerLink="/authenticate" >LOGIN</a>
-      </li>
-      <li class="nav-item mr-lg-2">
-        <a href="#!" *ngIf="authService.isLoggedIn()" class="nav-link" (click)="onHandleLogOut()">LOGOUT</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.disabled]="!authService.isLoggedIn()" (click)="onCartClick()">
-          <i class="fas fa-shopping-cart fa-2x"></i>
-        </a>
-      </li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container px-4 px-lg-5">
+    <img
+      src="/assets/images/merci-logo.svg"
+      width="40"
+      height="40"
+      class="d-inline-block align-top"
+      alt=""
+      routerLink="/"
+    />
+    <a class="navbar-brand" routerLink="/">
+      <img
+        src="/assets/images/merci-font.svg"
+        width="80"
+        height="30"
+        class="d-inline-block align-top"
+        alt="{{ title }}"
+    /></a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link" routerLink="/">דף הבית</a>
+        </li>
+
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link" routerLink="/items">בגדים</a>
+        </li>
+        <li
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-item"
+        >
+          <a class="nav-link" routerLink="/about">עלינו</a>
+        </li>
+        <li
+          *ngIf="authService.isAdmin()"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-item"
+        >
+          <a class="nav-link" routerLink="/managment">ניהול</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
+        <li
+          *ngIf="!authService.isLoggedIn()"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-item"
+        >
+          <a class="nav-link" routerLink="/register">הירשם</a>
+        </li>
+        <li
+          *ngIf="!authService.isLoggedIn()"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-item"
+        >
+          <a class="nav-link" routerLink="/authenticate">התחבר</a>
+        </li>
+        <li class="nav-item mr-lg-2">
+          <a
+            href="#!"
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            (click)="onHandleLogOut()"
+            >התנתק</a
+          >
+        </li>
+        <li class="nav-item">
+          <button
+            class="btn btn-outline-dark btn-sm"
+            type="submit"
+            [class.disabled]="!authService.isLoggedIn()"
+            (click)="onCartClick()"
+          >
+            <i class="fas fa-shopping-cart fa-2x"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>

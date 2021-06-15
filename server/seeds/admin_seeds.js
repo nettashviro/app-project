@@ -2,12 +2,11 @@ const user = require("../models/user.model");
 const mongoose = require("mongoose");
 require("../utils/database");
 
-user
-  .find({ username: "admin" })
+User.find({ username: "admin" })
   .exec()
   .then((user) => {
     if (user.length < 1) {
-      let newAdmin = new user({
+      let newAdmin = new User({
         _id: new mongoose.Types.ObjectId(),
         name: "admin",
         username: "admin",
@@ -21,5 +20,5 @@ user
     }
   })
   .catch((err) => {
-    console.log("there is already admin");
+    console.log(err);
   });

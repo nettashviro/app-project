@@ -16,6 +16,7 @@ import { ItemService } from "./services/item.service";
 import { UserItemService } from "./services/user-item.service";
 
 import { AuthGuard } from "./guards/auth.guard";
+import { AdminComponent } from "./components/admin/admin.component";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -27,6 +28,7 @@ export function tokenGetter() {
     NavbarComponent,
     FooterComponent,
     ...RoutingComponents,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

@@ -51,6 +51,13 @@ export class AuthService {
     return localStorage.getItem("access_token") !== null;
   }
 
+  isAdmin(): boolean {
+    try {
+      return this.isLoggedIn() && this.user && JSON.parse(this.user).isAdmin;
+    } catch (err) {
+      return false;
+    }
+  }
   // Get the token & user back
   onLoadUserData() {
     this.token = localStorage.getItem("access_token");
