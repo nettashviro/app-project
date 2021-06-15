@@ -15,7 +15,7 @@ export class ItemService {
 
   getItems(): Observable<ItemModel[]> {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
-    return this.http.get<ItemModel[]>(`${this.uri}/items`, {
+    return this.http.get<ItemModel[]>(`${this.uri}/getItems`, {
       headers: headers,
     });
   }
