@@ -16,7 +16,7 @@ const orderSchema = new Schema({
             ref: 'Item'
         }
     ],
-    totaPrice: {
+    totalPrice: {
         type: String,
         required: [true, "total price is required...!"],
     },

@@ -20,6 +20,8 @@ const items = (req, res, next) => {
 };
 
 const addItem = (req, res, next) => {
+  console.log("ASdasld[askdpksapodk")
+
   User.findOne({ _id: req.user._id })
     .exec()
     .then((user) => {
@@ -38,6 +40,7 @@ const addItem = (req, res, next) => {
               if (userItem.length >= 1) {
                 return res.status(409).json({ message: `invalid credit card info...` });
               }
+              console.log("ASdasld[askdpksapodk")
               let newUserItem = new UserItem({
                 _id: new mongoose.Types.ObjectId(),
                 name: req.body.name,
@@ -53,18 +56,22 @@ const addItem = (req, res, next) => {
                   return res.status(200).json(userItem);
                 })
                 .catch((err) => {
+                  console.log("error1")
                   return res.status(500).json(err);
                 });
             })
             .catch((err) => {
+              console.log("error2")
               return res.status(500).json(err);
             });
         })
         .catch((err) => {
+          console.log("error3")
           return res.status(500).json(err);
         });
     })
     .catch((err) => {
+      console.log("error4")
       return res.status(500).json(err);
     });
 };
