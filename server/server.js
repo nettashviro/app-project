@@ -36,13 +36,13 @@ app.use(logger("dev")); // Setup Http-Logger Morgan Middleware
 
 // Handling CORS Erros
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Access, Authorization");
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, GET, DELETE");
-    return res.status(200).json({});
-  }
-  next();
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Access, Authorization");
+    if (req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, GET, DELETE");
+        return res.status(200).json({});
+    }
+    next();
 });
 
 /** Routes */
@@ -51,7 +51,7 @@ app.use("/api", itemsRoute);
 app.use("/api/user", userRoute);
 app.use("/api/order", orderRoute);
 app.use("/api", dashboardRoute);
-app.use("/api/user", userItemRoute);
+app.use("/api/userItems", userItemRoute);
 
 /** Setup Port & Listening to Server **/
 server.listen(port, () => console.log(`server running on port ${port}!!`));
