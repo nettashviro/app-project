@@ -4,6 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { NgFlashMessagesModule } from "ng-flash-messages";
 import { JwtModule } from "@auth0/angular-jwt";
+import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule, RoutingComponents } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -42,6 +43,9 @@ export function tokenGetter() {
         whitelistedDomains: ["http://localhost:5000"],
         blacklistedRoutes: ["http://localhost:5000/api/user/authenticate"],
       },
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDGjArdTCBPj47RCMqpb6jSjkgNaCDy3hw'
     }),
   ],
   providers: [
