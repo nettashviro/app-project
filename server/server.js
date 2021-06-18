@@ -11,7 +11,7 @@ const path = require("path");
 const itemsRoute = require("./routes/item.router");
 const userRoute = require("./routes/user.router");
 const dashboardRoute = require("./routes/index.router");
-const userItemRoute = require("./routes/userItem.router");
+const cartRoute = require("./routes/cart.router");
 const orderRoute = require("./routes/order.router");
 const jwtAuthentication = require("./utils/passport");
 const { createServer } = require("http");
@@ -51,7 +51,7 @@ app.use("/api", itemsRoute);
 app.use("/api/user", userRoute);
 app.use("/api/order", orderRoute);
 app.use("/api", dashboardRoute);
-app.use("/api/userItems", userItemRoute);
+app.use("/api/cart", cartRoute);
 
 /** Setup Port & Listening to Server **/
 server.listen(port, () => console.log(`server running on port ${port}!!`));

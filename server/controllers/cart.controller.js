@@ -45,12 +45,9 @@ const addItem = (req, res, next) => {
     })
 };
 
-const userItems = (req, res, next) => {
+const userCart = (req, res, next) => {
     const userId = req.params.id;
-    UserItem.find({ user: userId })
-        .sort({ date: -1 })
-        .select("name price _id user")
-        .exec()
+    UserItem.find({ _id: mongoose.Types.ObjectId(userId) })
         .then((userItems) => {
             if (userItems.length < 1) {
                 return res.status(404).json({
@@ -90,24 +87,25 @@ const deleteUserItem = (req, res, next) => {
 const deleteItemFromCart = async(req, res, next) => {
     const { userId, itemId } = req.params;
     let userItem = await UserItem.findOne({ _id: userId })
-    let newUserItems = { _id: userItem._id, }
     if (!userItem) {
         return res.status(404).json({
             message: `no items added yet...`,
         });
     }
-    newUserItems.items = userItem.items.filter(item => {
-        if (item._id === itemId)
+    let filteredItems = userItem.items.filter(item => {
+        console.log("item !== itemId", item !== itemId)
+        if (item !== itemId)
             return item
     })
-    UserItem.updateOne({ _id: newUserItems._id }, newUserItems)
+    await UserItem.updateOne({ _id: userId }, { $set: { items: filteredItems } })
+        // newUserItems.save()
     return res.status(200).json(newUserItems);
 };
 
 module.exports = {
     getAll,
     addItem,
-    userItems,
+    userCart,
     deleteUserItem,
     deleteItemFromCart
 }
