@@ -1,22 +1,26 @@
 const mongoose = require("mongoose");
 const UserItem = require("../models/userItem.model");
+const Item = require("../models/item.model");
 const User = require("../models/user.model");
 
-const items = (req, res, next) => {
-    UserItem.find()
-        .sort({ date: -1 })
-        .select("_id contact_info country credit_card item user date")
-        .exec()
-        .then((userItems) => {
-            if (userItems.length < 1) {
-                return res.status(404).json({ message: `no items added...` });
-            } else {
-                return res.status(200).json({ success: true, userItems: userItems });
+const getAll = async(req, res, next) => {
+    let userItems = await UserItem.find()
+    if (userItems.length < 1) {
+        return res.status(404).json({ message: `no items added...` });
+    } else {
+        const newUserItems = []
+        for (let userItem of userItems) {
+            let newUserItem = { _id: userItem._id, items: [] }
+            const itemIds = userItem.items
+            const items = []
+            for (let itemId of itemIds) {
+                const item = await Item.findOne({ _id: mongoose.Types.ObjectId(itemId) })
+                newUserItem.items.push(item)
             }
-        })
-        .catch((err) => {
-            return res.status(500).json(err);
-        });
+            newUserItems.push(newUserItem)
+        }
+        return res.status(200).json(newUserItems);
+    }
 };
 
 const addItem = (req, res, next) => {
@@ -41,12 +45,9 @@ const addItem = (req, res, next) => {
     })
 };
 
-const userItems = (req, res, next) => {
+const userCart = (req, res, next) => {
     const userId = req.params.id;
-    UserItem.find({ user: userId })
-        .sort({ date: -1 })
-        .select("name price _id user")
-        .exec()
+    UserItem.find({ _id: mongoose.Types.ObjectId(userId) })
         .then((userItems) => {
             if (userItems.length < 1) {
                 return res.status(404).json({
@@ -60,9 +61,9 @@ const userItems = (req, res, next) => {
         });
 };
 
-const deleteItem = (req, res, next) => {
-    const itemId = req.params.id;
-    UserItem.find({ user: itemId })
+const deleteUserItem = (req, res, next) => {
+    const userId = req.params.userId;
+    UserItem.find({ _id: userId })
         .exec()
         .then((userItems) => {
             if (!userItems) {
@@ -70,7 +71,7 @@ const deleteItem = (req, res, next) => {
                     message: `no items added yet...`,
                 });
             }
-            UserItem.deleteOne({ _id: itemId })
+            UserItem.deleteOne({ _id: userId })
                 .exec()
                 .then((item) => {
                     return res.status(200).json({ success: true });
@@ -83,10 +84,28 @@ const deleteItem = (req, res, next) => {
             return res.status(500).json(err);
         });
 };
+const deleteItemFromCart = async(req, res, next) => {
+    const { userId, itemId } = req.params;
+    let userItem = await UserItem.findOne({ _id: userId })
+    if (!userItem) {
+        return res.status(404).json({
+            message: `no items added yet...`,
+        });
+    }
+    let filteredItems = userItem.items.filter(item => {
+        console.log("item !== itemId", item !== itemId)
+        if (item !== itemId)
+            return item
+    })
+    await UserItem.updateOne({ _id: userId }, { $set: { items: filteredItems } })
+        // newUserItems.save()
+    return res.status(200).json(newUserItems);
+};
 
 module.exports = {
-    items,
+    getAll,
     addItem,
-    userItems,
-    deleteItem
+    userCart,
+    deleteUserItem,
+    deleteItemFromCart
 }

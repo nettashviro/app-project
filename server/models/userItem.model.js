@@ -10,10 +10,7 @@ let userItemSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-    items: [{
-        type: String,
-        ref: 'Item'
-    }]
+    items: [String]
 });
 
 module.exports = mongoose.model("UserItem", userItemSchema);
