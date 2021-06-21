@@ -44,7 +44,7 @@ const connectToClothesStore = (url) => {
         })
       })
       .catch((err) => {
-        console.log(`fetch error ${i} page`)
+        console.log(`fetch error ${url}`)
         console.error(err)
       })
 }
