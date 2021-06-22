@@ -16,7 +16,7 @@ const orderRoute = require("./routes/order.router");
 const jwtAuthentication = require("./utils/passport");
 const { createServer } = require("http");
 const { port } = require("./config");
-
+const { ahoCorasick } = require("./services/ahoCorasickImplementation");
 /** App initialization **/
 const app = express();
 const server = createServer(app);
