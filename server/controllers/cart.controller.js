@@ -24,6 +24,7 @@ const getAll = async(req, res, next) => {
 };
 
 const addItem = (req, res, next) => {
+    const item = req.body._id;
     UserItem.findOne({ _id: mongoose.Types.ObjectId(req.user._id) }).exec().then(async(userItems) => {
         if (!userItems) {
             userItems = new UserItem({
@@ -31,8 +32,7 @@ const addItem = (req, res, next) => {
                 items: []
             })
         }
-
-        userItems.items.push(req.body._id)
+        userItems.items.push(item)
         UserItem.updateOne({ _id: userItems._id }, userItems, { upsert: true }).exec().then(updatedUserItems => {
             return res.status(200).json(updatedUserItems);
         }).catch(err => {
@@ -46,7 +46,7 @@ const addItem = (req, res, next) => {
 };
 
 const userCart = (req, res, next) => {
-    const userId = req.params.id;
+    const userId = req.user._id;
     UserItem.find({ _id: mongoose.Types.ObjectId(userId) })
         .then((userItems) => {
             if (userItems.length < 1) {
@@ -62,7 +62,7 @@ const userCart = (req, res, next) => {
 };
 
 const deleteUserItem = (req, res, next) => {
-    const userId = req.params.userId;
+    const userId = req.user._id;
     UserItem.find({ _id: userId })
         .exec()
         .then((userItems) => {
@@ -85,21 +85,25 @@ const deleteUserItem = (req, res, next) => {
         });
 };
 const deleteItemFromCart = async(req, res, next) => {
-    const { userId, itemId } = req.params;
-    let userItem = await UserItem.findOne({ _id: userId })
-    if (!userItem) {
-        return res.status(404).json({
-            message: `no items added yet...`,
-        });
+    try {
+        const { itemId } = req.params;
+        const userId = req.user._id
+        let userItem = await UserItem.findOne({ _id: userId })
+        if (!userItem) {
+            return res.status(404).json({
+                message: `no items added yet...`,
+            });
+        }
+        let filteredItems = userItem.items.filter(item => {
+            console.log("item !== itemId", item !== itemId)
+            if (item !== itemId)
+                return item
+        })
+        await UserItem.updateOne({ _id: userId }, { $set: { items: filteredItems } })
+        return res.status(200).json(newUserItems);
+    } catch (err) {
+        return res.status(500).json(err);
     }
-    let filteredItems = userItem.items.filter(item => {
-        console.log("item !== itemId", item !== itemId)
-        if (item !== itemId)
-            return item
-    })
-    await UserItem.updateOne({ _id: userId }, { $set: { items: filteredItems } })
-        // newUserItems.save()
-    return res.status(200).json(newUserItems);
 };
 
 module.exports = {

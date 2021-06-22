@@ -20,7 +20,7 @@ export class UserItemService {
       Authorization: this.token,
     });
     return this.http.post<UserItemModel>(
-      `${this.uri}/user/item/add`,
+      `${this.uri}/cart/addItem`,
       userItem,
       { headers: headers }
     );
