@@ -8,6 +8,6 @@ router.route("/getAllCarts").get(ctrlUserItem.getAll);
 router.route("/getCart/:id").get(ctrlUserItem.userCart);
 router.route("/addItem").post(jwtHelper.verifyJwtToken, ctrlUserItem.addItem);
 router.route("/deleteCart").delete(ctrlUserItem.deleteUserItem);
-router.route("/deleteItem/:itemId").delete(ctrlUserItem.deleteItemFromCart);
+router.route("/deleteItem/:userId/:itemId").delete(ctrlUserItem.deleteItemFromCart);
 
 module.exports = router;
