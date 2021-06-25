@@ -34,6 +34,7 @@ const addItem = (req, res, next) => {
 
 const deleteItem = (req, res, next) => {
     const itemId = req.params.id;
+    console.log("itemId", itemId)
     Item.find({ _id: itemId })
         .exec()
         .then((items) => {
@@ -48,10 +49,12 @@ const deleteItem = (req, res, next) => {
                     return res.status(200).json({ success: true });
                 })
                 .catch((err) => {
+                    console.log("err", err)
                     return res.status(500).json(err);
                 });
         })
         .catch((err) => {
+            console.log("err", err)
             return res.status(500).json(err);
         });
 };

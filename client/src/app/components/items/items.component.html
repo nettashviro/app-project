@@ -14,10 +14,17 @@
 						>
 						<a
 							(click)="onAddToCart(item._id, item.name, item.price)"
-							*ngIf="authService.isLoggedIn()"
+							*ngIf="authService.isLoggedIn() && !authService.isAdmin()"
 							class="btn btn-success text-light btn-add-cart"
 							data-target="#exampleModalCenter"
-							>ADD TO CART</a
+							>Add To Cart</a
+						>
+						<a
+							(click)="deleteItem(item._id)"
+							*ngIf="authService.isAdmin()"
+							class="btn btn-danger text-light btn-add-cart"
+							data-target="#exampleModalCenter"
+							>Delete</a
 						>
 					</div>
 				</div>
