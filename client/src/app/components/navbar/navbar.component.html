@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container px-4 px-lg-5">
     <img
       src="/assets/images/merci-logo.svg"
@@ -16,7 +16,6 @@
         class="d-inline-block align-top"
         alt="{{ title }}"
     /></a>
-
     <button
       class="navbar-toggler"
       type="button"
@@ -31,11 +30,18 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
         <li
-          class="nav-item"
+          class="nav-item (mouseover)='hover=true' (mouseleave)='hover=false'"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link" routerLink="/">דף הבית</a>
+          <a
+            class="nav-link"
+            routerLink="/"
+            [ngClass]="{ 'navbar-link-hover': homeMouseOvered }"
+            (mouseover)="homeMouseOvered = true"
+            (mouseout)="homeMouseOvered = false"
+            >דף הבית</a
+          >
         </li>
 
         <li
@@ -43,14 +49,28 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link" routerLink="/items">בגדים</a>
+          <a
+            class="nav-link"
+            routerLink="/items"
+            [ngClass]="{ 'navbar-link-hover': itemsMouseOvered }"
+            (mouseover)="itemsMouseOvered = true"
+            (mouseout)="itemsMouseOvered = false"
+            >בגדים</a
+          >
         </li>
         <li
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           class="nav-item"
         >
-          <a class="nav-link" routerLink="/about">עלינו</a>
+          <a
+            class="nav-link"
+            routerLink="/about"
+            [ngClass]="{ 'navbar-link-hover': aboutMouseOvered }"
+            (mouseover)="aboutMouseOvered = true"
+            (mouseout)="aboutMouseOvered = false"
+            >עלינו</a
+          >
         </li>
         <li
           *ngIf="authService.isAdmin()"
@@ -58,19 +78,26 @@
           [routerLinkActiveOptions]="{ exact: true }"
           class="nav-item"
         >
-          <a class="nav-link" routerLink="/managment">ניהול</a>
+          <a
+            class="nav-link"
+            routerLink="/managment"
+            [ngClass]="{ 'navbar-link-hover': managmentMouseOvered }"
+            (mouseover)="managmentMouseOvered = true"
+            (mouseout)="managmentMouseOvered = false"
+            >ניהול</a
+          >
         </li>
       </ul>
       <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
-        <li
+        <!-- <li
           *ngIf="!authService.isLoggedIn()"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           class="nav-item"
         >
           <a class="nav-link" routerLink="/register">הירשם</a>
-        </li>
-        <li
+        </li> -->
+        <!-- <li
           *ngIf="!authService.isLoggedIn()"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -86,15 +113,34 @@
             (click)="onHandleLogOut()"
             >התנתק</a
           >
-        </li>
-        <li class="nav-item">
+        </li> -->
+
+        <li class="nav-item navbar-icon">
           <button
-            class="btn btn-outline-dark btn-sm"
+            class="btn"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLink="/authenticate"
+          >
+            <i class="fas fa-user-circle fa-lg" 
+            [ngClass]="{ 'navbar-icon-hover': userMouseOvered }"
+            (mouseover)="userMouseOvered = true"
+            (mouseout)="userMouseOvered = false"></i>
+          </button>
+        </li>
+
+        <li class="nav-item navbar-icon">
+          <button
+            class="btn"
             type="submit"
             [class.disabled]="!authService.isLoggedIn()"
             (click)="onCartClick()"
           >
-            <i class="fas fa-shopping-cart fa-2x"></i>
+            <i class="fas fa-shopping-bag fa-lg"
+            [ngClass]="{ 'navbar-icon-hover': shoppingBagMouseOvered }"
+            (mouseover)="shoppingBagMouseOvered = true"
+            (mouseout)="shoppingBagMouseOvered = false"></i>
+            <span class="badge rounded-pill badge-notification">1</span>
           </button>
         </li>
       </ul>
