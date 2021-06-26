@@ -40,4 +40,11 @@ export class ItemService {
       headers: headers,
     });
   }
+
+  getColors(): Observable<string[]> {
+    let headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.get<string[]>(`${this.uri}/getColors`,{
+      headers: headers,
+    });
+  }
 }

@@ -1,5 +1,6 @@
 const Item = require("../models/item.model");
 const mongoose = require("mongoose");
+const { all } = require("../routes/item.router");
 
 const getItems = async (req, res, next) => {
     try {
@@ -100,11 +101,28 @@ const getItemCategories = async (req, res, next) => {
     }
 }
 
+const getItemColors = async (req, res, next) => {
+    const colors = []
+    try {
+        const allItems = await Item.find();
+        allItems.forEach(item => {
+            item.colors.forEach(color => {
+                if (!colors.includes(color))
+                    colors.push(color)
+            })
+        })
+        return res.status(200).json(colors)
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
 module.exports = {
     getItems,
     addItem,
     updateItem,
     deleteItem,
     findItemByField,
-    getItemCategories
+    getItemCategories,
+    getItemColors
 }

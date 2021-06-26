@@ -26,6 +26,7 @@
 
 .categoriesFilter {
     margin-top: 10px;
+    margin-right: 100px;
 }
 
 .categoryFilter {
@@ -82,4 +83,27 @@
 .noItems {
     display: flex;
     justify-content: center;
+}
+
+.colorsFilter {
+    margin-top: 10px;
+}
+
+.colorFilter {
+    margin-right: 5px;
+}
+
+.colors {
+    max-height: 180px;
+    width: 200px;
+    overflow-y: scroll;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+}
+
+.priceFilter {
+    margin-right: 100px;
 }
