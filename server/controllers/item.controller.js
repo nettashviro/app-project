@@ -1,19 +1,18 @@
 const Item = require("../models/item.model");
 const mongoose = require("mongoose");
 
-const getItems = (req, res, next) => {
-    Item.find()
-        .exec()
-        .then((items) => {
-            if (items.length < 1) {
-                return res.status(404).json({ message: `items not found...` });
-            } else {
-                return res.status(200).json(items);
-            }
-        })
-        .catch((err) => {
-            return res.status(500).json(err);
-        });
+const getItems = async(req, res, next) => {
+    try {
+        let items = await Item.find()
+        if (items.length < 1) {
+            return res.status(404).json({ message: `items not found...` });
+        } else {
+            return res.status(200).json(items);
+        }
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+
 };
 
 const addItem = (req, res, next) => {
@@ -35,6 +34,7 @@ const addItem = (req, res, next) => {
 
 const deleteItem = (req, res, next) => {
     const itemId = req.params.id;
+    console.log("itemId", itemId)
     Item.find({ _id: itemId })
         .exec()
         .then((items) => {
@@ -49,10 +49,12 @@ const deleteItem = (req, res, next) => {
                     return res.status(200).json({ success: true });
                 })
                 .catch((err) => {
+                    console.log("err", err)
                     return res.status(500).json(err);
                 });
         })
         .catch((err) => {
+            console.log("err", err)
             return res.status(500).json(err);
         });
 };
@@ -75,10 +77,21 @@ const findItemByField = (req, res, next) => {
         });
 };
 
+const updateItem = async(req, res, next) => {
+    try {
+        const item = req.body
+        await Item.updateOne({ _id: item._id }, item, {})
+        return res.status(200).send('OK')
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
 
 module.exports = {
     getItems,
     addItem,
+    updateItem,
     deleteItem,
     findItemByField
 }

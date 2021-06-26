@@ -17,6 +17,7 @@ const jwtAuthentication = require("./utils/passport");
 const { createServer } = require("http");
 const { port } = require("./config");
 // require("./services/ahoCorasickImplementation");
+const { setupWebSocket } = require("./utils/websocket");
 /** App initialization **/
 const app = express();
 const server = createServer(app);
@@ -36,14 +37,17 @@ app.use(logger("dev")); // Setup Http-Logger Morgan Middleware
 
 // Handling CORS Erros
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Access, Authorization");
-    if (req.method === "OPTIONS") {
-        res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, GET, DELETE");
-        return res.status(200).json({});
-    }
-    next();
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Access, Authorization");
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, GET, DELETE");
+    return res.status(200).json({});
+  }
+  next();
 });
+
+/**  Configure socket io **/
+setupWebSocket(server);
 
 /** Routes */
 app.get("/health", (req, res) => res.send("alive"));

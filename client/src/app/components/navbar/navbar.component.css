@@ -3,6 +3,11 @@ nav {
   box-shadow: 1px 1px 1px #111;
 }
 
+.nav-link {
+  letter-spacing: .0588em;
+  font-size: 17px;
+}
+
 .navbar-brand {
   font-weight: bold;
 }
@@ -17,4 +22,32 @@ nav {
 
 .fa-2x {
   font-size: 1.5rem !important;
+}
+
+.navbar-icon:hover {
+  cursor: pointer;
+}
+
+.btn-check:focus+.btn, .btn:focus {
+  box-shadow: none;
+}
+
+.navbar-link-hover {
+  text-decoration: underline;
+  text-decoration-color: #f0d3bf;
+  text-decoration-thickness: 2px;
+  font-weight: bold;
+}
+
+.badge-notification {
+  position: relative;
+  font-size: .6rem;
+  top: -0.4rem;
+  padding: .2em .45em;
+  background-color: #f0d3bf;
+  color: black;
+}
+
+.navbar-icon-hover {
+  color: #f0d3bf;
 }

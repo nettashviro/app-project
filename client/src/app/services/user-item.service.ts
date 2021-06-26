@@ -4,11 +4,13 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { UserItemModel } from "../models/user-item.model";
 import { DeleteModel } from "../models/delete.model";
+import { UserModel } from "../models/user.model";
 
 @Injectable({ providedIn: "root" })
 export class UserItemService {
   private uri: string = environment.apiBaseUrl;
   token: string;
+  user: object;
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +22,7 @@ export class UserItemService {
       Authorization: this.token,
     });
     return this.http.post<UserItemModel>(
-      `${this.uri}/user/item/add`,
+      `${this.uri}/cart/addItem`,
       userItem,
       { headers: headers }
     );
@@ -33,7 +35,7 @@ export class UserItemService {
       "Content-Type": "application/json",
       Authorization: this.token,
     });
-    return this.http.get<UserItemModel[]>(`${this.uri}/user/item/${id}`, {
+    return this.http.get<UserItemModel[]>(`${this.uri}/cart/getCart/${id}`, {
       headers: headers,
     });
   }
@@ -45,7 +47,8 @@ export class UserItemService {
       "Content-Type": "application/json",
       Authorization: this.token,
     });
-    return this.http.delete<DeleteModel>(`${this.uri}/user/item/${id}`, {
+    console.log("user", this.user)
+    return this.http.delete<DeleteModel>(`${this.uri}/cart/deleteItem/${this.user['id']}/${id}`, {
       headers: headers,
     });
   }
@@ -53,5 +56,6 @@ export class UserItemService {
   //Get token from the local storage
   onLoadToken() {
     this.token = localStorage.getItem("access_token");
+    this.user = JSON.parse(localStorage.getItem("user"));
   }
 }

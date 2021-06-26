@@ -53,7 +53,11 @@ export class AuthService {
 
   isAdmin(): boolean {
     try {
-      return this.isLoggedIn() && this.user && JSON.parse(this.user).isAdmin;
+      return (
+        this.isLoggedIn() &&
+        localStorage.getItem("user") &&
+        JSON.parse(localStorage.getItem("user")).isAdmin
+      );
     } catch (err) {
       return false;
     }

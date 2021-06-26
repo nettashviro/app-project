@@ -1,14 +1,41 @@
-.jumbotron {
-  background: #325D88;
-}
-
 h1 {
   font-weight: 450;
 }
 
 a {
-  color: #325D88;
+  color: #325d88;
   box-shadow: 2px 2px 8px #111;
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.newsletter-section {
+  margin-top: 10%;
+  padding: 1%;
+  color: #191919;
+  background-color: #f0d3bf;
+  text-align: center;
+}
+
+.newsletter-section h2 {
+  font: 300 1.5625rem/1.25 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.newsletter-section .form-info-text {
+  font-size: 14px;
+  line-height: 1.5625;
+  margin: 0 auto;
+  padding-bottom: 1%;
+  max-width: 60%;
+  direction: rtl;
+}
+
+.newsletter-section form {
+  background: white;
+}
+
+.no-outline:focus {
+  box-shadow: none;
 }

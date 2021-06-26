@@ -66,6 +66,20 @@ export class ItemsComponent implements OnInit {
     });
   }
 
+  deleteItem(itemId: string) {
+    // TODO: remove from screen and give the user a message of success
+    this.itemService.deleteItem(itemId).subscribe(res => {
+        console.log("res",res)
+    })
+  }
+
+  updateItem(item: ItemModel) {
+    // TODO: update from screen and give the user a message of success
+    this.itemService.updateItem(item).subscribe(res => {
+        console.log("res",res)
+    })
+  }
+
   onRegisterUserItem(form: NgForm) {
     let userItem = {
       name: this.name,
