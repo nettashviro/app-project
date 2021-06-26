@@ -2,6 +2,7 @@ export interface ItemModel {
   name: string,
   price: string,
   category: string,
-  date: Date,
+  date: string,
+  image: string,
   _id: string
 }

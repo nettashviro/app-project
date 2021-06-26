@@ -3,156 +3,132 @@
         <div class="row">
             <div *ngFor="let item of items" class="col col-sm-12 col-md-3 my-3">
                 <div class="card">
-                    <div class="card-body">
-                        <img class="itemImg" src="../../../assets/images/{{ item.image }}" />
-                        <h5 class="itemName">{{ item.name }}</h5>
-                        <!-- <h6>{{ item.category }}</h6> -->
-                        <span class="itemPrice">{{ item.price }}</span>
-                    </div>
-                    <div class="card-footer">
-                        <a routerLink="/authenticate" *ngIf="!authService.isLoggedIn()" class="btn btn-success btn-buy">BUY</a
-						>
-						<a
-							(click)="onAddToCart(item._id, item.name, item.price)"
-							*ngIf="authService.isLoggedIn() && !authService.isAdmin()"
-							class="btn btn-success text-light btn-add-cart"
-							data-target="#exampleModalCenter"
-							>Add To Cart</a
-						>
-						<a
-							(click)="deleteItem(item._id)"
-							*ngIf="authService.isAdmin()"
-							class="btn btn-danger text-light btn-add-cart"
-							data-target="#exampleModalCenter"
-							>Delete</a
-						>
-					</div>
-				</div>
-			</div>
-		</div>
-	</ng-container>
-	<ng-template #noItems>
-		<div class="text-center">
-			<p class="text-muted">
-				It seems you are out of connection, make sure you connect the internet &
-				try again!
-			</p>
-		</div>
-	</ng-template>
+                    <label (click)="deleteItem(item._id)" *ngIf="authService.isAdmin()" class="deleteBtn">X</label
+          >
+          <div class="card-body">
+            <img
+              class="itemImg"
+              src="../../../assets/images/{{ item.image }}"
+            />
+            <h5 class="itemName">{{ item.name }}</h5>
+            <!-- <h6>{{ item.category }}</h6> -->
+            <span class="itemPrice">{{ item.price }}</span>
+          </div>
+          <div class="card-footer">
+            <a
+              routerLink="/authenticate"
+              *ngIf="!authService.isLoggedIn()"
+              class="btn btn-success btn-buy"
+              >BUY</a
+            >
+            <a
+              (click)="onAddToCart(item._id, item.name, item.price)"
+              *ngIf="authService.isLoggedIn()"
+              class="btn btn-success text-light btn-add-cart"
+              >Add To Cart</a
+            ><a
+              (click)="setItemForEdit(item)"
+              *ngIf="authService.isAdmin()"
+              class="btn text-light btn-edit"
+              data-toggle="modal"
+              data-target="#exampleModalCenter"
+              >Edit</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noItems>
+    <div class="text-center">
+      <p class="text-muted">
+        It seems you are out of connection, make sure you connect the internet &
+        try again!
+      </p>
+    </div>
+  </ng-template>
 </div>
 
 <!-- Modal -->
 <div
-	class="modal fade"
-	id="exampleModalCenter"
-	tabindex="-1"
-	role="dialog"
-	aria-labelledby="exampleModalCenterTitle"
-	aria-hidden="true"
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
 >
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalCenterTitle">
-					Please Fill Out This Form
-				</h5>
-				<button
-					type="button"
-					class="close"
-					data-dismiss="modal"
-					aria-label="Close"
-				>
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<form (submit)="onRegisterUserItem(userItem)" #userItem="ngForm">
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="country">Country</label>
-						<select
-							ngModel
-							#country="ngModel"
-							class="form-control"
-							[class.is-invalid]="country.invalid && country.touched"
-							name="country"
-							id="country"
-							required
-						>
-							<option *ngFor="let country of countries">{{ country }}</option>
-						</select>
-						<small
-							class="text-danger"
-							[class.d-none]="country.valid || country.untouched"
-							>Select your country!</small
-						>
-					</div>
-					<div class="form-group">
-						<label for="contact">Contact Info</label>
-						<input
-							ngModel
-							#contact="ngModel"
-							id="contact"
-							name="contact_info"
-							type="number"
-							class="form-control"
-							[class.is-invalid]="contact.touched && contact.invalid"
-							placeholder="Enter your contact info.."
-							required
-						/>
-						<small
-							class="text-danger"
-							[class.d-none]="contact.valid || contact.untouched"
-							>Invalid contact number!</small
-						>
-					</div>
-					<div class="form-group">
-						<label for="credit-card">Credit Card Number / Papel Account</label>
-						<input
-							ngModel
-							#creditCard="ngModel"
-							id="credit-card"
-							name="credit_card"
-							type="number"
-							class="form-control"
-							[class.is-invalid]="creditCard.invalid && creditCard.touched"
-							placeholder="Enter your credit card number.."
-							required
-						/>
-						<small
-							class="text-danger"
-							[class.d-none]="creditCard.valid || creditCard.untouched"
-							>Invalid credit card number!</small
-						>
-					</div>
-					<div class="form-group">
-						<div class="form-check">
-							<label class="form-check-label">
-								<input
-									type="checkbox"
-									class="form-check-input"
-									name="form-check"
-									id="form-check"
-									value="checkedValue"
-									checked
-								/>
-								I agree with my details!
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">
-						CLOSE
-					</button>
-					<button
-						[disabled]="userItem.form.invalid"
-						type="submit"
-						class="btn btn-primary"
-					>
-						ADD TO CART
-					</button>
-				</div>
-			</form>
-		</div>
-	</div>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Edit Item</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          X
+        </button>
+      </div>
+      <form (submit)="onEditItem(userItem)" #userItem="ngForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="itemName">Item Name</label>
+                    <input [ngModel]="selectedItem?.name" #name="ngModel" id="name" name="name" type="text" class="form-control" [class.is-invalid]="name.touched && name.invalid" required />
+                    <small class="text-danger" [class.d-none]="name.valid || name.untouched">Invalid Name!</small
+            >
+          </div>
+          <div class="form-group">
+            <label for="category">Item Category</label>
+            <input
+              [ngModel]="selectedItem?.category"
+              #category="ngModel"
+              id="category"
+              name="category"
+              type="text"
+              class="form-control"
+              [class.is-invalid]="category.invalid && category.touched"
+              required
+            />
+            <small
+              class="text-danger"
+              [class.d-none]="category.valid || category.untouched"
+              >Invalid Price!</small
+            >
+          </div>
+          <div class="form-group">
+            <label for="price">Item Price</label>
+            <input
+              [ngModel]="selectedItem?.price"
+              #price="ngModel"
+              id="price"
+              name="price"
+              type="text"
+              class="form-control"
+              [class.is-invalid]="price.invalid && price.touched"
+              required
+            />
+            <small
+              class="text-danger"
+              [class.d-none]="price.valid || price.untouched"
+              >Invalid Price!</small
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button
+            [disabled]="userItem.form.invalid"
+            type="submit"
+            class="btn btn-primary"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
