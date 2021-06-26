@@ -8,7 +8,9 @@ import { SocketService } from "src/app/services/socket.service";
 export class AdminComponent implements OnInit {
   usersCount: any;
 
-  constructor(private socketService: SocketService) {}
+  constructor(private socketService: SocketService) {
+    this.usersCount = this.socketService.emit("onlineUserCount");
+  }
 
   ngOnInit(): void {
     // Connect to socket.io server

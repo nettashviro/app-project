@@ -12,6 +12,10 @@ setupWebSocket = (server) => {
     console.log("user connected");
     io.emit("connected", io.engine.clientsCount);
 
+    socket.on("onlineUserCount", () => {
+      io.emit("connected", io.engine.clientsCount);
+    });
+
     socket.on("disconnect", () => {
       console.log("user disconnect");
       io.emit("connected", io.engine.clientsCount);
