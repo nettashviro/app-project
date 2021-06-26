@@ -1,9 +1,13 @@
 <div class="login-header text-center">
   <h2>פרטי התחברות</h2>
-  <h5 class="text-muted">Let's Visit Your Account</h5>
+  <h5 class="text-muted">
+    <a class="text-muted nav-link" routerLink="/register"
+      >אין לך עדיין משתמש? הירשם</a
+    >
+  </h5>
 </div>
 <hr />
-<div>
+<div dir="rtl">
   <div class="card">
     <form (submit)="onHandleLogin(authForm)" #authForm="ngForm">
       <div class="card-body">

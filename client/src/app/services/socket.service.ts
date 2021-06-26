@@ -9,7 +9,7 @@ export class SocketService {
     this.socket = io(environment.serverUrl);
   }
   usersCount: Number;
-  socket: any;
+  socket: any; // socket that connects to our socket.io server
 
   listen(eventName: string) {
     return new Observable((subscriber) => {

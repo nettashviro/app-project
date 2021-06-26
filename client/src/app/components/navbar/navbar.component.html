@@ -77,8 +77,17 @@
           [routerLinkActiveOptions]="{ exact: true }"
           class="nav-item"
         >
-          <a class="nav-link" routerLink="/map">מפה</a>
+          <a
+            class="nav-link"
+            routerLink="/contact"
+            [ngClass]="{ 'navbar-link-hover': contactMouseOvered }"
+            (mouseover)="contactMouseOvered = true"
+            (mouseout)="contactMouseOvered = false"
+            >צרי קשר</a
+          >
         </li>
+      </ul>
+      <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
         <li
           *ngIf="authService.isAdmin()"
           routerLinkActive="active"
@@ -94,9 +103,8 @@
             >ניהול</a
           >
         </li>
-      </ul>
-      <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
-        <li class="nav-item navbar-icon">
+
+        <li class="nav-item navbar-icon" *ngIf="!authService.isLoggedIn()">
           <button
             class="btn"
             routerLinkActive="active"
@@ -111,7 +119,15 @@
             ></i>
           </button>
         </li>
-
+        <li class="nav-item mr-lg-2">
+          <a
+            href="#!"
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            (click)="onHandleLogOut()"
+            >התנתק</a
+          >
+        </li>
         <li class="nav-item navbar-icon">
           <button
             class="btn"

@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { AboutComponent } from "./components/about/about.component";
-import { MapComponent } from "./components/map/map.component";
 import { ItemsComponent } from "./components/items/items.component";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { RegisterComponent } from "./components/register/register.component";
@@ -10,6 +9,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { UserItemsComponent } from "./components/user-items/user-items.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { AdminComponent } from "./components/admin/admin.component";
+import { ContactComponent } from "./components/contact/contact.component";
 
 import { AuthGuard } from "./guards/auth.guard";
 import { AuthGuardAdmin } from "./guards/auth.guard.admin";
@@ -17,9 +17,9 @@ import { AuthGuardAdmin } from "./guards/auth.guard.admin";
 const routes: Routes = [
   { path: "items", component: ItemsComponent },
   { path: "about", component: AboutComponent },
-  { path: "map", component: MapComponent },
   { path: "register", component: RegisterComponent },
   { path: "authenticate", component: LoginComponent },
+  { path: "contact", component: ContactComponent },
   {
     path: "",
     component: DashboardComponent,
@@ -50,5 +50,4 @@ export const RoutingComponents = [
   UserItemsComponent,
   DashboardComponent,
   NotFoundComponent,
-  MapComponent
 ];

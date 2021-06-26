@@ -4,12 +4,13 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { NgFlashMessagesModule } from "ng-flash-messages";
 import { JwtModule } from "@auth0/angular-jwt";
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule } from "@agm/core";
 
 import { AppRoutingModule, RoutingComponents } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { FooterComponent } from "./components/footer/footer.component";
+import { MapComponent } from "./components/map/map.component";
 
 import { ValidateService } from "./services/validate.service";
 import { AuthService } from "./services/auth.service";
@@ -18,6 +19,7 @@ import { UserItemService } from "./services/user-item.service";
 
 import { AuthGuard } from "./guards/auth.guard";
 import { AdminComponent } from "./components/admin/admin.component";
+import { ContactComponent } from './components/contact/contact.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -30,6 +32,8 @@ export function tokenGetter() {
     FooterComponent,
     ...RoutingComponents,
     AdminComponent,
+    MapComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,7 @@ export function tokenGetter() {
       },
     }),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDGjArdTCBPj47RCMqpb6jSjkgNaCDy3hw'
+      apiKey: "AIzaSyDGjArdTCBPj47RCMqpb6jSjkgNaCDy3hw",
     }),
   ],
   providers: [

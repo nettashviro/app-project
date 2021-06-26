@@ -12,9 +12,8 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     // Connect to socket.io server
-    // this.socketService.listen("userConnected").subscribe((data: Number) => {
-    //   console.log("app", data);
-    //   this.usersCount = data;
-    // });
+    this.socketService.listen("userConnected").subscribe((data: Number) => {
+      this.usersCount = data;
+    });
   }
 }

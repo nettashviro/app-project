@@ -1,8 +1,13 @@
 <div class="map-header text-center">
-  <h2>Map</h2>
+  <h2>סניף</h2>
 </div>
-<hr>
+<hr />
 
 <agm-map [latitude]="lat" [longitude]="lng">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  <agm-marker
+    [latitude]="lat"
+    [longitude]="lng"
+    [title]="address"
+    [label]="address"
+  ></agm-marker>
 </agm-map>
