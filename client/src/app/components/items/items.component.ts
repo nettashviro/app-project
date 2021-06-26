@@ -19,10 +19,12 @@ import { ItemModel } from "../../models/item.model";
 export class ItemsComponent implements OnInit {
   items: ItemModel[];
   itemsCopy: ItemModel[];
+  categories: string[];
   image: File;
   search: string;
   minPrice: number;
   maxPrice: number;
+  pickedCategories: string[];
   selectedItem: ItemModel;
 
   constructor(
@@ -35,11 +37,13 @@ export class ItemsComponent implements OnInit {
   ) {
     this.minPrice = 0;
     this.maxPrice = 0;
-    this.search = ''
+    this.search = '';
+    this.pickedCategories = [];
   }
 
   ngOnInit() {
     this.fetchItems();
+    this.fetchCategories();
   }
 
   fetchItems() {
@@ -47,6 +51,21 @@ export class ItemsComponent implements OnInit {
       this.items = items;
       this.itemsCopy = items;
     });
+  }
+
+  fetchCategories() {
+    this.itemService.getCategories().subscribe((categories) => {
+      this.categories = categories;
+    })
+  }
+
+  pickCategory(isChecked: boolean, category: string) {
+    if (isChecked) {
+      this.pickedCategories.push(category)
+    } else {
+      this.pickedCategories = this.pickedCategories.filter(curr => curr !== category)
+    }
+    this.items = this.getFilteredData()
   }
 
   onMaxChange(value: string) {
@@ -65,14 +84,29 @@ export class ItemsComponent implements OnInit {
   }
 
   getFilteredData() {
+    return this.filterCategories(this.filterSearch(this.filterPrices(this.itemsCopy)))
+  }
+
+  filterPrices(items: ItemModel[]) {
     if ((this.maxPrice == this.minPrice && this.minPrice == 0) || isNaN(this.minPrice) || isNaN(this.maxPrice)) {
-      return this.itemsCopy
+      return items
         .filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+    } else {
+      return items
+        .filter((item) => parseInt(item.price) > this.minPrice)
+        .filter((item) => parseInt(item.price) < this.maxPrice)
     }
-    return this.itemsCopy
-      .filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
-      .filter((item) => parseInt(item.price) > this.minPrice)
-      .filter((item) => parseInt(item.price) < this.maxPrice)
+  }
+
+  filterSearch(items: ItemModel[]) {
+    return items.filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+  }
+
+  filterCategories(items: ItemModel[]) {
+    if (!this.pickedCategories.length) {
+      return items
+    }
+    return items.filter(item => this.pickedCategories.includes(item.category))
   }
 
   onAddToCart(_id: string, name: string, price: string) {
@@ -127,31 +161,7 @@ export class ItemsComponent implements OnInit {
   }
 
   onEditItem(form: NgForm) {
-    // let image;
-    // if (!this.image) {
-    //   image = this.selectedItem.image;
-    //   this.selectedItem = { ...this.selectedItem, ...form.value };
-    //   this.selectedItem.image = image;
-    // } else {
     this.selectedItem = { ...this.selectedItem, ...form.value };
-    //   this.selectedItem.image = this.image.name;
-    // }
-    // let image = form.value.image.split('\\')
-
-    //Check for valid contact number
-    /*
-    if (!this.validateService.validateContactNumber(userItem.contact_info)) {
-      console.log(`contact number error`);
-      return false;
-    }
-
-    //Check for valid credit card
-    if (!this.validateService.validateCreditCardNumber(userItem.credit_card)) {
-      console.log(`credit card number error`);
-      return false;
-    }
-    */
-
     this.itemService.updateItem(this.selectedItem).subscribe((data) => {
       if (data) {
         this.flashMessage.showFlashMessage({
