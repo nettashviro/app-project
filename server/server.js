@@ -16,13 +16,14 @@ const orderRoute = require("./routes/order.router");
 const jwtAuthentication = require("./utils/passport");
 const { createServer } = require("http");
 const { port } = require("./config");
+const { calculateTree } = require("./services/ahoCorasickImplementation");
 const { setupWebSocket } = require("./utils/websocket");
-
 /** App initialization **/
 const app = express();
 const server = createServer(app);
 app.use(express.static(path.resolve(__dirname, "../public")));
 
+calculateTree()
 /** Middlewares **/
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
