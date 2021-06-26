@@ -68,6 +68,9 @@ const register = (req, res, next) => {
                                 email: req.body.email,
                                 username: req.body.username,
                                 password: req.body.password,
+                                city: req.body.city,
+                                street: req.body.street,
+                                appartment: req.body.appartment,
                             });
                             return user
                                 .save()
@@ -75,16 +78,19 @@ const register = (req, res, next) => {
                                     return res.status(200).json({ success: true, user: user });
                                 })
                                 .catch((err) => {
+                                    console.log("err", err)
                                     return res.status(500).json(err);
                                 });
                         }
                     })
                     .catch((err) => {
+                        console.log("err", err)
                         return res.status(500).json(err);
                     });
             }
         })
         .catch((err) => {
+            console.log("err", err)
             return res.status(500).json(err);
         });
 };
