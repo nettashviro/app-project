@@ -5,7 +5,7 @@ import { NgFlashMessageService } from "ng-flash-messages";
 import { UserItemService } from "../../services/user-item.service";
 
 //Import UserItem Model
-import { UserItemModel } from "../../models/user-item.model";
+import { allUserItemsModel } from "../../models/user-item.model";
 @Component({
   selector: 'app-user-items',
   templateUrl: './user-items.component.html',
@@ -13,7 +13,7 @@ import { UserItemModel } from "../../models/user-item.model";
 })
 export class UserItemsComponent implements OnInit {
   id: string;
-  userItem: UserItemModel[];
+  userItem: allUserItemsModel;
   constructor(
     private userItemService: UserItemService,
     private router: Router,
@@ -31,6 +31,9 @@ export class UserItemsComponent implements OnInit {
     });
   }
 
+  onCheckoutClick() {
+    this.router.navigate(["checkout"]);
+  }
 
   onDeleteItem(id: string) {
     if (confirm(`Do you want to delete this item...?`)) {

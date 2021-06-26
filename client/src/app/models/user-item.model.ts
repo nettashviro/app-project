@@ -7,3 +7,9 @@ export interface UserItemModel {
   _id: string,
   user: string
 }
+
+export interface allUserItemsModel {
+  date: Date,
+  items: UserItemModel[],
+  _id: string
+}
