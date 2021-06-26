@@ -2,6 +2,7 @@ const Item = require("../models/item.model");
 const mongoose = require("mongoose");
 const { all } = require("../routes/item.router");
 const { search } = require("../services/ahoCorasickImplementation")
+const path = require('path')
 
 const getItems = async (req, res, next) => {
     try {
@@ -22,7 +23,8 @@ const addItem = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         category: req.body.category,
-        image: req.body.image,
+        image: 'liron',
+        colors: req.body.colors,
         price: req.body.price,
     });
     return item
@@ -84,6 +86,10 @@ const findItemByField = (req, res, next) => {
 const updateItem = async (req, res, next) => {
     try {
         const item = req.body
+        console.log("item", req.files)
+        console.log("image", req.body.image)
+        delete item.image
+        console.log("item", req.body)
         await Item.updateOne({ _id: item._id }, item, {})
         return res.status(200).json({})
     } catch (err) {
@@ -118,12 +124,12 @@ const getItemColors = async (req, res, next) => {
         return res.status(500).json(err);
     }
 }
-const quickSearchInStore =  (req, res, next) => {
+const quickSearchInStore = (req, res, next) => {
     const found = search(req.params.value)
-    if(found) {
-        res.status(200).send({message:'found'})
+    if (found) {
+        res.status(200).send({ message: 'found' })
     } else {
-        res.status(400).send({message: 'not found'})
+        res.status(400).send({ message: 'not found' })
     }
 }
 

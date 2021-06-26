@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const path = require("path");
+const fileUpload = require("express-fileupload");
 const itemsRoute = require("./routes/item.router");
 const userRoute = require("./routes/user.router");
 const dashboardRoute = require("./routes/index.router");
@@ -29,6 +30,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());

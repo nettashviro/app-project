@@ -30,13 +30,20 @@ export class ItemService {
 
   updateItem(item: ItemModel): Observable<ItemModel[]> {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
-    return this.http.put<ItemModel[]>(`${this.uri}/updateItem`, item,{
+    return this.http.put<ItemModel[]>(`${this.uri}/updateItem`, item, {
+      headers: headers,
+    });
+  }
+
+  createItem(item: ItemModel): Observable<ItemModel[]> {
+    let headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.post<ItemModel[]>(`${this.uri}/addItem`, item, {
       headers: headers,
     });
   }
 
   searchItemExists(itemName) {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get<GeneralMessageModel>(`${this.uri}/items/exists/${itemName}`, {});
   }
   getCategories(): Observable<string[]> {
@@ -48,7 +55,7 @@ export class ItemService {
 
   getColors(): Observable<string[]> {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
-    return this.http.get<string[]>(`${this.uri}/getColors`,{
+    return this.http.get<string[]>(`${this.uri}/getColors`, {
       headers: headers,
     });
   }

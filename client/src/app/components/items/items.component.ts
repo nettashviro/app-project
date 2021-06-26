@@ -20,7 +20,7 @@ export class ItemsComponent implements OnInit {
   items: ItemModel[];
   itemsCopy: ItemModel[];
   categories: string[];
-  colors: string[];
+  fetchedColors: string[];
   image: File;
   search: string;
   minPrice: number;
@@ -28,7 +28,7 @@ export class ItemsComponent implements OnInit {
   pickedCategories: string[];
   pickedColors: string[];
   selectedItem: ItemModel;
-
+  modalState: string;
 
   constructor(
     private itemService: ItemService,
@@ -43,7 +43,8 @@ export class ItemsComponent implements OnInit {
     this.search = '';
     this.pickedCategories = [];
     this.pickedColors = [];
-    this.colors = []
+    this.fetchedColors = []
+    this.modalState = ''
   }
 
   ngOnInit() {
@@ -67,7 +68,7 @@ export class ItemsComponent implements OnInit {
 
   fetchColors() {
     this.itemService.getColors().subscribe((colors) => {
-      this.colors = colors;
+      this.fetchedColors = colors;
     })
   }
 
@@ -172,7 +173,7 @@ export class ItemsComponent implements OnInit {
           timeout: 2000,
           type: "success",
         });
-        this.fetchItems();
+        this.ngOnInit();
       } else {
         this.flashMessage.showFlashMessage({
           messages: ["Item Deleted Unsuccessfully"],
@@ -186,33 +187,69 @@ export class ItemsComponent implements OnInit {
 
   setItemForEdit(item: ItemModel) {
     this.selectedItem = item;
+    this.modalState = 'edit'
+  }
+
+  newItemState() {
+    this.modalState = 'add'
   }
 
   uploadImage(file: File) {
-    console.log(file[0]);
     this.image = file[0];
   }
 
-  onEditItem(form: NgForm) {
-    this.selectedItem = { ...this.selectedItem, ...form.value };
-    this.itemService.updateItem(this.selectedItem).subscribe((data) => {
-      if (data) {
+  onSubmit(form: NgForm) {
+    if (typeof (form.value.colors) == 'string') {
+      this.selectedItem = { ...this.selectedItem, colors: form.value.colors.split(',') }
+    } else {
+      this.selectedItem = { ...this.selectedItem, colors: form.value.colors }
+    }
+    this.selectedItem = { ...this.selectedItem, ...{ name: form.value.name, category: form.value.category, price: form.value.price, } };
+    if (this.image) {
+      this.selectedItem = { ...this.selectedItem, ...{ image: this.image } }
+    }
+    if (this.modalState == 'add') {
+      console.log("add", this.selectedItem)
+      this.itemService.createItem(this.selectedItem).subscribe((data) => {
+        this.flashMessage.showFlashMessage({
+          messages: ["Item was added successfully!"],
+          dismissible: true,
+          timeout: 2000,
+          type: "success",
+        });
+        this.ngOnInit();
+        return true;
+      }, (err) => {
+        this.flashMessage.showFlashMessage({
+          messages: ["There was an error adding the item"],
+          dismissible: true,
+          timeout: 2000,
+          type: "danger",
+        });
+      })
+
+    } else if (this.modalState == 'edit') {
+      console.log(form.value)
+      console.log("edit", this.selectedItem)
+
+      this.itemService.updateItem(this.selectedItem).subscribe((data) => {
         this.flashMessage.showFlashMessage({
           messages: ["Item was updated successfully!"],
           dismissible: true,
           timeout: 2000,
           type: "success",
         });
-        this.fetchItems();
+        this.ngOnInit();
         return true;
-      } else {
+      }, (err) => {
         this.flashMessage.showFlashMessage({
           messages: ["There was an error adding the item to your cart"],
           dismissible: true,
           timeout: 2000,
           type: "danger",
         });
-      }
-    });
+      })
+    }
+    this.modalState = ''
   }
 }

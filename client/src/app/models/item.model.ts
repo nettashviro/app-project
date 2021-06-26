@@ -3,7 +3,7 @@ export interface ItemModel {
   price: string,
   category: string,
   date: string,
-  image: string,
+  image: File,
   colors: string[],
   _id: string
 }
