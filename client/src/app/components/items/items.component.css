@@ -78,3 +78,8 @@
 .itemImg {
     height: 170px;
 }
+
+.noItems {
+    display: flex;
+    justify-content: center;
+}

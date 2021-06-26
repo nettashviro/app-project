@@ -46,6 +46,9 @@
           </div>
         </div>
       </div>
+      <div class="noItems" *ngIf="!items.length">
+        No Items Found...
+      </div>
     </div>
   </ng-container>
   <ng-template #noItems>
