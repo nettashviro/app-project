@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
 const User = require("../models/user.model");
 
-const getUsersCount = () => {
-  return User.count();
+const getUsersCount = async () => {
+  const docCount = await User.countDocuments();
+  return docCount;
 };
 
 module.exports = {

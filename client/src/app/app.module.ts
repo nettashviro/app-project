@@ -19,7 +19,7 @@ import { UserItemService } from "./services/user-item.service";
 
 import { AuthGuard } from "./guards/auth.guard";
 import { AdminComponent } from "./components/admin/admin.component";
-import { ContactComponent } from './components/contact/contact.component';
+import { ContactComponent } from "./components/contact/contact.component";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
