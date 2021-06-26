@@ -31,6 +31,9 @@ export class RegisterComponent implements OnInit {
       username: form.value.username,
       password: form.value.password,
       password2: form.value.password2,
+      city: form.value.city,
+      street: form.value.street,
+      appartment: form.value.appartment,
     };
 
     //Validate Name..........................
@@ -78,8 +81,8 @@ export class RegisterComponent implements OnInit {
     }
 
     //If there is no any errors then add user....................
-    this.authService.registerUser(user).subscribe((data) => {
-      if (data) {
+    this.authService.registerUser(user).subscribe(
+      (data) => {
         this.flashMessage.showFlashMessage({
           messages: ["Your account successfully created, Let's get logged in!"],
           dismissible: true,
@@ -91,16 +94,17 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(["authenticate"]);
         form.resetForm();
         return true;
-      } else {
+      },
+      (err) => {
         this.flashMessage.showFlashMessage({
-          messages: ["Something went wrong!"],
+          messages: [err.error.error],
           dismissible: true,
           timeout: 4000,
           type: "danger",
         });
-        this.router.navigate(["items"]);
+        this.router.navigate(["register"]);
         return false;
       }
-    });
+    );
   }
 }
