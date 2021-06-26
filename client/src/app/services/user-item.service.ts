@@ -4,7 +4,6 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { allUserItemsModel, UserItemModel } from "../models/user-item.model";
 import { DeleteModel } from "../models/delete.model";
-import { UserModel } from "../models/user.model";
 
 @Injectable({ providedIn: "root" })
 export class UserItemService {

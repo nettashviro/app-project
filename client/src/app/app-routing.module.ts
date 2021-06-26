@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { AboutComponent } from "./components/about/about.component";
+import { OrdersComponent } from "./components/orders/orders.component";
 import { CheckoutComponent } from "./components/checkout/checkout.component";
 import { ShippingComponent } from "./components/shipping/shipping.component";
 import { ConditionsComponent } from "./components/conditions/conditions.component";
@@ -42,6 +43,11 @@ const routes: Routes = [
     component: UserItemsComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: "user/orders",
+    component: OrdersComponent,
+    canActivate: [AuthGuard],
+  },
   { path: "**", component: NotFoundComponent },
 ];
 
@@ -60,6 +66,7 @@ export const RoutingComponents = [
   RegisterComponent,
   LoginComponent,
   UserItemsComponent,
+  OrdersComponent,
   DashboardComponent,
   NotFoundComponent,
 ];

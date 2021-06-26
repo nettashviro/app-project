@@ -14,6 +14,8 @@ import { allUserItemsModel } from "../../models/user-item.model";
 export class UserItemsComponent implements OnInit {
   id: string;
   userItem: allUserItemsModel;
+  totalAmount: number;
+  
   constructor(
     private userItemService: UserItemService,
     private router: Router,
@@ -28,6 +30,7 @@ export class UserItemsComponent implements OnInit {
   fetchUserItems() {
     this.userItemService.getUserItem(this.id).subscribe(data => {
       this.userItem = data;
+      this.totalAmount = data.items.length > 0 ? data.items.map(item => Number(item.price)).reduceRight((x, y) => x + y) : 0;
     });
   }
 

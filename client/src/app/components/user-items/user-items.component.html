@@ -27,10 +27,16 @@
       </div>
     </div>
 
-    <div class="row mx-auto w-75 button-spaced">
-      <button (click)="onCheckoutClick()" class="btn btn-dark">מעבר לקופה</button>
+    <hr />
+    <div class="cart-sub-total" style="margin: 2% 0; text-align: center;">
+      <strong class="subtotal-title">סה׳׳כ:</strong>
+      <span class="sub-total-amount"> &#8362;{{totalAmount}}</span>
     </div>
-    
+    <div class="row mx-auto w-75 button-spaced">
+      <button (click)="onCheckoutClick()" class="btn btn-dark" [disabled]="userItem.items.length == 0">
+        מעבר לקופה
+      </button>
+    </div>
   </ng-container>
   <ng-template #noItems>
     <div class="text-center">

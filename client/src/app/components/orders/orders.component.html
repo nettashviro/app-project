@@ -1,0 +1,25 @@
+<div>
+  <ng-container *ngIf="orders; else noOrders">
+    <div class="row">
+      <div *ngFor="let order of orders" class="col col-sm-12 col-md-4 my-3">
+        <div class="card">
+          <div class="card-body">
+            <h5>{{ order.date | date: "short" }}</h5>
+            <strong class="subtotal-title">סה׳׳כ:</strong>
+
+            <span> &#8362;{{ order.totalPrice }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noOrders>
+    <div class="text-center">
+      <div class="card">
+        <div class="card-body">
+          <p class="text-muted">It Seems You Have No Orders Yet!</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
