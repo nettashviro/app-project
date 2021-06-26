@@ -11,8 +11,8 @@
     <a class="navbar-brand" routerLink="/">
       <img
         src="/assets/images/merci-font.svg"
-        width="80"
-        height="30"
+        width="95"
+        height="45"
         class="d-inline-block align-top"
         alt="{{ title }}"
     /></a>
@@ -72,20 +72,23 @@
             >עלינו</a
           >
         </li>
-        <!-- <li
+        <li
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           class="nav-item"
         >
           <a
             class="nav-link"
-            routerLink="/map"
-            [ngClass]="{ 'navbar-link-hover': mapMouseOvered }"
-            (mouseover)="mapMouseOvered = true"
-            (mouseout)="mapMouseOvered = false"
-            >מפה</a
+            routerLink="/contact"
+            [ngClass]="{ 'navbar-link-hover': contactMouseOvered }"
+            (mouseover)="contactMouseOvered = true"
+            (mouseout)="contactMouseOvered = false"
+            >צרי קשר</a
           >
-        </li> -->
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
         <li
           *ngIf="authService.isAdmin()"
           routerLinkActive="active"
@@ -101,35 +104,8 @@
             >ניהול</a
           >
         </li>
-      </ul>
-      <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
-        <!-- <li
-          *ngIf="!authService.isLoggedIn()"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="nav-item"
-        >
-          <a class="nav-link" routerLink="/register">הירשם</a>
-        </li> -->
-        <!-- <li
-          *ngIf="!authService.isLoggedIn()"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="nav-item"
-        >
-          <a class="nav-link" routerLink="/authenticate">התחבר</a>
-        </li>
-        <li class="nav-item mr-lg-2">
-          <a
-            href="#!"
-            *ngIf="authService.isLoggedIn()"
-            class="nav-link"
-            (click)="onHandleLogOut()"
-            >התנתק</a
-          >
-        </li> -->
 
-        <li class="nav-item navbar-icon">
+        <li class="nav-item navbar-icon" *ngIf="!authService.isLoggedIn()">
           <button
             class="btn"
             routerLinkActive="active"
@@ -143,6 +119,16 @@
               (mouseout)="userMouseOvered = false"
             ></i>
           </button>
+        </li>
+
+        <li class="nav-item mr-lg-2">
+          <a
+            href="#!"
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            (click)="onHandleLogOut()"
+            >התנתק</a
+          >
         </li>
 
         <li class="nav-item navbar-icon">

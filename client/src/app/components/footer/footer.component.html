@@ -1,33 +1,31 @@
 <hr />
-<div class="container py-6 bg-gray-300 text-muted text-center">
+<div class="container py-6 bg-gray-300 text-center">
   <div class="row">
     <div class="col">
       <div class="fw-bold text-uppercase text-lg text-dark mb-3">contact</div>
       <a class="text-muted" href="/map">אלי ויזל 2, ראשון לציון</a>
-      <p>info@merci.co.il</p>
+      <p>
+        <a href="mailto:info@merci.co.il" class="email">info@merci.co.il</a>
+      </p>
     </div>
     <div class="col">
       <h6 class="text-uppercase text-dark mb-3">About us</h6>
       <ul class="list-unstyled">
-        <li><a class="text-muted" href="/about">עלינו</a></li>
-        <li><a class="text-muted" href="/shipping">מדיניות משלוחים והחזרות</a></li>
+        <li><a class="text-muted" href="/about">קצת עלינו</a></li>
+        <li><a class="text-muted" href="/contact">צרי קשר</a></li>
+        <li>
+          <a class="text-muted" href="/shipping">מדיניות משלוחים והחזרות</a>
+        </li>
         <li><a class="text-muted" href="/conditions">תקנון</a></li>
       </ul>
     </div>
     <div class="col">
       <h6 class="text-uppercase text-dark mb-3">Shop</h6>
       <ul class="list-unstyled">
-        <li><a class="text-muted" href="#">החשבון שלי </a></li>
         <li><a class="text-muted" href="#">עמוד הבית </a></li>
-        <li><a class="text-muted" href="/items">בגדים </a></li>
-        <li><a class="text-muted" href="#">עגלת קניות </a></li>
-        <li><a class="text-muted" href="#">תשלום </a></li>
+        <li><a class="text-muted" href="/items">חנות </a></li>
+        <li><a class="text-muted" (click)="onCartClick()">עגלת קניות </a></li>
       </ul>
     </div>
   </div>
 </div>
-<footer class="py-3 bg-dark">
-  <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; Merci 2021</p>
-  </div>
-</footer>

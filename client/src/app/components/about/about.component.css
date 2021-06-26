@@ -1,10 +1,10 @@
 .banner-content {
-    width: 100%;
-    margin: auto;
-    z-index: 6;
-    background: rgba(0, 0, 0, .75);
-    color: #fff;
-    text-align: center;
-    padding: 1.0625rem .9375rem 1.125rem;
-    letter-spacing: .1em;
+  width: 100%;
+  margin: auto;
+  z-index: 6;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  padding: 1.0625rem 0.9375rem 1.125rem;
+  letter-spacing: 0.1em;
 }

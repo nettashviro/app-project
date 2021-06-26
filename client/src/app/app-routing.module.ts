@@ -12,6 +12,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { UserItemsComponent } from "./components/user-items/user-items.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { AdminComponent } from "./components/admin/admin.component";
+import { ContactComponent } from "./components/contact/contact.component";
 
 import { AuthGuard } from "./guards/auth.guard";
 import { AuthGuardAdmin } from "./guards/auth.guard.admin";
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: "map", component: MapComponent },
   { path: "register", component: RegisterComponent },
   { path: "authenticate", component: LoginComponent },
+  { path: "contact", component: ContactComponent },
   {
     path: "",
     component: DashboardComponent,
@@ -51,10 +53,10 @@ export const RoutingComponents = [
   AboutComponent,
   ShippingComponent,
   ConditionsComponent,
+  MapComponent,
   RegisterComponent,
   LoginComponent,
   UserItemsComponent,
   DashboardComponent,
   NotFoundComponent,
-  MapComponent
 ];
