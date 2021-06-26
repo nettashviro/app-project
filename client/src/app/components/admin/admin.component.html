@@ -5,9 +5,9 @@
         <div class="row">
           <div class="col">
             <h5 class="card-title text-uppercase text-muted mb-0">
-              מספר אנשים באתר
+              מספר מחוברים באתר
             </h5>
-            <span class="h2 font-weight-bold mb-0">{{ usersCount }}</span>
+            <span class="h2 font-weight-bold mb-0">{{ onlineUsersCount }}</span>
           </div>
           <div class="col-auto">
             <div
@@ -20,6 +20,83 @@
               "
             >
               <i class="fas fa-users"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6">
+    <div class="card card-stats mb-4 mb-xl-0">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <h5 class="card-title text-uppercase text-muted mb-0">
+              מספר משתמשים
+            </h5>
+            <span class="h2 font-weight-bold mb-0">{{
+              usersCount || async
+            }}</span>
+          </div>
+          <div class="col-auto">
+            <div
+              class="icon icon-shape bg-info text-white rounded-circle shadow"
+            >
+              <i class="fas fa-users"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6">
+    <div class="card card-stats mb-4 mb-xl-0">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <h5 class="card-title text-uppercase text-muted mb-0">
+              מספר הזמנות
+            </h5>
+            <span class="h2 font-weight-bold mb-0">{{ ordersCount }}</span>
+          </div>
+          <div class="col-auto">
+            <div
+              class="
+                icon icon-shape
+                bg-warning
+                text-white
+                rounded-circle
+                shadow
+              "
+            >
+              <i class="fas fa-shopping-cart"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6">
+    <div class="card card-stats mb-4 mb-xl-0">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <h5 class="card-title text-uppercase text-muted mb-0">
+              מספר מוכרים בחנות
+            </h5>
+            <input [(ngModel)]="cashierCount" (input)="setCashierCount()" />
+          </div>
+          <div class="col-auto">
+            <div
+              class="
+                icon icon-shape
+                bg-warning
+                text-white
+                rounded-circle
+                shadow
+              "
+            >
+              <i class="fas fa-shopping-cart"></i>
             </div>
           </div>
         </div>
