@@ -81,7 +81,7 @@ const updateItem = async(req, res, next) => {
     try {
         const item = req.body
         await Item.updateOne({ _id: item._id }, item, {})
-        return res.status(200).send('OK')
+        return res.status(200).json({})
     } catch (err) {
         console.log("err", err)
         return res.status(500).json(err);

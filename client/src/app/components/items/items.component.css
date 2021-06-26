@@ -4,6 +4,18 @@
     font-family: "Gisha";
 }
 
+.deleteBtn {
+    color: red;
+    cursor: pointer;
+    margin-left: 5px;
+    width: 10px;
+}
+
+.btn-edit {
+    background-color: #6399ea;
+    margin-left: 5px;
+}
+
 .itemName {
     font-weight: 600;
 }
