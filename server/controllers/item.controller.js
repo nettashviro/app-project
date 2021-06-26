@@ -1,5 +1,6 @@
 const Item = require("../models/item.model");
 const mongoose = require("mongoose");
+const { search } = require("../services/ahoCorasickImplementation")
 
 const getItems = async(req, res, next) => {
     try {
@@ -88,10 +89,20 @@ const updateItem = async(req, res, next) => {
     }
 }
 
+const quickSearchInStore =  (req, res, next) => {
+    const found = search(req.params.value)
+    if(found) {
+        res.status(200).send({message: 'found'})
+    } else {
+        res.status(400).send({message: 'not found'})
+    }
+}
+
 module.exports = {
     getItems,
     addItem,
     updateItem,
     deleteItem,
-    findItemByField
+    findItemByField,
+    quickSearchInStore
 }
