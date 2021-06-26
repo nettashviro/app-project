@@ -17,9 +17,6 @@ const connectToClothesStore = (url, category, i) => {
         let products = productsImages.get().map((productImage) => {
           let name = productImage.parent.children[1].children[0].children[0].data;
           let colors = getColors(productImage)
-          if(productImage?.children[1]?.children[3]?.data === 'SALE') {
-            console.log('test')
-          }
           let imageUrl = productImage.children[1].children[1].attribs['data-wood-src'];
           let price = productImage?.parent?.children[3]?.children[0]?.children[0]?.children[1]?.data
                           ?? productImage?.parent?.children[3]?.children[0]?.children[0]?.children[0]?.children[1]?.data;
