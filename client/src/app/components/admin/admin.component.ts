@@ -1,29 +1,17 @@
 import {Component, Injectable, OnInit} from "@angular/core";
 import { SocketService } from "src/app/services/socket.service";
-<<<<<<< HEAD
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {ItemModel} from "../../models/item.model";
 import { ItemService } from '../../services/item.service';
 import {environment} from "../../../environments/environment";
 
-@Injectable({ providedIn: "root" })
-=======
 import { StatService } from "src/app/services/stat.service";
->>>>>>> master
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
   styleUrls: ["./admin.component.css"],
 })
 export class AdminComponent implements OnInit {
-<<<<<<< HEAD
-  usersCount: Number;
   itemName: string;
   foundItem = '';
-  private uri: string = environment.apiBaseUrl;
-  constructor(private socketService: SocketService, private itemService: ItemService
-  ) {}
-=======
   onlineUsersCount: any;
   usersCount: any;
   ordersCount: any;
@@ -31,7 +19,8 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private socketService: SocketService,
-    private statService: StatService
+    private statService: StatService,
+    private itemService: ItemService
   ) {
     this.onlineUsersCount = this.socketService.emit("onlineUserCount", null);
     this.cashierCount = this.socketService.emit("getCashierCount", null);
@@ -43,7 +32,6 @@ export class AdminComponent implements OnInit {
       this.ordersCount = data["orders"].length;
     });
   }
->>>>>>> master
 
   ngOnInit(): void {
     // Connect to socket.io server
