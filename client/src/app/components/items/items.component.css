@@ -20,9 +20,18 @@
     outline: none;
 }
 
+.header {
+    margin-right: 5px;
+}
+
+.priceRange {
+    margin-right: 5px;
+}
+
 .searchItems {
     display: flex;
     justify-content: center;
+    margin-top: 30px;
 }
 
 .searchIcon {
