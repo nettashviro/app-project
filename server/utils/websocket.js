@@ -9,9 +9,12 @@ setupWebSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    socket.emit("userConnected", io.engine.clientsCount);
+    console.log("user connected");
+    io.emit("connected", io.engine.clientsCount);
+
     socket.on("disconnect", () => {
-      console.log("user disconnected");
+      console.log("user disconnect");
+      io.emit("connected", io.engine.clientsCount);
     });
   });
 };

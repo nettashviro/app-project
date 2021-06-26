@@ -6,13 +6,13 @@ import { SocketService } from "src/app/services/socket.service";
   styleUrls: ["./admin.component.css"],
 })
 export class AdminComponent implements OnInit {
-  usersCount: Number;
+  usersCount: any;
 
   constructor(private socketService: SocketService) {}
 
   ngOnInit(): void {
     // Connect to socket.io server
-    this.socketService.listen("userConnected").subscribe((data: Number) => {
+    this.socketService.listen("connected").subscribe((data) => {
       this.usersCount = data;
     });
   }
