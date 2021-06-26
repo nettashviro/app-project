@@ -18,6 +18,7 @@ import { ItemModel } from "../../models/item.model";
 })
 export class ItemsComponent implements OnInit {
   items: ItemModel[];
+  image: File;
   selectedItem: ItemModel;
 
   constructor(
@@ -85,8 +86,22 @@ export class ItemsComponent implements OnInit {
     this.selectedItem = item;
   }
 
+  uploadImage(file: File) {
+    console.log(file[0]);
+    this.image = file[0];
+  }
+
   onEditItem(form: NgForm) {
-    this.selectedItem = { ...this.selectedItem, ...form.value };
+    // let image;
+    // if (!this.image) {
+    //   image = this.selectedItem.image;
+    //   this.selectedItem = { ...this.selectedItem, ...form.value };
+    //   this.selectedItem.image = image;
+    // } else {
+      this.selectedItem = { ...this.selectedItem, ...form.value };
+    //   this.selectedItem.image = this.image.name;
+    // }
+    // let image = form.value.image.split('\\')
 
     //Check for valid contact number
     /*

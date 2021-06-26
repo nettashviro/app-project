@@ -19,6 +19,8 @@ const addItem = (req, res, next) => {
     let item = new Item({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
+        category: req.body.category,
+        image: req.body.image,
         price: req.body.price,
     });
     return item

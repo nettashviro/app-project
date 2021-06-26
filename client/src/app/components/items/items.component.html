@@ -94,7 +94,7 @@
             <small
               class="text-danger"
               [class.d-none]="category.valid || category.untouched"
-              >Invalid Price!</small
+              >Invalid Category!</small
             >
           </div>
           <div class="form-group">
@@ -115,6 +115,25 @@
               >Invalid Price!</small
             >
           </div>
+          <!-- <div class="form-group">
+            <label for="image">Item Image</label>
+            <input
+              [ngModel]="selectedItem?.image"
+              #image="ngModel"
+              id="image"
+              name="image"
+              type="file"
+              class="form-control"
+              [class.is-invalid]="image.invalid && image.touched"
+              required
+			  (change)="uploadImage($event.target.files)"
+            />
+            <small
+              class="text-danger"
+              [class.d-none]="image.valid || image.untouched"
+              >Invalid image!</small
+            >
+          </div> -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
