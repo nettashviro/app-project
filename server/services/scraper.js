@@ -53,11 +53,11 @@ const runner = () => {
   let womenUrl = (i) => `https://tamnoon.com/product-category/women/page/${i}/`
   let menUrl = (i) => `https://tamnoon.com/product-category/men/page/${i}/`
 
-  for(let i = 1; i <= 13; i++) {
+  for(let i = 1; i <= 24; i++) {
     connectToClothesStore(womenUrl(i))
   }
 
-  for(let i = 1; i <= 3; i++) {
+  for(let i = 2; i <= 4; i++) {
     connectToClothesStore(menUrl(i))
   }
 }
