@@ -18,7 +18,11 @@ import { ItemModel } from "../../models/item.model";
 })
 export class ItemsComponent implements OnInit {
   items: ItemModel[];
+  itemsCopy: ItemModel[];
   image: File;
+  search: string;
+  minPrice: number;
+  maxPrice: number;
   selectedItem: ItemModel;
 
   constructor(
@@ -28,7 +32,11 @@ export class ItemsComponent implements OnInit {
     private userItemService: UserItemService,
     private flashMessage: NgFlashMessageService,
     private router: Router
-  ) {}
+  ) {
+    this.minPrice = 0;
+    this.maxPrice = 0;
+    this.search = ''
+  }
 
   ngOnInit() {
     this.fetchItems();
@@ -37,7 +45,34 @@ export class ItemsComponent implements OnInit {
   fetchItems() {
     this.itemService.getItems().subscribe((items) => {
       this.items = items;
+      this.itemsCopy = items;
     });
+  }
+
+  onMaxChange(value: string) {
+    this.maxPrice = parseInt(value)
+    this.items = this.getFilteredData();
+  }
+
+  onMinChange(value: string) {
+    this.minPrice = parseInt(value)
+    this.items = this.getFilteredData();
+  }
+
+  onSearchChange(value: string) {
+    this.search = value;
+    this.items = this.getFilteredData();
+  }
+
+  getFilteredData() {
+    if ((this.maxPrice == this.minPrice && this.minPrice == 0) || isNaN(this.minPrice) || isNaN(this.maxPrice)) {
+      return this.itemsCopy
+        .filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+    }
+    return this.itemsCopy
+      .filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+      .filter((item) => parseInt(item.price) > this.minPrice)
+      .filter((item) => parseInt(item.price) < this.maxPrice)
   }
 
   onAddToCart(_id: string, name: string, price: string) {
@@ -98,7 +133,7 @@ export class ItemsComponent implements OnInit {
     //   this.selectedItem = { ...this.selectedItem, ...form.value };
     //   this.selectedItem.image = image;
     // } else {
-      this.selectedItem = { ...this.selectedItem, ...form.value };
+    this.selectedItem = { ...this.selectedItem, ...form.value };
     //   this.selectedItem.image = this.image.name;
     // }
     // let image = form.value.image.split('\\')

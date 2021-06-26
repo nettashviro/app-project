@@ -20,6 +20,21 @@ let userSchema = new Schema({
         lowercase: true,
         required: [true, "email is required...!"],
     },
+    city: {
+        type: String,
+        lowercase: true,
+        required: [true, "city is required...!"],
+    },
+    street: {
+        type: String,
+        lowercase: true,
+        required: [true, "street is required...!"],
+    },
+    appartment: {
+        type: String,
+        lowercase: true,
+        required: [true, "appartment is required...!"],
+    },
     username: {
         type: String,
         match: /^[a-zA-Z0-9]+$/,
