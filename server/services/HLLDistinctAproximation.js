@@ -6,7 +6,6 @@ function compute_alpha_times_bucket_count_squared(bucket_count) {
 // 2^0 to 2^32 - requires that many BYTES (really 6 bit words for 64 bit hashing)
 // The limit of 2^32 comes from using the first 32 bit int of the hash
 // for the bucket index. Theoretically we could scale that to allow more, but that means
-// more than 4GB per HLL, which is unlikely.
 function HyperLogLog(n) {
   var bucket_count = Math.pow(2, n);
   var alpha_times_bucket_count_squared = compute_alpha_times_bucket_count_squared(bucket_count);
