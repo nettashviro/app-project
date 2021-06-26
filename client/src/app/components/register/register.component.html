@@ -97,6 +97,66 @@
             [disabled]="password.invalid"
           />
         </div>
+        <!-- city -->
+        <div class="form-group">
+          <label for="city">City</label>
+          <input
+            id="city"
+            name="city"
+            type="city"
+            class="form-control"
+            [class.is-invalid]="city.invalid && city.touched"
+            placeholder="Enter city..."
+            ngModel
+            #city="ngModel"
+            required
+          />
+          <small
+            class="text-danger"
+            [class.d-none]="city.valid || city.untouched"
+            >City is required!</small
+          >
+        </div>
+        <!-- street -->
+        <div class="form-group">
+          <label for="street">Street Number</label>
+          <input
+            id="street"
+            name="street"
+            type="street"
+            class="form-control"
+            [class.is-invalid]="street.invalid && street.touched"
+            placeholder="Enter Street..."
+            ngModel
+            #street="ngModel"
+            required
+          />
+          <small
+            class="text-danger"
+            [class.d-none]="street.valid || street.untouched"
+            >Street is required!</small
+          >
+        </div>
+        <!-- apprtment -->
+        <div class="form-group">
+          <label for="appartment">Appartment Number</label>
+          <input
+            id="appartment"
+            name="appartment"
+            type="appartment"
+            class="form-control"
+            [class.is-invalid]="appartment.invalid && appartment.touched"
+            placeholder="Enter Appartment Number..."
+            ngModel
+            #appartment="ngModel"
+            required
+          />
+          <small
+            class="text-danger"
+            [class.d-none]="appartment.valid || appartment.untouched"
+            >Appartment Number is required!</small
+          >
+        </div>
       </div>
       <div class="card-footer">
         <button

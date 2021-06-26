@@ -2,7 +2,7 @@ const Item = require("../models/item.model");
 const mongoose = require("mongoose");
 const { search } = require("../services/ahoCorasickImplementation")
 
-const getItems = async(req, res, next) => {
+const getItems = async (req, res, next) => {
     try {
         let items = await Item.find()
         if (items.length < 1) {
@@ -20,6 +20,8 @@ const addItem = (req, res, next) => {
     let item = new Item({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
+        category: req.body.category,
+        image: req.body.image,
         price: req.body.price,
     });
     return item
@@ -63,8 +65,8 @@ const deleteItem = (req, res, next) => {
 const findItemByField = (req, res, next) => {
     const { field, value } = req.params;
     Item.find({
-            [field]: value
-        })
+        [field]: value
+    })
         .exec()
         .then((items) => {
             if (items.length < 1) {
@@ -78,11 +80,21 @@ const findItemByField = (req, res, next) => {
         });
 };
 
-const updateItem = async(req, res, next) => {
+const updateItem = async (req, res, next) => {
     try {
         const item = req.body
         await Item.updateOne({ _id: item._id }, item, {})
-        return res.status(200).send('OK')
+        return res.status(200).json({})
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
+
+const getItemCategories = async (req, res, next) => {
+    try {
+        const categories = await Item.find().distinct('category')
+        return res.status(200).json(categories)
     } catch (err) {
         console.log("err", err)
         return res.status(500).json(err);
@@ -104,5 +116,6 @@ module.exports = {
     updateItem,
     deleteItem,
     findItemByField,
-    quickSearchInStore
+    quickSearchInStore,
+    getItemCategories
 }

@@ -4,6 +4,53 @@
     font-family: "Gisha";
 }
 
+.deleteBtn {
+    color: red;
+    cursor: pointer;
+    margin-left: 5px;
+    width: 10px;
+}
+
+.searchInput {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    width: 300px;
+    outline: none;
+}
+
+.header {
+    margin-right: 5px;
+}
+
+.categoriesFilter {
+    margin-top: 10px;
+}
+
+.categoryFilter {
+    margin-right: 5px;
+}
+
+.priceRange {
+    margin-right: 5px;
+}
+
+.searchItems {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.searchIcon {
+    margin-left: -23px;
+}
+
+.btn-edit {
+    background-color: #6399ea;
+    margin-left: 5px;
+}
+
 .itemName {
     font-weight: 600;
 }
@@ -30,4 +77,9 @@
 
 .itemImg {
     height: 170px;
+}
+
+.noItems {
+    display: flex;
+    justify-content: center;
 }

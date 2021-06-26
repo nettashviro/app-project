@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { SocketService } from "./services/socket.service";
 
 @Component({
   selector: "app-root",
@@ -9,13 +8,7 @@ import { SocketService } from "./services/socket.service";
 export class AppComponent implements OnInit {
   title = "client";
 
-  constructor(private socketService: SocketService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    // Connect to socket.io server
-    this.socketService.listen("userConnected").subscribe((data) => {
-      console.log(data);
-      // this.socketService.usersCount = data;
-    });
-  }
+  ngOnInit(): void {}
 }

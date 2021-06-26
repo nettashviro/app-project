@@ -35,10 +35,16 @@ export class ItemService {
     });
   }
 
+<<<<<<< HEAD
   // Move to admin.service when is created
   searchItemExists(itemName) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get<GeneralMessageModel>(`${this.uri}/items/exists/${itemName}`, {
+=======
+  getCategories(): Observable<string[]> {
+    let headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.get<string[]>(`${this.uri}/getCategories`,{
+>>>>>>> master
       headers: headers,
     });
   }
