@@ -33,4 +33,11 @@ export class ItemService {
       headers: headers,
     });
   }
+
+  getCategories(): Observable<string[]> {
+    let headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.get<string[]>(`${this.uri}/getCategories`,{
+      headers: headers,
+    });
+  }
 }
