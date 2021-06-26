@@ -25,26 +25,42 @@ const calculateTree = () => {
 
         current = current[ch]
       }
+
       current['isWord'] = true
+      current['count'] = current['count'] ? current['count'] + 1 : 1
     })
 
     console.log(global.start)
   })
 }
 
-search = (word) => {
-  if(!global.start) {
-    throw {err: 'global.start not found'}
-  }
-
-  let current = global.start
+const getLeaf = (start, word) => {
+  let current = start
   for(let ch of word) {
     if(!current[ch]) {
-      return false
+      current[ch] = { }
     }
 
     current = current[ch]
   }
+
+  return current;
+}
+
+const search = (word) => {
+  if(!global.start) {
+    throw {err: 'global.start not found'}
+  }
+
+  let current = getLeaf(global.start, word)
+  // let current = global.start
+  // for(let ch of word) {
+  //   if(!current[ch]) {
+  //     return false
+  //   }
+  //
+  //   current = current[ch]
+  // }
 
   return current['isWord']
 }
@@ -54,16 +70,32 @@ const addWord = (word) => {
     throw {err: 'global.start not found'}
   }
 
-  let current = global.start
-  for(let ch of word) {
-    if (!current[ch]) {
-      current[ch] = { }
-    }
-
-    current = current[ch]
-  }
+  let current = getLeaf(global.start, word)
+  // let current = global.start
+  // for(let ch of word) {
+  //   if (!current[ch]) {
+  //     current[ch] = { }
+  //   }
+  //
+  //   current = current[ch]
+  // }
 
   current['isWord'] = true;
+  current['count'] = current['count'] ? current['count'] + 1 : 1
+}
+
+const removeWord = (word) => {
+  if(!global.start) {
+    throw {err: 'global.start not found'}
+  }
+
+  let current = getLeaf(global.start, word)
+
+  current['count'] -= 1
+  if(current['count'] <= 0) {
+    current['isWord'] = false;
+  }
+
 }
 
 
@@ -154,5 +186,6 @@ const addWord = (word) => {
 module.exports = {
   calculateTree,
   addWord,
-  search
+  search,
+  removeWord
 }

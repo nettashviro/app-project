@@ -28,7 +28,8 @@ const addItem = (req, res, next) => {
     return item
         .save()
         .then((item) => {
-            return res.status(200).json({ success: true, item: item });
+            res.status(200).json({ success: true, item: item });
+            next()
         })
         .catch((err) => {
             return res.status(500).json(err);
