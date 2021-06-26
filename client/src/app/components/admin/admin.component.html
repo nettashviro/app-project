@@ -33,10 +33,10 @@
             <h5 class="card-title text-uppercase text-muted mb-0">
               האם המוצר קיים?
             </h5>
-            <form>
-              <input [(ngModel)]="itemName" class="form-control" />
-              <button (click)="searchItemExists()" class="btn btn-secondary">שלח</button>
-            </form>
+            <input [(ngModel)]="itemName" class="form-control" />
+            <button (click)="searchItemExists()" class="btn btn-secondary">שלח</button>
+            <br/>
+            <span class="h6 font-weight-bold mb-0">{{ foundItem }}</span>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { environment } from "../../environments/environment";
 
 //Import Item Model
 import { ItemModel } from "../models/item.model";
+import { GeneralMessageModel } from "../models/generalMessage.model"
 
 @Injectable({ providedIn: "root" })
 export class ItemService {
@@ -30,6 +31,14 @@ export class ItemService {
   updateItem(item: ItemModel): Observable<ItemModel[]> {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
     return this.http.put<ItemModel[]>(`${this.uri}/updateItem`, item,{
+      headers: headers,
+    });
+  }
+
+  // Move to admin.service when is created
+  searchItemExists(itemName) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get<GeneralMessageModel>(`${this.uri}/items/exists/${itemName}`, {
       headers: headers,
     });
   }
