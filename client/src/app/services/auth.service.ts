@@ -5,6 +5,7 @@ import { environment } from "../../environments/environment";
 import { UserModel } from "../models/user.model";
 import { LocalUserModel } from "../models/local-user.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { UniqueConnectionsModel } from "../models/uniqueConnections.model";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -83,5 +84,10 @@ export class AuthService {
     return this.http.get<LocalUserModel>(`${this.uri}/dashboard`, {
       headers: headers,
     });
+  }
+
+  getUniqueConnections() {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.get<UniqueConnectionsModel>(`${this.uri}/user/connections/count`, {});
   }
 }
