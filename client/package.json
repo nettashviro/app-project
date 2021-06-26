@@ -28,6 +28,7 @@
     "jquery": "^3.6.0",
     "ng-flash-messages": "^0.3.0",
     "rxjs": "~6.3.3",
+    "socket.io-client": "^4.1.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },

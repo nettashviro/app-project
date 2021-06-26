@@ -4,24 +4,27 @@
     <div class="col">
       <div class="fw-bold text-uppercase text-lg text-dark mb-3">contact</div>
       <p>אלי ויזל 2, ראשון לציון</p>
-      <p>info@merci.co.il</p>
+      <p>
+        <a href="mailto:info@merci.co.il" class="email">info@merci.co.il</a>
+      </p>
     </div>
     <div class="col">
       <h6 class="text-uppercase text-dark mb-3">About us</h6>
       <ul class="list-unstyled">
-        <li><a class="text-muted" href="/about">עלינו</a></li>
-        <li><a class="text-muted" href="#">מדיניות משלוחים והחזרות</a></li>
-        <li><a class="text-muted" href="#">תקנון</a></li>
+        <li><a class="text-muted" href="/about">קצת עלינו</a></li>
+        <li>
+          <!-- todo add path -->
+          <a class="text-muted" href="/policy">מדיניות משלוחים והחזרות</a>
+        </li>
+        <li><a class="text-muted" href="/contact">צרי קשר</a></li>
       </ul>
     </div>
     <div class="col">
       <h6 class="text-uppercase text-dark mb-3">Shop</h6>
       <ul class="list-unstyled">
-        <li><a class="text-muted" href="#">החשבון שלי </a></li>
         <li><a class="text-muted" href="#">עמוד הבית </a></li>
-        <li><a class="text-muted" href="/items">בגדים </a></li>
-        <li><a class="text-muted" href="#">עגלת קניות </a></li>
-        <li><a class="text-muted" href="#">תשלום </a></li>
+        <li><a class="text-muted" href="/items">חנות </a></li>
+        <li><a class="text-muted" (click)="onCartClick()">עגלת קניות </a></li>
       </ul>
     </div>
   </div>

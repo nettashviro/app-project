@@ -11,8 +11,8 @@
     <a class="navbar-brand" routerLink="/">
       <img
         src="/assets/images/merci-font.svg"
-        width="80"
-        height="30"
+        width="95"
+        height="45"
         class="d-inline-block align-top"
         alt="{{ title }}"
     /></a>
@@ -96,32 +96,6 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
-        <!-- <li
-          *ngIf="!authService.isLoggedIn()"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="nav-item"
-        >
-          <a class="nav-link" routerLink="/register">הירשם</a>
-        </li> -->
-        <!-- <li
-          *ngIf="!authService.isLoggedIn()"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="nav-item"
-        >
-          <a class="nav-link" routerLink="/authenticate">התחבר</a>
-        </li>
-        <li class="nav-item mr-lg-2">
-          <a
-            href="#!"
-            *ngIf="authService.isLoggedIn()"
-            class="nav-link"
-            (click)="onHandleLogOut()"
-            >התנתק</a
-          >
-        </li> -->
-
         <li class="nav-item navbar-icon">
           <button
             class="btn"
@@ -129,10 +103,12 @@
             [routerLinkActiveOptions]="{ exact: true }"
             routerLink="/authenticate"
           >
-            <i class="fas fa-user-circle fa-lg" 
-            [ngClass]="{ 'navbar-icon-hover': userMouseOvered }"
-            (mouseover)="userMouseOvered = true"
-            (mouseout)="userMouseOvered = false"></i>
+            <i
+              class="fas fa-user-circle fa-lg"
+              [ngClass]="{ 'navbar-icon-hover': userMouseOvered }"
+              (mouseover)="userMouseOvered = true"
+              (mouseout)="userMouseOvered = false"
+            ></i>
           </button>
         </li>
 
@@ -143,10 +119,12 @@
             [class.disabled]="!authService.isLoggedIn()"
             (click)="onCartClick()"
           >
-            <i class="fas fa-shopping-bag fa-lg"
-            [ngClass]="{ 'navbar-icon-hover': shoppingBagMouseOvered }"
-            (mouseover)="shoppingBagMouseOvered = true"
-            (mouseout)="shoppingBagMouseOvered = false"></i>
+            <i
+              class="fas fa-shopping-bag fa-lg"
+              [ngClass]="{ 'navbar-icon-hover': shoppingBagMouseOvered }"
+              (mouseover)="shoppingBagMouseOvered = true"
+              (mouseout)="shoppingBagMouseOvered = false"
+            ></i>
             <span class="badge rounded-pill badge-notification">1</span>
           </button>
         </li>
