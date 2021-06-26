@@ -39,27 +39,27 @@ export class LoginComponent implements OnInit {
     }
 
     //If there is no any errors let's logged in..........
-    this.authService.authenticateUser(user).subscribe((data) => {
-      if (data) {
+    this.authService.authenticateUser(user).subscribe(
+      (data) => {
         this.authService.storeUserData(data.token, data.user);
         this.flashMessage.showFlashMessage({
           messages: ["You are logged in!"],
           dismissible: true,
-          timeout: 4000,
+          timeout: 2000,
           type: "success",
         });
         this.router.navigate(["/"]);
         return true;
-      } else {
+      },
+      (err) => {
         this.flashMessage.showFlashMessage({
-          messages: ["User not found!"],
+          messages: ["Username or Password is wrong!"],
           dismissible: true,
-          timeout: 4000,
+          timeout: 2000,
           type: "danger",
         });
-        this.router.navigate(["authenticate"]);
         return false;
       }
-    });
+    );
   }
 }

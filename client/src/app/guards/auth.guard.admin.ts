@@ -22,14 +22,14 @@ export class AuthGuardAdmin implements CanActivate {
   ): boolean {
     if (this.authService.isLoggedIn()) {
       if (this.authService.isAdmin()) return true;
-      console.log("ntntn");
+
       this.flashMessage.showFlashMessage({
         messages: ["unauthorized!"],
         dismissible: true,
         timeout: 4000,
         type: "danger",
       });
-      this.router.navigate(["dashboard"]);
+      this.router.navigate(["/"]);
       return;
     }
     this.flashMessage.showFlashMessage({
