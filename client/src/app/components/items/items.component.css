@@ -11,6 +11,24 @@
     width: 10px;
 }
 
+.searchInput {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    width: 300px;
+    outline: none;
+}
+
+.searchItems {
+    display: flex;
+    justify-content: center;
+}
+
+.searchIcon {
+    margin-left: -23px;
+}
+
 .btn-edit {
     background-color: #6399ea;
     margin-left: 5px;

@@ -18,7 +18,9 @@ import { ItemModel } from "../../models/item.model";
 })
 export class ItemsComponent implements OnInit {
   items: ItemModel[];
+  itemsCopy: ItemModel[];
   image: File;
+  search: string;
   selectedItem: ItemModel;
 
   constructor(
@@ -37,7 +39,13 @@ export class ItemsComponent implements OnInit {
   fetchItems() {
     this.itemService.getItems().subscribe((items) => {
       this.items = items;
+      this.itemsCopy = items;
     });
+  }
+
+  onSearchChange(value: string) {
+    this.search = value;
+    this.items = this.itemsCopy.filter((item) => item.name.includes(value) || item.category.includes(value));
   }
 
   onAddToCart(_id: string, name: string, price: string) {
@@ -98,7 +106,7 @@ export class ItemsComponent implements OnInit {
     //   this.selectedItem = { ...this.selectedItem, ...form.value };
     //   this.selectedItem.image = image;
     // } else {
-      this.selectedItem = { ...this.selectedItem, ...form.value };
+    this.selectedItem = { ...this.selectedItem, ...form.value };
     //   this.selectedItem.image = this.image.name;
     // }
     // let image = form.value.image.split('\\')
