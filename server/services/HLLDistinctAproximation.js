@@ -5,7 +5,7 @@ function compute_alpha_times_bucket_count_squared(bucket_count) {
 // Create a HyperLogLog counter of 2^n buckets.
 // 2^0 to 2^32 - requires that many BYTES (really 6 bit words for 64 bit hashing)
 // The limit of 2^32 comes from using the first 32 bit int of the hash
-// for the bucket index. Theoretically we could scale that to allow more, but that means
+// for the bucket index.
 function HyperLogLog(n) {
   var bucket_count = Math.pow(2, n);
   var alpha_times_bucket_count_squared = compute_alpha_times_bucket_count_squared(bucket_count);
@@ -53,15 +53,6 @@ function HyperLogLog(n) {
     },
 
     count: function count() {
-      /*var sum_of_inverses = 0;
-      var count_zero_buckets = 0;
-      for (var i = 0; i < bucket_count; ++i) {
-          var bucket = buckets[i];
-          if (bucket === 0) ++count_zero_buckets;
-          sum_of_inverses += 1 / Math.pow(2, bucket);
-      }*/
-      // No longer need to compute this all every time, since we keep running counts to keep this cheap.
-
       var estimate = alpha_times_bucket_count_squared / sum_of_inverses;
 
       // Apply small cardinality correction
