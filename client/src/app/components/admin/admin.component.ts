@@ -1,9 +1,8 @@
-import {Component, Injectable, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import { SocketService } from "src/app/services/socket.service";
 import { ItemService } from '../../services/item.service';
-import {environment} from "../../../environments/environment";
-
 import { StatService } from "src/app/services/stat.service";
+
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
