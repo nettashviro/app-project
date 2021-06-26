@@ -21,7 +21,7 @@ import { AuthGuard } from "./guards/auth.guard";
 import { AdminComponent } from "./components/admin/admin.component";
 import { ContactComponent } from "./components/contact/contact.component";
 import { AdminUniqueConnectionsPipe } from "./components/admin/admin.uniqueConnections.pipe";
-
+import { AdminExpectedUniqueConnectionsPipe }  from "./components/admin/admin.expectedUniqueConnections.pipe"
 export function tokenGetter() {
   return localStorage.getItem("access_token");
 }
@@ -35,7 +35,8 @@ export function tokenGetter() {
     AdminComponent,
     MapComponent,
     ContactComponent,
-    AdminUniqueConnectionsPipe
+    AdminUniqueConnectionsPipe,
+    AdminExpectedUniqueConnectionsPipe
   ],
   imports: [
     BrowserModule,

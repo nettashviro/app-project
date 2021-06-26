@@ -5,6 +5,6 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class AdminUniqueConnectionsPipe implements PipeTransform {
   transform(value: number): string {
-    return `there are ${value} unique connections`;
+    return `approximately ${value} unique connections`;
   }
 }
