@@ -9,6 +9,9 @@ const itemSchema = new Schema({
     type: String,
     required: [true, "item name is required...!"],
   },
+  colors: [{
+    type: String
+  }],
   category: {
     type: String,
     required: [true, "item category is required...!"],
