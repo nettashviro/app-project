@@ -72,13 +72,20 @@
             >עלינו</a
           >
         </li>
-        <li
+        <!-- <li
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           class="nav-item"
         >
-          <a class="nav-link" routerLink="/map">מפה</a>
-        </li>
+          <a
+            class="nav-link"
+            routerLink="/map"
+            [ngClass]="{ 'navbar-link-hover': mapMouseOvered }"
+            (mouseover)="mapMouseOvered = true"
+            (mouseout)="mapMouseOvered = false"
+            >מפה</a
+          >
+        </li> -->
         <li
           *ngIf="authService.isAdmin()"
           routerLinkActive="active"
@@ -129,10 +136,12 @@
             [routerLinkActiveOptions]="{ exact: true }"
             routerLink="/authenticate"
           >
-            <i class="fas fa-user-circle fa-lg" 
-            [ngClass]="{ 'navbar-icon-hover': userMouseOvered }"
-            (mouseover)="userMouseOvered = true"
-            (mouseout)="userMouseOvered = false"></i>
+            <i
+              class="fas fa-user-circle fa-lg"
+              [ngClass]="{ 'navbar-icon-hover': userMouseOvered }"
+              (mouseover)="userMouseOvered = true"
+              (mouseout)="userMouseOvered = false"
+            ></i>
           </button>
         </li>
 
@@ -143,10 +152,12 @@
             [class.disabled]="!authService.isLoggedIn()"
             (click)="onCartClick()"
           >
-            <i class="fas fa-shopping-bag fa-lg"
-            [ngClass]="{ 'navbar-icon-hover': shoppingBagMouseOvered }"
-            (mouseover)="shoppingBagMouseOvered = true"
-            (mouseout)="shoppingBagMouseOvered = false"></i>
+            <i
+              class="fas fa-shopping-bag fa-lg"
+              [ngClass]="{ 'navbar-icon-hover': shoppingBagMouseOvered }"
+              (mouseover)="shoppingBagMouseOvered = true"
+              (mouseout)="shoppingBagMouseOvered = false"
+            ></i>
             <span class="badge rounded-pill badge-notification">1</span>
           </button>
         </li>
