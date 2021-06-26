@@ -11,9 +11,6 @@ import { UserItemService } from "../../services/user-item.service";
 //Import Item Model
 import { ItemModel } from "../../models/item.model";
 
-//Import Countries
-import { CountryModel } from "../../models/countries.model";
-
 @Component({
   selector: "app-items",
   templateUrl: "./items.component.html",
@@ -64,24 +61,31 @@ export class ItemsComponent implements OnInit {
   }
 
   deleteItem(itemId: string) {
-    // TODO: remove from screen and give the user a message of success
     this.itemService.deleteItem(itemId).subscribe((res) => {
-      console.log("res", res);
+      if (res) {
+        this.flashMessage.showFlashMessage({
+          messages: ["Item Deleted Successfully"],
+          dismissible: true,
+          timeout: 2000,
+          type: "success",
+        });
+        this.fetchItems();
+      } else {
+        this.flashMessage.showFlashMessage({
+          messages: ["Item Deleted Unsuccessfully"],
+          dismissible: true,
+          timeout: 2000,
+          type: "danger",
+        });
+      }
     });
   }
 
-  updateItem(item: ItemModel) {
-    // TODO: update from screen and give the user a message of success
-    this.itemService.updateItem(item).subscribe((res) => {
-      console.log("res", res);
-    });
-  }
-
-  setItemForEdit(item) {
+  setItemForEdit(item: ItemModel) {
     this.selectedItem = item;
   }
 
-  onEditItem(form: NgForm, event) {
+  onEditItem(form: NgForm) {
     this.selectedItem = { ...this.selectedItem, ...form.value };
 
     //Check for valid contact number
@@ -103,11 +107,18 @@ export class ItemsComponent implements OnInit {
         this.flashMessage.showFlashMessage({
           messages: ["Item added to your cart!"],
           dismissible: true,
-          timeout: 4000,
+          timeout: 2000,
           type: "success",
         });
         this.fetchItems();
         return true;
+      } else {
+        this.flashMessage.showFlashMessage({
+          messages: ["There was an error adding the item to your cart"],
+          dismissible: true,
+          timeout: 2000,
+          type: "danger",
+        });
       }
     });
   }
