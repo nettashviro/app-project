@@ -1,5 +1,7 @@
 const Item = require("../models/item.model");
 const mongoose = require("mongoose");
+const { all } = require("../routes/item.router");
+const { search } = require("../services/ahoCorasickImplementation")
 
 const getItems = async (req, res, next) => {
     try {
@@ -100,11 +102,38 @@ const getItemCategories = async (req, res, next) => {
     }
 }
 
+const getItemColors = async (req, res, next) => {
+    const colors = []
+    try {
+        const allItems = await Item.find();
+        allItems.forEach(item => {
+            item.colors.forEach(color => {
+                if (!colors.includes(color))
+                    colors.push(color)
+            })
+        })
+        return res.status(200).json(colors)
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
+const quickSearchInStore =  (req, res, next) => {
+    const found = search(req.params.value)
+    if(found) {
+        res.status(200).send({message:'found'})
+    } else {
+        res.status(400).send({message: 'not found'})
+    }
+}
+
 module.exports = {
     getItems,
     addItem,
     updateItem,
     deleteItem,
     findItemByField,
+    getItemColors,
+    quickSearchInStore,
     getItemCategories
 }

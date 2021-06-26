@@ -8,19 +8,37 @@
       </path>
     </svg>
   </div>
-  <div class="filters">
-    <h5>Filters</h5>
-    <div class="priceFilter">
-      <h6>Prices</h6>
-      <label class="header">Min Price</label>
-      <input [ngModel]="minPrice" (ngModelChange)="onMinChange($event)" class="priceRange" type="number" />
-      <label class="header">Max Price</label>
-      <input [ngModel]="maxPrice" (ngModelChange)="onMaxChange($event)" class="priceRange" type="number" />
-    </div>
-    <div class="categoriesFilter">
-      <h6>Categories</h6>
-      <div class="category" *ngFor="let category of categories">
-          <input type="checkbox" (change)="pickCategory($event.target.checked, category)" class="categoryFilter"><label>{{category}}</label>
+  <h5 style='text-align: center; text-decoration: underline; margin-top: 10px;'>Filters</h5>
+  <div style="display: flex; justify-content: center;">
+    <div class="filters">
+      <div class="priceFilter">
+        <h6>Prices</h6>
+        <div style="display: grid; width: 200px">
+          <label class="header">Min Price</label>
+          <input [ngModel]="minPrice" (ngModelChange)="onMinChange($event)" class="priceRange" type="number" />
+          <label class="header">Max Price</label>
+          <input [ngModel]="maxPrice" (ngModelChange)="onMaxChange($event)" class="priceRange" type="number" />
+        </div>
+
+      </div>
+      <div class="categoriesFilter">
+        <h6>Categories</h6>
+        <div style="max-height: 180px;">
+          <div class="category" *ngFor="let category of categories">
+            <input type="checkbox" (change)="pickCategory($event.target.checked, category)"
+              class="categoryFilter"><label>{{category}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="colorsFilter">
+        <h6>Colors</h6>
+        <div class="colors">
+          <div class="color" *ngFor="let color of colors">
+            <input type="checkbox" (change)="pickColor($event.target.checked, color)"
+              class="colorFilter"><label>{{color}}</label>
+          </div>
+        </div>
+        <div *ngIf="!colors.length">No Colors Available</div>
       </div>
     </div>
   </div>

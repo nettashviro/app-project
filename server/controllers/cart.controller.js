@@ -3,7 +3,7 @@ const UserItem = require("../models/userItem.model");
 const Item = require("../models/item.model");
 const User = require("../models/user.model");
 
-const getAll = async(req, res, next) => {
+const getAll = async (req, res, next) => {
     let userItems = await UserItem.find()
     if (userItems.length < 1) {
         return res.status(404).json({ message: `no items added...` });
@@ -25,7 +25,7 @@ const getAll = async(req, res, next) => {
 
 const addItem = (req, res, next) => {
     const item = req.body._id;
-    UserItem.findOne({ _id: mongoose.Types.ObjectId(req.user._id) }).exec().then(async(userItems) => {
+    UserItem.findOne({ _id: mongoose.Types.ObjectId(req.user._id) }).exec().then(async (userItems) => {
         if (!userItems) {
             userItems = new UserItem({
                 _id: mongoose.Types.ObjectId(req.user._id),
@@ -45,7 +45,7 @@ const addItem = (req, res, next) => {
     })
 };
 
-const userCart = async(req, res, next) => {
+const userCart = async (req, res, next) => {
     try {
         const userId = req.params.id;
         let userItems = await UserItem.findOne({ _id: mongoose.Types.ObjectId(userId) })
@@ -94,7 +94,7 @@ const deleteUserItem = (req, res, next) => {
             return res.status(500).json(err);
         });
 };
-const deleteItemFromCart = async(req, res, next) => {
+const deleteItemFromCart = async (req, res, next) => {
     try {
         const { itemId, userId } = req.params;
         console.log("itemid", itemId, "userId", userId)
@@ -106,11 +106,13 @@ const deleteItemFromCart = async(req, res, next) => {
                 message: `no items added yet...`,
             });
         }
+        let foundFirst = false
         let filteredItems = userItem.items.filter(item => {
-            if (item !== itemId)
+            if (item !== itemId && !foundFirst) {
+                foundFirst = true
                 return item
+            }
         })
-        console.log("filteredItems", filteredItems)
         await UserItem.updateOne({ _id: userId }, { $set: { items: filteredItems } })
         return res.status(200).json('OK');
     } catch (err) {

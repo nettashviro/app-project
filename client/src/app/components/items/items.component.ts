@@ -20,12 +20,15 @@ export class ItemsComponent implements OnInit {
   items: ItemModel[];
   itemsCopy: ItemModel[];
   categories: string[];
+  colors: string[];
   image: File;
   search: string;
   minPrice: number;
   maxPrice: number;
   pickedCategories: string[];
+  pickedColors: string[];
   selectedItem: ItemModel;
+
 
   constructor(
     private itemService: ItemService,
@@ -39,11 +42,14 @@ export class ItemsComponent implements OnInit {
     this.maxPrice = 0;
     this.search = '';
     this.pickedCategories = [];
+    this.pickedColors = [];
+    this.colors = []
   }
 
   ngOnInit() {
     this.fetchItems();
     this.fetchCategories();
+    this.fetchColors();
   }
 
   fetchItems() {
@@ -59,11 +65,26 @@ export class ItemsComponent implements OnInit {
     })
   }
 
+  fetchColors() {
+    this.itemService.getColors().subscribe((colors) => {
+      this.colors = colors;
+    })
+  }
+
   pickCategory(isChecked: boolean, category: string) {
     if (isChecked) {
       this.pickedCategories.push(category)
     } else {
       this.pickedCategories = this.pickedCategories.filter(curr => curr !== category)
+    }
+    this.items = this.getFilteredData()
+  }
+
+  pickColor(isChecked: boolean, color: string) {
+    if (isChecked) {
+      this.pickedColors.push(color)
+    } else {
+      this.pickedColors = this.pickedColors.filter(curr => curr !== color)
     }
     this.items = this.getFilteredData()
   }
@@ -84,7 +105,7 @@ export class ItemsComponent implements OnInit {
   }
 
   getFilteredData() {
-    return this.filterCategories(this.filterSearch(this.filterPrices(this.itemsCopy)))
+    return this.filterColors(this.filterCategories(this.filterSearch(this.filterPrices(this.itemsCopy))))
   }
 
   filterPrices(items: ItemModel[]) {
@@ -107,6 +128,18 @@ export class ItemsComponent implements OnInit {
       return items
     }
     return items.filter(item => this.pickedCategories.includes(item.category))
+  }
+
+  filterColors(items: ItemModel[]) {
+    if (!this.pickedColors.length) {
+      return items
+    }
+    return items.filter(item => this.matchedColors(this.pickedColors, item.colors))
+  }
+
+  matchedColors(pickedColors: string[], itemColors: string[]): boolean {
+    const intersection = pickedColors.filter(element => itemColors.includes(element));
+    return Boolean(intersection.length)
   }
 
   onAddToCart(_id: string, name: string, price: string) {

@@ -4,5 +4,6 @@ export interface ItemModel {
   category: string,
   date: string,
   image: string,
+  colors: string[],
   _id: string
 }
