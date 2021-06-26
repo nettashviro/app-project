@@ -105,7 +105,7 @@ export class ItemsComponent implements OnInit {
     this.itemService.updateItem(this.selectedItem).subscribe((data) => {
       if (data) {
         this.flashMessage.showFlashMessage({
-          messages: ["Item added to your cart!"],
+          messages: ["Item was updated successfully!"],
           dismissible: true,
           timeout: 2000,
           type: "success",
