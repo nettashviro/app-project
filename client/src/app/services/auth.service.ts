@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { UserModel } from "../models/user.model";
 import { LocalUserModel } from "../models/local-user.model";
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
   token: string;
   user: any;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
     console.log(`auth service injected!`);
   }
 
@@ -48,7 +49,10 @@ export class AuthService {
 
   // Return the token if it's not null
   isLoggedIn(): boolean {
-    return localStorage.getItem("access_token") !== null;
+    return (
+      localStorage.getItem("access_token") !== null &&
+      !this.jwtHelper.isTokenExpired(localStorage.getItem("access_token"))
+    );
   }
 
   isAdmin(): boolean {

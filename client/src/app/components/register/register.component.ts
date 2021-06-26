@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { NgFlashMessageService } from "ng-flash-messages";
 import { Router } from "@angular/router";
 
 import { ValidateService } from "../../services/validate.service";
 import { AuthService } from "../../services/auth.service";
+import { SocketService } from "src/app/services/socket.service";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: "app-register",
+  templateUrl: "./register.component.html",
+  styleUrls: ["./register.component.css"],
 })
 export class RegisterComponent implements OnInit {
-
   constructor(
     private authService: AuthService,
     private validateService: ValidateService,
     private flashMessage: NgFlashMessageService,
+    private socketService: SocketService,
+
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {}
 
@@ -28,16 +30,16 @@ export class RegisterComponent implements OnInit {
       email: form.value.email,
       username: form.value.username,
       password: form.value.password,
-      password2: form.value.password2
+      password2: form.value.password2,
     };
 
     //Validate Name..........................
     if (!this.validateService.validateName(user.name)) {
       this.flashMessage.showFlashMessage({
-        messages: ['Invalid Name!'],
+        messages: ["Invalid Name!"],
         dismissible: true,
         timeout: 4000,
-        type: 'danger'
+        type: "danger",
       });
       return false;
     }
@@ -45,10 +47,10 @@ export class RegisterComponent implements OnInit {
     //Validate Email Id...............................
     if (!this.validateService.validateEmail(user.email)) {
       this.flashMessage.showFlashMessage({
-        messages: ['Invalid Email Id!'],
+        messages: ["Invalid Email Id!"],
         dismissible: true,
         timeout: 4000,
-        type: 'danger'
+        type: "danger",
       });
       return false;
     }
@@ -56,10 +58,10 @@ export class RegisterComponent implements OnInit {
     //Validate Username...........................
     if (!this.validateService.validateUsername(user.username)) {
       this.flashMessage.showFlashMessage({
-        messages: ['Invalid Username!'],
+        messages: ["Invalid Username!"],
         dismissible: true,
         timeout: 4000,
-        type: 'danger'
+        type: "danger",
       });
       return false;
     }
@@ -67,34 +69,36 @@ export class RegisterComponent implements OnInit {
     //Validate Password....................
     if (!this.validateService.validatePassword(user.password, user.password2)) {
       this.flashMessage.showFlashMessage({
-        messages: ['Password not matched!'],
+        messages: ["Password not matched!"],
         dismissible: true,
         timeout: 4000,
-        type: 'danger'
+        type: "danger",
       });
       return false;
     }
 
     //If there is no any errors then add user....................
-    this.authService.registerUser(user).subscribe(data => {
+    this.authService.registerUser(user).subscribe((data) => {
       if (data) {
         this.flashMessage.showFlashMessage({
           messages: ["Your account successfully created, Let's get logged in!"],
           dismissible: true,
           timeout: 4000,
-          type: 'success'
+          type: "success",
         });
-        this.router.navigate(['authenticate']);
+        this.socketService.emit("register", "");
+
+        this.router.navigate(["authenticate"]);
         form.resetForm();
         return true;
       } else {
         this.flashMessage.showFlashMessage({
-          messages: ['Something went wrong!'],
+          messages: ["Something went wrong!"],
           dismissible: true,
           timeout: 4000,
-          type: 'danger'
+          type: "danger",
         });
-        this.router.navigate(['items']);
+        this.router.navigate(["items"]);
         return false;
       }
     });
