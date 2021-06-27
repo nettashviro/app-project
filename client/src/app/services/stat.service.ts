@@ -24,7 +24,7 @@ export class StatService {
   getOrders(): Observable<UserModel[]> {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
 
-    return this.http.get<UserModel[]>(`${this.uri}/order`, {
+    return this.http.get<UserModel[]>(`${this.uri}/order/getOrders`, {
       headers: headers,
     });
   }

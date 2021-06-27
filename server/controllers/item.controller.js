@@ -2,6 +2,7 @@ const Item = require("../models/item.model");
 const mongoose = require("mongoose");
 const { all } = require("../routes/item.router");
 const { search } = require("../services/ahoCorasickImplementation")
+const path = require('path')
 
 const getItems = async (req, res, next) => {
     try {
@@ -23,6 +24,7 @@ const addItem = (req, res, next) => {
         name: req.body.name,
         category: req.body.category,
         image: req.body.image,
+        colors: req.body.colors,
         price: req.body.price,
     });
     return item
@@ -32,6 +34,7 @@ const addItem = (req, res, next) => {
             next()
         })
         .catch((err) => {
+            console.log("err", err)
             return res.status(500).json(err);
         });
 };
@@ -39,7 +42,6 @@ const addItem = (req, res, next) => {
 
 const deleteItem = (req, res, next) => {
     const itemId = req.params.id;
-    console.log("itemId", itemId)
     Item.find({ _id: itemId })
         .exec()
         .then((items) => {
@@ -69,7 +71,6 @@ const findItemByField = (req, res, next) => {
     Item.find({
         [field]: value
     })
-        .exec()
         .then((items) => {
             if (items.length < 1) {
                 return res.status(404).json({ message: `items not found...` });
@@ -85,11 +86,32 @@ const findItemByField = (req, res, next) => {
 const updateItem = async (req, res, next) => {
     try {
         const item = req.body
-        // let previousItem = await Item.find({_id: item.id})
-        // res.locals.itemPreviousName = previousItem.name;
-        // res.locals.itemNewName = item.name;
+        let previousItem = await Item.find({_id: item._id}).exec()
+
+        res.locals.itemPreviousName = previousItem[0].name;
+        res.locals.itemNewName = item.name;
         await Item.updateOne({ _id: item._id }, item, {})
-        // next()
+        next()
+        return res.status(200).json({})
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
+
+const updateImage = async (req, res, next) => {
+    try {
+        const imageName = Object.keys(req.files)[0];
+        const myVideo = req.files[imageName];
+        let filename = `${__dirname}\\..\\..\\client\\src\\assets\\images\\${myVideo.name}`
+        myVideo
+            .mv(filename, async (err) => {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    console.log("success")
+                }
+            });
         return res.status(200).json({})
     } catch (err) {
         console.log("err", err)
@@ -123,12 +145,12 @@ const getItemColors = async (req, res, next) => {
         return res.status(500).json(err);
     }
 }
-const quickSearchInStore =  (req, res, next) => {
+const quickSearchInStore = (req, res, next) => {
     const found = search(req.params.value)
-    if(found) {
-        res.status(200).send({message:'found'})
+    if (found) {
+        res.status(200).send({ message: 'found' })
     } else {
-        res.status(400).send({message: 'not found'})
+        res.status(400).send({ message: 'not found' })
     }
 }
 
@@ -136,6 +158,7 @@ module.exports = {
     getItems,
     addItem,
     updateItem,
+    updateImage,
     deleteItem,
     findItemByField,
     getItemColors,

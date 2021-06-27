@@ -12,8 +12,6 @@
 }
 
 .searchInput {
-    border: 1px solid black;
-    border-radius: 10px;
     padding: 5px;
     padding-left: 10px;
     width: 300px;
@@ -31,10 +29,13 @@
 
 .categoryFilter {
     margin-right: 5px;
+    border-color: #ced4da;
 }
 
 .priceRange {
     margin-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 .searchItems {
@@ -99,6 +100,12 @@
     overflow-y: scroll;
 }
 
+.categories {
+    max-height: 180px;
+    width: 200px;
+    overflow-y: scroll;
+}
+
 .filters {
     display: flex;
     justify-content: space-between;
@@ -106,4 +113,35 @@
 
 .priceFilter {
     margin-right: 100px;
+}
+.priceInput {
+    border: 5px solid lightgray;
+    border-radius: 3px;
+    color:pink;
+}
+
+.addNewItem {
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addItem {
+    height: 50px;
+    width: 50px;
+    border-radius: 30px;
+    border: solid 1px white;
+    color: white;
+    background-color: #198754;
+}
+
+.closeBtn {
+    border: none;
+    background-color: transparent;
+    color: red;
 }

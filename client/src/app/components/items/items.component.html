@@ -1,6 +1,6 @@
 <div>
   <div class="searchItems">
-    <input [ngModel]="search" (ngModelChange)="onSearchChange($event)" placeholder="search item..." class="searchInput"
+    <input [ngModel]="search" (ngModelChange)="onSearchChange($event)" placeholder="search item..." class="form-control searchInput"
       type="text" />
     <svg class="searchIcon" width="20" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path
@@ -15,15 +15,15 @@
         <h6>Prices</h6>
         <div style="display: grid; width: 200px">
           <label class="header">Min Price</label>
-          <input [ngModel]="minPrice" (ngModelChange)="onMinChange($event)" class="priceRange" type="number" />
+          <input [ngModel]="minPrice" (ngModelChange)="onMinChange($event)" class="priceRange form-control" type="number" />
           <label class="header">Max Price</label>
-          <input [ngModel]="maxPrice" (ngModelChange)="onMaxChange($event)" class="priceRange" type="number" />
+          <input [ngModel]="maxPrice" (ngModelChange)="onMaxChange($event)" class="priceRange form-control" type="number" />
         </div>
 
       </div>
       <div class="categoriesFilter">
         <h6>Categories</h6>
-        <div style="max-height: 180px;">
+        <div class="categories">
           <div class="category" *ngFor="let category of categories">
             <input type="checkbox" (change)="pickCategory($event.target.checked, category)"
               class="categoryFilter"><label>{{category}}</label>
@@ -33,12 +33,12 @@
       <div class="colorsFilter">
         <h6>Colors</h6>
         <div class="colors">
-          <div class="color" *ngFor="let color of colors">
+          <div class="color" *ngFor="let color of fetchedColors">
             <input type="checkbox" (change)="pickColor($event.target.checked, color)"
               class="colorFilter"><label>{{color}}</label>
           </div>
         </div>
-        <div *ngIf="!colors.length">No Colors Available</div>
+        <div *ngIf="!fetchedColors.length">No Colors Available</div>
       </div>
     </div>
   </div>
@@ -58,9 +58,9 @@
           <div class="card-footer">
             <a routerLink="/authenticate" *ngIf="!authService.isLoggedIn()" class="btn btn-success btn-buy">BUY</a>
             <a (click)="onAddToCart(item._id, item.name, item.price)" *ngIf="authService.isLoggedIn()"
-              class="btn btn-success text-light btn-add-cart">Add To Cart</a><a (click)="setItemForEdit(item)"
-              *ngIf="authService.isAdmin()" class="btn text-light btn-edit" data-toggle="modal"
-              data-target="#exampleModalCenter">Edit</a>
+              class="btn btn-success text-light btn-add-cart">Add To Cart</a>
+            <a (click)="setItemForEdit(item)" *ngIf="authService.isAdmin()" class="btn text-light btn-edit"
+              data-toggle="modal" data-target="#itemModal">Edit</a>
           </div>
         </div>
       </div>
@@ -77,20 +77,24 @@
       </p>
     </div>
   </ng-template>
+  <div class="addNewItem" *ngIf='authService.isAdmin()'>
+    <button (click)="newItemState('add')" data-toggle="modal" data-target="#itemModal" class="addItem"><i
+        style="line-height: 25px; font-size: 30px;">+</i></button>
+  </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
+<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Edit Item</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 *ngIf="modalState=='edit'" class="modal-title" id="itemModalTitle">Edit Item</h5>
+        <h5 *ngIf="modalState=='add'" class="modal-title" id="itemModalTitle">Add Item</h5>
+        <button type="button" class="closeBtn" data-dismiss="modal" aria-label="Close">
           X
         </button>
       </div>
-      <form (submit)="onEditItem(userItem)" #userItem="ngForm">
+      <form #userItem="ngForm">
         <div class="modal-body">
           <div class="form-group">
             <label for="itemName">Item Name</label>
@@ -106,11 +110,17 @@
           </div>
           <div class="form-group">
             <label for="price">Item Price</label>
-            <input [ngModel]="selectedItem?.price" #price="ngModel" id="price" name="price" type="text"
+            <input [ngModel]="selectedItem?.price" #price="ngModel" id="price" name="price" type="number"
               class="form-control" [class.is-invalid]="price.invalid && price.touched" required />
             <small class="text-danger" [class.d-none]="price.valid || price.untouched">Invalid Price!</small>
           </div>
-          <!-- <div class="form-group">
+          <div class="form-group">
+            <label for="price">Item Colors</label>
+            <input [ngModel]="selectedItem?.colors" #colors="ngModel" id="colors" name="colors" type="text"
+              class="form-control" [class.is-invalid]="colors.invalid && colors.touched" />
+            <small class="text-danger" [class.d-none]="colors.valid || colors.untouched">Invalid Colors!</small>
+          </div>
+          <div class="form-group">
             <label for="image">Item Image</label>
             <input
               [ngModel]="selectedItem?.image"
@@ -120,7 +130,6 @@
               type="file"
               class="form-control"
               [class.is-invalid]="image.invalid && image.touched"
-              required
 			  (change)="uploadImage($event.target.files)"
             />
             <small
@@ -128,13 +137,13 @@
               [class.d-none]="image.valid || image.untouched"
               >Invalid image!</small
             >
-          </div> -->
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
-          <button [disabled]="userItem.form.invalid" type="submit" class="btn btn-primary">
+          <button data-dismiss="modal" (click)="onSubmit(userItem)" [disabled]="userItem.form.invalid" class="btn btn-primary">
             Save
           </button>
         </div>

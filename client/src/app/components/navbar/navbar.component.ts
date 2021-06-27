@@ -6,6 +6,7 @@ import { AuthService } from "../../services/auth.service";
 
 //Import LocalUser Model
 import { LocalUserModel } from "../../models/local-user.model";
+import { SharedService } from "src/app/services/shared.service";
 
 @Component({
   selector: "app-navbar",
@@ -15,15 +16,18 @@ import { LocalUserModel } from "../../models/local-user.model";
 export class NavbarComponent implements OnInit {
   title: string;
   user: LocalUserModel;
+
   constructor(
     public authService: AuthService,
     private router: Router,
-    private flashMessage: NgFlashMessageService
+    private flashMessage: NgFlashMessageService,
+    private sharedService: SharedService
   ) {}
 
   ngOnInit() {
     this.title = "Merci";
     this.onLoadUser();
+    this.sharedService.fetchUserItems();
   }
 
   onCartClick() {

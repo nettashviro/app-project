@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
 import { NgFlashMessageService } from "ng-flash-messages";
 
 import { ItemService } from "../../services/item.service";
@@ -10,6 +10,7 @@ import { UserItemService } from "../../services/user-item.service";
 
 //Import Item Model
 import { ItemModel } from "../../models/item.model";
+import { SharedService } from "src/app/services/shared.service";
 
 @Component({
   selector: "app-items",
@@ -20,37 +21,39 @@ export class ItemsComponent implements OnInit {
   items: ItemModel[];
   itemsCopy: ItemModel[];
   categories: string[];
-  colors: string[];
-  image: File;
+  fetchedColors: string[];
+  image: FormData;
+  imageName: string;
   search: string;
   minPrice: number;
   maxPrice: number;
   pickedCategories: string[];
   pickedColors: string[];
   selectedItem: ItemModel;
-
+  modalState: string;
 
   constructor(
     private itemService: ItemService,
     public authService: AuthService,
     public validateService: ValidateService,
     private userItemService: UserItemService,
+    private sharedService: SharedService,
     private flashMessage: NgFlashMessageService,
     private router: Router
   ) {
     this.minPrice = 0;
     this.maxPrice = 0;
-    this.search = '';
+    this.search = "";
     this.pickedCategories = [];
     this.pickedColors = [];
-    this.colors = []
+    this.fetchedColors = [];
+    this.modalState = "";
   }
 
   ngOnInit() {
     this.fetchItems();
     this.fetchCategories();
-    this.fetchColors();
-  }
+    this.fetchColors();  }
 
   fetchItems() {
     this.itemService.getItems().subscribe((items) => {
@@ -62,40 +65,42 @@ export class ItemsComponent implements OnInit {
   fetchCategories() {
     this.itemService.getCategories().subscribe((categories) => {
       this.categories = categories;
-    })
+    });
   }
 
   fetchColors() {
     this.itemService.getColors().subscribe((colors) => {
-      this.colors = colors;
-    })
+      this.fetchedColors = colors;
+    });
   }
 
   pickCategory(isChecked: boolean, category: string) {
     if (isChecked) {
-      this.pickedCategories.push(category)
+      this.pickedCategories.push(category);
     } else {
-      this.pickedCategories = this.pickedCategories.filter(curr => curr !== category)
+      this.pickedCategories = this.pickedCategories.filter(
+        (curr) => curr !== category
+      );
     }
-    this.items = this.getFilteredData()
+    this.items = this.getFilteredData();
   }
 
   pickColor(isChecked: boolean, color: string) {
     if (isChecked) {
-      this.pickedColors.push(color)
+      this.pickedColors.push(color);
     } else {
-      this.pickedColors = this.pickedColors.filter(curr => curr !== color)
+      this.pickedColors = this.pickedColors.filter((curr) => curr !== color);
     }
-    this.items = this.getFilteredData()
+    this.items = this.getFilteredData();
   }
 
   onMaxChange(value: string) {
-    this.maxPrice = parseInt(value)
+    this.maxPrice = parseInt(value);
     this.items = this.getFilteredData();
   }
 
   onMinChange(value: string) {
-    this.minPrice = parseInt(value)
+    this.minPrice = parseInt(value);
     this.items = this.getFilteredData();
   }
 
@@ -105,41 +110,60 @@ export class ItemsComponent implements OnInit {
   }
 
   getFilteredData() {
-    return this.filterColors(this.filterCategories(this.filterSearch(this.filterPrices(this.itemsCopy))))
+    return this.filterColors(
+      this.filterCategories(
+        this.filterSearch(this.filterPrices(this.itemsCopy))
+      )
+    );
   }
 
   filterPrices(items: ItemModel[]) {
-    if ((this.maxPrice == this.minPrice && this.minPrice == 0) || isNaN(this.minPrice) || isNaN(this.maxPrice)) {
-      return items
-        .filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+    if (
+      (this.maxPrice == this.minPrice && this.minPrice == 0) ||
+      isNaN(this.minPrice) ||
+      isNaN(this.maxPrice)
+    ) {
+      return items.filter(
+        (item) =>
+          item.name.includes(this.search) || item.category.includes(this.search)
+      );
     } else {
       return items
         .filter((item) => parseInt(item.price) > this.minPrice)
-        .filter((item) => parseInt(item.price) < this.maxPrice)
+        .filter((item) => parseInt(item.price) < this.maxPrice);
     }
   }
 
   filterSearch(items: ItemModel[]) {
-    return items.filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+    return items.filter(
+      (item) =>
+        item.name.includes(this.search) || item.category.includes(this.search)
+    );
   }
 
   filterCategories(items: ItemModel[]) {
     if (!this.pickedCategories.length) {
-      return items
+      return items;
     }
-    return items.filter(item => this.pickedCategories.includes(item.category))
+    return items.filter((item) =>
+      this.pickedCategories.includes(item.category)
+    );
   }
 
   filterColors(items: ItemModel[]) {
     if (!this.pickedColors.length) {
-      return items
+      return items;
     }
-    return items.filter(item => this.matchedColors(this.pickedColors, item.colors))
+    return items.filter((item) =>
+      this.matchedColors(this.pickedColors, item.colors)
+    );
   }
 
   matchedColors(pickedColors: string[], itemColors: string[]): boolean {
-    const intersection = pickedColors.filter(element => itemColors.includes(element));
-    return Boolean(intersection.length)
+    const intersection = pickedColors.filter((element) =>
+      itemColors.includes(element)
+    );
+    return Boolean(intersection.length);
   }
 
   onAddToCart(_id: string, name: string, price: string) {
@@ -157,6 +181,8 @@ export class ItemsComponent implements OnInit {
           timeout: 4000,
           type: "success",
         });
+
+        this.sharedService.fetchUserItems();
         this.router.navigate(["items"]);
         return true;
       }
@@ -172,7 +198,8 @@ export class ItemsComponent implements OnInit {
           timeout: 2000,
           type: "success",
         });
-        this.fetchItems();
+
+        this.ngOnInit();
       } else {
         this.flashMessage.showFlashMessage({
           messages: ["Item Deleted Unsuccessfully"],
@@ -186,33 +213,104 @@ export class ItemsComponent implements OnInit {
 
   setItemForEdit(item: ItemModel) {
     this.selectedItem = item;
+    this.modalState = "edit";
+  }
+
+  newItemState() {
+    this.modalState = "add";
   }
 
   uploadImage(file: File) {
-    console.log(file[0]);
-    this.image = file[0];
+    const formData: FormData = new FormData();
+    formData.append('image', file[0], file[0].name)
+    console.log("csa", formData.get('image'))
+    this.image = formData;
+    this.imageName = file[0].name;
   }
 
-  onEditItem(form: NgForm) {
-    this.selectedItem = { ...this.selectedItem, ...form.value };
-    this.itemService.updateItem(this.selectedItem).subscribe((data) => {
-      if (data) {
+  onSubmit(form: NgForm) {
+    if (typeof form.value.colors == "string") {
+      this.selectedItem = {
+        ...this.selectedItem,
+        colors: form.value.colors.split(","),
+      };
+    } else {
+      this.selectedItem = { ...this.selectedItem, colors: form.value.colors };
+    }
+    this.selectedItem = { ...this.selectedItem, ...{ name: form.value.name, category: form.value.category, price: form.value.price } };
+    if (this.image) {
+      this.selectedItem = { ...this.selectedItem, ...{ image: this.imageName } }
+    }
+    if (this.modalState == 'add') {
+      this.itemService.createItem(this.selectedItem).subscribe((data) => {
+        this.itemService.updateImage(this.image).subscribe((data) => {
+          this.flashMessage.showFlashMessage({
+            messages: ["Item was added successfully!"],
+            dismissible: true,
+            timeout: 2000,
+            type: "success",
+          });
+          this.ngOnInit();
+          return true;
+        }, ((err) => {
+          this.flashMessage.showFlashMessage({
+            messages: ["There was an error adding the items image"],
+            dismissible: true,
+            timeout: 2000,
+            type: "danger",
+          });
+        }))
+
+      }, (err) => {
         this.flashMessage.showFlashMessage({
-          messages: ["Item was updated successfully!"],
-          dismissible: true,
-          timeout: 2000,
-          type: "success",
-        });
-        this.fetchItems();
-        return true;
-      } else {
-        this.flashMessage.showFlashMessage({
-          messages: ["There was an error adding the item to your cart"],
+          messages: ["There was an error adding the item"],
           dismissible: true,
           timeout: 2000,
           type: "danger",
         });
-      }
-    });
+      })
+
+    } else if (this.modalState == 'edit') {
+      this.itemService.updateItem(this.selectedItem).subscribe((data) => {
+        console.log("this.selectedItem",this.selectedItem)
+        if (this.image) {
+          this.itemService.updateImage(this.image).subscribe((data) => {
+            this.flashMessage.showFlashMessage({
+              messages: ["Item was updated successfully!"],
+              dismissible: true,
+              timeout: 2000,
+              type: "success",
+            });
+            this.ngOnInit();
+            return true;
+          }, (err) => {
+            console.log("err", err)
+            this.flashMessage.showFlashMessage({
+              messages: ["There was an error updating the items image"],
+              dismissible: true,
+              timeout: 2000,
+              type: "danger",
+            });
+          })
+        } else {
+          this.flashMessage.showFlashMessage({
+            messages: ["Item was updated successfully!"],
+            dismissible: true,
+            timeout: 2000,
+            type: "success",
+          });
+          this.ngOnInit();
+        }
+      }, (err) => {
+        console.log("err", err)
+        this.flashMessage.showFlashMessage({
+          messages: ["There was an error updating the item"],
+          dismissible: true,
+          timeout: 2000,
+          type: "danger",
+        });
+      })
+    }
+    this.modalState = "";
   }
 }

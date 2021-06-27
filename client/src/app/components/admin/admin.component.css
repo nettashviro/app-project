@@ -1,0 +1,32 @@
+.flex-parent {
+  display: flex;
+}
+.flex-child {
+  flex: 1;
+  margin-left: 100px;
+  max-width: 300px;
+}
+
+.flex-child-wider {
+  flex: 2;
+  max-width: 350px;
+}
+
+.totalIncomes{
+  direction: rtl;
+  width: 300px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  height: 150px;
+  margin-left: 100px;
+  padding: 10px;
+}
+.money {
+  font-size: 30px;
+}
+
+.money::before {
+  content: "₪";
+  font-size: 16px;
+  font-weight: 600;
+}

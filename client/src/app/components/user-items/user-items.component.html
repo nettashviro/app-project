@@ -1,26 +1,50 @@
 <div>
-    <ng-container *ngIf="userItem; else noItems">
-        <div class="row">
-            <div *ngFor="let item of userItem.items" class="col col-sm-12 col-md-4 my-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5>{{ item.name }}</h5>
-                        <span>{{ item.price }}</span>
-                    </div>
-                    <div class="card-footer">
-                        <button (click)="onDeleteItem(item._id)" type="button" class="btn btn-danger btn-buy">remove</button>
-                    </div>
-                </div>
-            </div>
+  <ng-container *ngIf="userItem; else noItems">
+    <div class="row">
+      <div
+        *ngFor="let item of userItem.items"
+        class="col col-sm-12 col-md-4 my-3"
+      >
+        <div class="card">
+          <div class="card-body">
+            <img
+              class="itemImg"
+              src="../../../assets/images/{{ item.image }}"
+            />
+            <h5>{{ item.name }}</h5>
+            <span>{{ item.price }}</span>
+          </div>
+          <div class="card-footer">
+            <button
+              (click)="onDeleteItem(item._id)"
+              type="button"
+              class="btn btn-danger btn-buy"
+            >
+              remove
+            </button>
+          </div>
         </div>
-    </ng-container>
-    <ng-template #noItems>
-        <div class="text-center">
-            <div class="card">
-                <div class="card-body">
-                    <p class="text-muted"> It Seems You Have No Items Added Yet!</p>
-                </div>
-            </div>
+      </div>
+    </div>
+
+    <hr />
+    <div class="cart-sub-total" style="margin: 2% 0; text-align: center;">
+      <strong class="subtotal-title">סה׳׳כ:</strong>
+      <span class="sub-total-amount"> &#8362;{{totalAmount}}</span>
+    </div>
+    <div class="row mx-auto w-75 button-spaced">
+      <button (click)="onCheckoutClick()" class="btn btn-dark" [disabled]="userItem.items.length == 0">
+        מעבר לקופה
+      </button>
+    </div>
+  </ng-container>
+  <ng-template #noItems>
+    <div class="text-center">
+      <div class="card">
+        <div class="card-body">
+          <p class="text-muted">It Seems You Have No Items Added Yet!</p>
         </div>
-    </ng-template>
+      </div>
+    </div>
+  </ng-template>
 </div>

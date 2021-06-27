@@ -87,7 +87,10 @@ export class AuthService {
   }
 
   getUniqueConnections() {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.get<UniqueConnectionsModel>(`${this.uri}/user/connections/count`, {});
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.get<UniqueConnectionsModel>(
+      `${this.uri}/user/connections/count`,
+      {}
+    );
   }
 }

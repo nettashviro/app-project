@@ -1,0 +1,22 @@
+<div
+  d3-charts
+  d3-bar-chart
+  [x]="xName"
+  [y]="yName"
+  [type]="'bar'"
+  [name]="name"
+  [config]="barConfig"
+  [data]="barData"
+  [color]="barColors"
+  [drillthrough]="true"
+  (onDrillthrough)="drilledBar($event)"
+  [tooltip]="true"
+  [tooltipstyle]="tooltipStyle"
+  [label]="barLabels"
+  [value]="barValue"
+  [displaylabel]="barDisplayLabels"
+  [displayvalue]="barDisplayValue"
+  [fontsize]="9"
+  [showX]="true"
+  [showY]="false"
+></div>

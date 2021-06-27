@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const path = require("path");
+const fileUpload = require("express-fileupload");
 const itemsRoute = require("./routes/item.router");
 const userRoute = require("./routes/user.router");
 const dashboardRoute = require("./routes/index.router");
@@ -23,12 +24,17 @@ const app = express();
 const server = createServer(app);
 app.use(express.static(path.resolve(__dirname, "../public")));
 
-calculateTree()
+calculateTree();
 /** Middlewares **/
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -52,10 +58,10 @@ setupWebSocket(server);
 
 /** Routes */
 app.get("/health", (req, res) => res.send("alive"));
+app.use("/api", dashboardRoute);
 app.use("/api", itemsRoute);
 app.use("/api/user", userRoute);
 app.use("/api/order", orderRoute);
-app.use("/api", dashboardRoute);
 app.use("/api/cart", cartRoute);
 
 /** Setup Port & Listening to Server **/

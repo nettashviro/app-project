@@ -5,7 +5,7 @@ import { environment } from "../../environments/environment";
 
 //Import Item Model
 import { ItemModel } from "../models/item.model";
-import { GeneralMessageModel } from "../models/generalMessage.model"
+import { GeneralMessageModel } from "../models/generalMessage.model";
 
 @Injectable({ providedIn: "root" })
 export class ItemService {
@@ -30,25 +30,48 @@ export class ItemService {
 
   updateItem(item: ItemModel): Observable<ItemModel[]> {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
-    return this.http.put<ItemModel[]>(`${this.uri}/updateItem`, item,{
+    return this.http.put<ItemModel[]>(`${this.uri}/updateItem`, item, {
       headers: headers,
     });
   }
 
+  createItem(item: ItemModel): Observable<ItemModel[]> {
+    let headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post<ItemModel[]>(`${this.uri}/addItem`, item, {
+      headers
+    });
+  }
+
+  updateImage(image: FormData): Observable<ItemModel[]> {
+    return this.http.put<ItemModel[]>(`${this.uri}/updateImage`, image);
+  }
+
   searchItemExists(itemName) {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.get<GeneralMessageModel>(`${this.uri}/items/exists/${itemName}`, {});
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.get<GeneralMessageModel>(
+      `${this.uri}/items/exists/${itemName}`,
+      {}
+    );
   }
   getCategories(): Observable<string[]> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
     return this.http.get<string[]>(`${this.uri}/getCategories`, {
+      headers: headers,
+    });
+  }
+
+  getTotalIncomes(): Observable<number> {
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.get<number>(`${this.uri}/order/totalIncomes`, {
       headers: headers,
     });
   }
 
   getColors(): Observable<string[]> {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
-    return this.http.get<string[]>(`${this.uri}/getColors`,{
+    return this.http.get<string[]>(`${this.uri}/getColors`, {
       headers: headers,
     });
   }
