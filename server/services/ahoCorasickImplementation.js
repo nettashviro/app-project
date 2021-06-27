@@ -28,6 +28,26 @@ const calculateTree = () => {
 
       current['isWord'] = true
       current['count'] = current['count'] ? current['count'] + 1 : 1
+
+
+      for(let color of item.colors) {
+        current = global.start;
+        if(color == 'Mint') {
+          console.log('')
+        }
+        for (let ch of color) {
+          if (!current[ch]) {
+            current[ch] = {};
+          }
+
+          current = current[ch];
+        }
+
+        current['isWord'] = true
+        current['count'] = current['count'] ? current['count'] + 1 : 1
+      }
+
+
     })
 
 
@@ -40,7 +60,6 @@ const getLeaf = (start, word) => {
   for (let ch of word) {
     if (!current[ch]) {
       current[ch] = {}
-
     }
 
     current = current[ch];
@@ -55,14 +74,6 @@ const search = (word) => {
   }
 
   let current = getLeaf(global.start, word)
-  // let current = global.start
-  // for(let ch of word) {
-  //   if(!current[ch]) {
-  //     return false
-  //   }
-  //
-  //   current = current[ch]
-  // }
 
   return current['isWord']
 }
