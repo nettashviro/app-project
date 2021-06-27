@@ -86,15 +86,15 @@ export class AdminComponent implements OnInit {
     }
     this.itemService.searchItemExists(this.itemName).subscribe(data => {
       if (data.message === 'found') {
-        this.foundItem = 'המוצר קיים בחנות';
+        this.foundItem = 'הפריט/תיאור קיימים בחנות';
       } else {
-        this.foundItem = ':( המוצר לא קיים';
+        this.foundItem = ':( הפריט/תיאור לא קיימים';
       }
       console.log(data);
     },
       error => {
         if (error.status === 400) {
-          this.foundItem = ':( המוצר לא קיים';
+          this.foundItem = ':( הפריט/תיאור לא קיימים';
         }
       });
   }
