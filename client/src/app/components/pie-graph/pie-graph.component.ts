@@ -6,7 +6,7 @@ import { ConnectionsService } from "src/app/services/connections.service";
   templateUrl: "./pie-graph.component.html",
   styleUrls: ["./pie-graph.component.css"],
 })
-export class PieGraphComponent implements OnInit {
+export class PieGraphComponent {
   /**
    * For Pie Chart
    */
@@ -29,14 +29,4 @@ export class PieGraphComponent implements OnInit {
   barData = [];
 
   constructor(private connectionsService: ConnectionsService) {}
-
-  ngOnInit() {
-    // this.fetchData();
-  }
-
-  // fetchData() {
-  //   this.connectionsService.getConnectionByDate().subscribe((items) => {
-  //     this.barData = items;
-  //   });
-  // }
 }
