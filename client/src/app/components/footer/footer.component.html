@@ -3,7 +3,9 @@
   <div class="row">
     <div class="col">
       <div class="fw-bold text-uppercase text-lg text-dark mb-3">contact</div>
-      <a class="text-muted" href="/map">אלי ויזל 2, ראשון לציון</a>
+      <p *ngFor="let branch of branches">
+        <a class="text-muted" href="/map">{{ branch.address }}</a>
+      </p>
       <p>
         <a href="mailto:info@merci.co.il" class="email">info@merci.co.il</a>
       </p>

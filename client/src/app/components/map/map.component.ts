@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { google } from "@agm/core/services/google-maps-types";
+import { BranchService } from "src/app/services/branch.service";
+import { BranchModel } from "src/app/models/branch.model";
 
 @Component({
   selector: "app-map",
@@ -7,11 +9,20 @@ import { google } from "@agm/core/services/google-maps-types";
   styleUrls: ["./map.component.css"],
 })
 export class MapComponent implements OnInit {
-  lat = 31.969967312361632;
-  lng = 34.77096515796263;
-  address = "אלי ויזל 2, ראשון לציון";
+  branches: BranchModel[];
 
-  constructor() {}
+  // israel location
+  latitude = 32.4117257;
+  longitude = 35.0818155;
+  constructor(private branchService: BranchService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadBranches();
+  }
+
+  loadBranches() {
+    this.branchService.getBranches().subscribe((data) => {
+      this.branches = data;
+    });
+  }
 }
