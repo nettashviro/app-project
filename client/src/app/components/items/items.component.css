@@ -135,4 +135,7 @@
     height: 50px;
     width: 50px;
     border-radius: 30px;
+    border: solid 1px white;
+    color: white;
+    background-color: #198754;
 }
