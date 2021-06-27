@@ -5,6 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgFlashMessagesModule } from "ng-flash-messages";
 import { JwtModule } from "@auth0/angular-jwt";
 import { AgmCoreModule } from "@agm/core";
+import { Ng2PaginationModule } from "ng2-pagination";
 
 import { AppRoutingModule, RoutingComponents } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -55,6 +56,7 @@ export function tokenGetter() {
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    Ng2PaginationModule,
     NgFlashMessagesModule.forRoot(),
     JwtModule.forRoot({
       config: {

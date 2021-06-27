@@ -145,3 +145,11 @@
     background-color: transparent;
     color: red;
 }
+
+.paging-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    cursor: pointer;
+}
