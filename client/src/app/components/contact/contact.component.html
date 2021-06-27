@@ -57,8 +57,8 @@
         <div class="ico-wrap">
           <i class="fas fa-map-marker-alt"></i>
         </div>
-        <p>
-          אלי ויזל 2, ראשון לציון<br />
+        <p *ngFor="let branch of branches">
+          {{ branch.address }}<br />
           שעות פעילות החנות:<br />
           א-ה 10:00-19:30<br />
           ו׳ 9:30-15:30
