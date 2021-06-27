@@ -115,9 +115,10 @@ const deleteItemFromCart = async (req, res, next) => {
     }
     let foundFirst = false;
     let filteredItems = userItem.items.filter((item) => {
-      if (item !== itemId && !foundFirst) {
-        foundFirst = true;
+      if (item !== itemId || foundFirst) {
         return item;
+      } else {
+        foundFirst = true;
       }
     });
     await UserItem.updateOne({ _id: userId }, { $set: { items: filteredItems } });
