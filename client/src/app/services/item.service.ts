@@ -5,7 +5,7 @@ import { environment } from "../../environments/environment";
 
 //Import Item Model
 import { ItemModel } from "../models/item.model";
-import { GeneralMessageModel } from "../models/generalMessage.model"
+import { GeneralMessageModel } from "../models/generalMessage.model";
 
 @Injectable({ providedIn: "root" })
 export class ItemService {
@@ -49,11 +49,14 @@ export class ItemService {
   }
 
   searchItemExists(itemName) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get<GeneralMessageModel>(`${this.uri}/items/exists/${itemName}`, {});
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.get<GeneralMessageModel>(
+      `${this.uri}/items/exists/${itemName}`,
+      {}
+    );
   }
   getCategories(): Observable<string[]> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
     return this.http.get<string[]>(`${this.uri}/getCategories`, {
       headers: headers,
     });

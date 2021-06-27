@@ -10,6 +10,7 @@ import { UserItemService } from "../../services/user-item.service";
 
 //Import Item Model
 import { ItemModel } from "../../models/item.model";
+import { SharedService } from "src/app/services/shared.service";
 
 @Component({
   selector: "app-items",
@@ -36,16 +37,17 @@ export class ItemsComponent implements OnInit {
     public authService: AuthService,
     public validateService: ValidateService,
     private userItemService: UserItemService,
+    private sharedService: SharedService,
     private flashMessage: NgFlashMessageService,
     private router: Router
   ) {
     this.minPrice = 0;
     this.maxPrice = 0;
-    this.search = '';
+    this.search = "";
     this.pickedCategories = [];
     this.pickedColors = [];
-    this.fetchedColors = []
-    this.modalState = ''
+    this.fetchedColors = [];
+    this.modalState = "";
   }
 
   ngOnInit() {
@@ -63,40 +65,42 @@ export class ItemsComponent implements OnInit {
   fetchCategories() {
     this.itemService.getCategories().subscribe((categories) => {
       this.categories = categories;
-    })
+    });
   }
 
   fetchColors() {
     this.itemService.getColors().subscribe((colors) => {
       this.fetchedColors = colors;
-    })
+    });
   }
 
   pickCategory(isChecked: boolean, category: string) {
     if (isChecked) {
-      this.pickedCategories.push(category)
+      this.pickedCategories.push(category);
     } else {
-      this.pickedCategories = this.pickedCategories.filter(curr => curr !== category)
+      this.pickedCategories = this.pickedCategories.filter(
+        (curr) => curr !== category
+      );
     }
-    this.items = this.getFilteredData()
+    this.items = this.getFilteredData();
   }
 
   pickColor(isChecked: boolean, color: string) {
     if (isChecked) {
-      this.pickedColors.push(color)
+      this.pickedColors.push(color);
     } else {
-      this.pickedColors = this.pickedColors.filter(curr => curr !== color)
+      this.pickedColors = this.pickedColors.filter((curr) => curr !== color);
     }
-    this.items = this.getFilteredData()
+    this.items = this.getFilteredData();
   }
 
   onMaxChange(value: string) {
-    this.maxPrice = parseInt(value)
+    this.maxPrice = parseInt(value);
     this.items = this.getFilteredData();
   }
 
   onMinChange(value: string) {
-    this.minPrice = parseInt(value)
+    this.minPrice = parseInt(value);
     this.items = this.getFilteredData();
   }
 
@@ -106,41 +110,60 @@ export class ItemsComponent implements OnInit {
   }
 
   getFilteredData() {
-    return this.filterColors(this.filterCategories(this.filterSearch(this.filterPrices(this.itemsCopy))))
+    return this.filterColors(
+      this.filterCategories(
+        this.filterSearch(this.filterPrices(this.itemsCopy))
+      )
+    );
   }
 
   filterPrices(items: ItemModel[]) {
-    if ((this.maxPrice == this.minPrice && this.minPrice == 0) || isNaN(this.minPrice) || isNaN(this.maxPrice)) {
-      return items
-        .filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+    if (
+      (this.maxPrice == this.minPrice && this.minPrice == 0) ||
+      isNaN(this.minPrice) ||
+      isNaN(this.maxPrice)
+    ) {
+      return items.filter(
+        (item) =>
+          item.name.includes(this.search) || item.category.includes(this.search)
+      );
     } else {
       return items
         .filter((item) => parseInt(item.price) > this.minPrice)
-        .filter((item) => parseInt(item.price) < this.maxPrice)
+        .filter((item) => parseInt(item.price) < this.maxPrice);
     }
   }
 
   filterSearch(items: ItemModel[]) {
-    return items.filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+    return items.filter(
+      (item) =>
+        item.name.includes(this.search) || item.category.includes(this.search)
+    );
   }
 
   filterCategories(items: ItemModel[]) {
     if (!this.pickedCategories.length) {
-      return items
+      return items;
     }
-    return items.filter(item => this.pickedCategories.includes(item.category))
+    return items.filter((item) =>
+      this.pickedCategories.includes(item.category)
+    );
   }
 
   filterColors(items: ItemModel[]) {
     if (!this.pickedColors.length) {
-      return items
+      return items;
     }
-    return items.filter(item => this.matchedColors(this.pickedColors, item.colors))
+    return items.filter((item) =>
+      this.matchedColors(this.pickedColors, item.colors)
+    );
   }
 
   matchedColors(pickedColors: string[], itemColors: string[]): boolean {
-    const intersection = pickedColors.filter(element => itemColors.includes(element));
-    return Boolean(intersection.length)
+    const intersection = pickedColors.filter((element) =>
+      itemColors.includes(element)
+    );
+    return Boolean(intersection.length);
   }
 
   onAddToCart(_id: string, name: string, price: string) {
@@ -158,6 +181,8 @@ export class ItemsComponent implements OnInit {
           timeout: 4000,
           type: "success",
         });
+
+        this.sharedService.fetchUserItems();
         this.router.navigate(["items"]);
         return true;
       }
@@ -173,6 +198,7 @@ export class ItemsComponent implements OnInit {
           timeout: 2000,
           type: "success",
         });
+
         this.ngOnInit();
       } else {
         this.flashMessage.showFlashMessage({
@@ -187,11 +213,11 @@ export class ItemsComponent implements OnInit {
 
   setItemForEdit(item: ItemModel) {
     this.selectedItem = item;
-    this.modalState = 'edit'
+    this.modalState = "edit";
   }
 
   newItemState() {
-    this.modalState = 'add'
+    this.modalState = "add";
   }
 
   uploadImage(file: File) {
@@ -203,10 +229,13 @@ export class ItemsComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (typeof (form.value.colors) == 'string') {
-      this.selectedItem = { ...this.selectedItem, colors: form.value.colors.split(',') }
+    if (typeof form.value.colors == "string") {
+      this.selectedItem = {
+        ...this.selectedItem,
+        colors: form.value.colors.split(","),
+      };
     } else {
-      this.selectedItem = { ...this.selectedItem, colors: form.value.colors }
+      this.selectedItem = { ...this.selectedItem, colors: form.value.colors };
     }
     this.selectedItem = { ...this.selectedItem, ...{ name: form.value.name, category: form.value.category, price: form.value.price } };
     if (this.image) {
@@ -282,6 +311,6 @@ export class ItemsComponent implements OnInit {
         });
       })
     }
-    this.modalState = ''
+    this.modalState = "";
   }
 }

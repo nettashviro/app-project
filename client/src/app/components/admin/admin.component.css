@@ -1,0 +1,13 @@
+.flex-parent {
+  display: flex;
+}
+.flex-child {
+  flex: 1;
+  margin-left: 100px;
+  max-width: 300px;
+}
+
+.flex-child-wider {
+  flex: 2;
+  max-width: 350px;
+}

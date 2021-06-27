@@ -8,8 +8,8 @@ let connectionsSchema = new Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-  }
-})
-
+  },
+  time: { type: Date, default: Date.now },
+});
 
 module.exports = mongoose.model("connections", connectionsSchema);
