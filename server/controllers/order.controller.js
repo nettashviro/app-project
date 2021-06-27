@@ -78,9 +78,12 @@ const getStoreIncomes = async (req, res, next) => {
         mapReduce.reduce = (cust, prices) => {
             return Array.sum(prices)
         }
-        mapReduce.out = {inline:1}
+        console.log("mapReduce",mapReduce)
+        // mapReduce.out = {replace:"total"}
         let result = await Order.mapReduce(mapReduce)
         console.log("result", result)
+        // let a = await result.model.find()
+        // console.log("result", a)
         return res.status(200).json(result)
     } catch (err) {
         console.log("err", err)
