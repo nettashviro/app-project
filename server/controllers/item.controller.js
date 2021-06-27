@@ -30,7 +30,8 @@ const addItem = (req, res, next) => {
     return item
         .save()
         .then((item) => {
-            return res.status(200).json({ success: true, item: item });
+            res.status(200).json({ success: true, item: item });
+            next()
         })
         .catch((err) => {
             console.log("err", err)
@@ -85,7 +86,12 @@ const findItemByField = (req, res, next) => {
 const updateItem = async (req, res, next) => {
     try {
         const item = req.body
+        let previousItem = await Item.find({_id: item._id}).exec()
+
+        res.locals.itemPreviousName = previousItem[0].name;
+        res.locals.itemNewName = item.name;
         await Item.updateOne({ _id: item._id }, item, {})
+        next()
         return res.status(200).json({})
     } catch (err) {
         console.log("err", err)
