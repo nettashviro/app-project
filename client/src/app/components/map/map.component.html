@@ -1,13 +1,14 @@
 <div class="map-header text-center">
-  <h2>סניף</h2>
+  <h2>סניפים</h2>
 </div>
 <hr />
 
-<agm-map [latitude]="lat" [longitude]="lng">
+<agm-map [latitude]="latitude" [longitude]="longitude">
   <agm-marker
-    [latitude]="lat"
-    [longitude]="lng"
-    [title]="address"
-    [label]="address"
+    *ngFor="let branch of branches"
+    [latitude]="branch.latitude"
+    [longitude]="branch.longitude"
+    [title]="branch.address"
+    [label]="branch.address"
   ></agm-marker>
 </agm-map>
