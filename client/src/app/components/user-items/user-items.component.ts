@@ -5,7 +5,7 @@ import { NgFlashMessageService } from "ng-flash-messages";
 import { UserItemService } from "../../services/user-item.service";
 
 //Import UserItem Model
-import { allUserItemsModel } from "../../models/user-item.model";
+import { allUserItemsModel, UserItemModel } from "../../models/user-item.model";
 import { SharedService } from "src/app/services/shared.service";
 @Component({
   selector: "app-user-items",
@@ -15,6 +15,8 @@ import { SharedService } from "src/app/services/shared.service";
 export class UserItemsComponent implements OnInit {
   id: string;
   userItem: allUserItemsModel;
+  filteredItems: UserItemModel[];
+  search: string;
   totalAmount: number;
 
   constructor(
@@ -35,6 +37,7 @@ export class UserItemsComponent implements OnInit {
       data.items = validItems;
 
       this.userItem = data;
+      this.filteredItems = data.items;
       this.totalAmount =
         data.items.length > 0
           ? data.items
@@ -46,6 +49,23 @@ export class UserItemsComponent implements OnInit {
 
   onCheckoutClick() {
     this.router.navigate(["checkout"]);
+  }
+
+  onSearchChange(value: string) {
+    this.search = value;
+    this.filteredItems = this.userItem.items;
+    this.filteredItems = this.getFilteredData();
+  }
+
+  getFilteredData() {
+    return this.filterSearch(this.filteredItems);
+  }
+
+  filterSearch(userItems) {
+    return userItems.filter(
+      (currentItem) =>
+        currentItem.name.includes(this.search)
+    );
   }
 
   onDeleteItem(id: string) {
