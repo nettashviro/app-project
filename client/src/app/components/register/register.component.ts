@@ -20,9 +20,9 @@ export class RegisterComponent implements OnInit {
     private socketService: SocketService,
 
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onHandleSubmit(form: NgForm) {
     let user = {
@@ -31,9 +31,6 @@ export class RegisterComponent implements OnInit {
       username: form.value.username,
       password: form.value.password,
       password2: form.value.password2,
-      city: form.value.city,
-      street: form.value.street,
-      appartment: form.value.appartment,
     };
 
     //Validate Name..........................

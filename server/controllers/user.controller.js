@@ -14,7 +14,7 @@ const users = (req, res, next) => {
         });
 };
 
-const authenticate = (req, res, next = () => {}) => {
+const authenticate = (req, res, next = () => { }) => {
     User.findOne({ username: req.body.username })
         .exec()
         .then((user) => {
@@ -68,9 +68,6 @@ const register = (req, res, next) => {
                                 email: req.body.email,
                                 username: req.body.username,
                                 password: req.body.password,
-                                city: req.body.city,
-                                street: req.body.street,
-                                appartment: req.body.appartment,
                             });
                             return user
                                 .save()

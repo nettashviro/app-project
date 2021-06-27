@@ -71,15 +71,16 @@ const updateOrder = async (req, res, next) => {
 
 const getStoreIncomes = async (req, res, next) => {
     try {
-        const funcs = {}
-        funcs.map = () => {
+        const mapReduce = {}
+        mapReduce.map = () => {
             emit(this.customer, this.totalPrice);
         }
-        funcs.reduce = (cust, prices) => {
+        mapReduce.reduce = (cust, prices) => {
             return Array.sum(prices)
         }
-        const newOrder = req.body
+        mapReduce.out = {inline:1}
         let result = await Order.mapReduce(mapReduce)
+        console.log("result", result)
         return res.status(200).json(result)
     } catch (err) {
         console.log("err", err)
