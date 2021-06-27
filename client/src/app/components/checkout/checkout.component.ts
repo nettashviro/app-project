@@ -7,6 +7,7 @@ import { CheckoutService } from "../../services/checkout.service";
 
 import { UserItemModel } from "../../models/user-item.model";
 import { SharedService } from "src/app/services/shared.service";
+import { SocketService } from "src/app/services/socket.service";
 
 @Component({
   selector: "app-checkout",
@@ -23,6 +24,7 @@ export class CheckoutComponent implements OnInit {
     private userItemService: UserItemService,
     private sharedService: SharedService,
     public checkoutService: CheckoutService,
+    private socketService: SocketService,
     private router: Router
   ) {}
 
@@ -60,6 +62,7 @@ export class CheckoutComponent implements OnInit {
         this.userItemService.deleteUserCart().subscribe((data) => {
           this.sharedService.fetchUserItems();
         });
+        this.socketService.emit("newOrder", null);
         this.flashMessage.showFlashMessage({
           messages: ["Order confirmed!"],
           dismissible: true,
