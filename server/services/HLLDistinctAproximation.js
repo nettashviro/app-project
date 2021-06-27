@@ -75,45 +75,45 @@ function HyperLogLog(n) {
       }
     },
 
-    merge: function merge(data) {
-      if (n > data.n) {
-        // Fold this HLL down to the size of the incoming one.
-        var new_bucket_count = Math.pow(2, data.n);
-        var old_buckets_per_new_bucket = Math.pow(2, n - data.n);
-        var new_buckets = new Buffer(new_bucket_count);
-
-        for (var i = 0; i < new_bucket_count; ++i) {
-          var new_bucket_value = data.buckets[i];
-          for (var j = 0; j < old_buckets_per_new_bucket; ++j) {
-            new_bucket_value = Math.max(new_bucket_value, buckets[i * old_buckets_per_new_bucket + j]);
-          }
-          new_buckets[i] = new_bucket_value;
-        }
-
-        buckets = new_buckets;
-        n = data.n;
-
-        bucket_count = Math.pow(2, n);
-        alpha_times_bucket_count_squared = compute_alpha_times_bucket_count_squared(bucket_count);
-      } else {
-        var new_buckets_per_existing = Math.pow(2, data.n - n);
-        for (var i = data.buckets.length - 1; i >= 0; --i) {
-          var existing_bucket_index = (i / new_buckets_per_existing) | 0;
-          buckets[existing_bucket_index] = Math.max(buckets[existing_bucket_index], data.buckets[i]);
-        }
-      }
-
-      // Recompute running totals
-      sum_of_inverses = 0;
-      count_zero_buckets = 0;
-      for (var i = 0; i < bucket_count; ++i) {
-        var bucket = buckets[i];
-        if (bucket === 0) {
-          ++count_zero_buckets;
-        }
-        sum_of_inverses += Math.pow(2, -bucket);
-      }
-    }
+    // merge: function merge(data) {
+    //   if (n > data.n) {
+    //     // Fold this HLL down to the size of the incoming one.
+    //     var new_bucket_count = Math.pow(2, data.n);
+    //     var old_buckets_per_new_bucket = Math.pow(2, n - data.n);
+    //     var new_buckets = new Buffer(new_bucket_count);
+    //
+    //     for (var i = 0; i < new_bucket_count; ++i) {
+    //       var new_bucket_value = data.buckets[i];
+    //       for (var j = 0; j < old_buckets_per_new_bucket; ++j) {
+    //         new_bucket_value = Math.max(new_bucket_value, buckets[i * old_buckets_per_new_bucket + j]);
+    //       }
+    //       new_buckets[i] = new_bucket_value;
+    //     }
+    //
+    //     buckets = new_buckets;
+    //     n = data.n;
+    //
+    //     bucket_count = Math.pow(2, n);
+    //     alpha_times_bucket_count_squared = compute_alpha_times_bucket_count_squared(bucket_count);
+    //   } else {
+    //     var new_buckets_per_existing = Math.pow(2, data.n - n);
+    //     for (var i = data.buckets.length - 1; i >= 0; --i) {
+    //       var existing_bucket_index = (i / new_buckets_per_existing) | 0;
+    //       buckets[existing_bucket_index] = Math.max(buckets[existing_bucket_index], data.buckets[i]);
+    //     }
+    //   }
+    //
+    //   // Recompute running totals
+    //   sum_of_inverses = 0;
+    //   count_zero_buckets = 0;
+    //   for (var i = 0; i < bucket_count; ++i) {
+    //     var bucket = buckets[i];
+    //     if (bucket === 0) {
+    //       ++count_zero_buckets;
+    //     }
+    //     sum_of_inverses += Math.pow(2, -bucket);
+    //   }
+    // }
   };
 
   return self;
