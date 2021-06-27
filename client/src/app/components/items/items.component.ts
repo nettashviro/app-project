@@ -53,7 +53,9 @@ export class ItemsComponent implements OnInit {
   ngOnInit() {
     this.fetchItems();
     this.fetchCategories();
-    this.fetchColors();  }
+    this.fetchColors();
+    this.resetFilter();
+  }
 
   fetchItems() {
     this.itemService.getItems().subscribe((items) => {
@@ -72,6 +74,10 @@ export class ItemsComponent implements OnInit {
     this.itemService.getColors().subscribe((colors) => {
       this.fetchedColors = colors;
     });
+  }
+
+  resetFilter() {
+    this.selectedItem = null
   }
 
   pickCategory(isChecked: boolean, category: string) {
@@ -272,7 +278,7 @@ export class ItemsComponent implements OnInit {
 
     } else if (this.modalState == 'edit') {
       this.itemService.updateItem(this.selectedItem).subscribe((data) => {
-        console.log("this.selectedItem",this.selectedItem)
+        console.log("this.selectedItem", this.selectedItem)
         if (this.image) {
           this.itemService.updateImage(this.image).subscribe((data) => {
             this.flashMessage.showFlashMessage({

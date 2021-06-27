@@ -62,6 +62,13 @@ export class ItemService {
     });
   }
 
+  getTotalIncomes(): Observable<number> {
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.get<number>(`${this.uri}/order/totalIncomes`, {
+      headers: headers,
+    });
+  }
+
   getColors(): Observable<string[]> {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
     return this.http.get<string[]>(`${this.uri}/getColors`, {

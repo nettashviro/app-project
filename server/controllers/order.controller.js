@@ -58,7 +58,7 @@ const deleteOrder = (req, res, next) => {
         });
 };
 
-const updateOrder = async(req, res, next) => {
+const updateOrder = async (req, res, next) => {
     try {
         const newOrder = req.body
         await Item.updateOne({ _id: newOrder._id }, newOrder, {})
@@ -69,10 +69,28 @@ const updateOrder = async(req, res, next) => {
     }
 }
 
+const getStoreIncomes = async (req, res, next) => {
+    try {
+        const funcs = {}
+        funcs.map = () => {
+            emit(this.customer, this.totalPrice);
+        }
+        funcs.reduce = (cust, prices) => {
+            return Array.sum(prices)
+        }
+        const newOrder = req.body
+        let result = await Order.mapReduce(mapReduce)
+        return res.status(200).json(result)
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
 
 module.exports = {
     getOrders,
     addNewOrder,
     deleteOrder,
-    updateOrder
+    updateOrder,
+    getStoreIncomes
 }
