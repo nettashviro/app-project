@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { LocalUserModel } from "../models/local-user.model";
 import { UserItemService } from "./user-item.service";
 
 @Injectable({
@@ -6,17 +7,21 @@ import { UserItemService } from "./user-item.service";
 })
 export class SharedService {
   globalAmountUserItem: number;
+  user: LocalUserModel;
 
   constructor(private userItemService: UserItemService) {}
 
+  onLoadUser() {
+    this.user = JSON.parse(localStorage.getItem("user"));
+  }
+
   fetchUserItems() {
-    if (this.userItemService.user && this.userItemService.user["id"]) {
-      this.userItemService
-        .getUserItem(this.userItemService.user["id"])
-        .subscribe((data) => {
-          let validItems = data.items.filter((item) => item != null);
-          this.setGlobalAmountUserItem(validItems.length);
-        });
+    this.onLoadUser();
+    if (this.user && this.user["id"]) {
+      this.userItemService.getUserItem(this.user["id"]).subscribe((data) => {
+        let validItems = data.items.filter((item) => item != null);
+        this.setGlobalAmountUserItem(validItems.length);
+      });
     }
   }
 
