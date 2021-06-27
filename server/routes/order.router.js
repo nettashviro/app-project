@@ -7,5 +7,5 @@ router.route("/getOrders").get(ctrlOrder.getOrders);
 router.route("/addOrder").post(ctrlOrder.addNewOrder);
 router.route("/deleteOrder").delete(ctrlOrder.deleteOrder);
 router.route("/updateOrder").put(ctrlOrder.updateOrder);
-
+router.route("/totalIncomes").get(ctrlOrder.getStoreIncomes);
 module.exports = router;

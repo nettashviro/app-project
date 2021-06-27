@@ -36,7 +36,7 @@
 }
 
 .contactus-container {
-  font-size: 1.4125rem;
+  font-size: 1.0125rem;
   line-height: 1.5;
   letter-spacing: 0.0385em;
   padding: 1.3125rem 0 0;
@@ -52,7 +52,7 @@
 
 .contactus-container .contact-info {
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1rem;
   line-height: 1.4583;
   letter-spacing: 0.0417em;
   max-width: 840px;

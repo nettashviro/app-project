@@ -166,22 +166,9 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          *ngIf="modalState == 'edit'"
-          class="modal-title"
-          id="itemModalTitle"
-        >
-          Edit Item
-        </h5>
-        <h5 *ngIf="modalState == 'add'" class="modal-title" id="itemModalTitle">
-          Add Item
-        </h5>
-        <button
-          type="button"
-          class="closeBtn"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <h5 *ngIf="modalState=='edit'" class="modal-title" id="itemModalTitle">Edit Item</h5>
+        <h5 *ngIf="modalState=='add'" class="modal-title" id="itemModalTitle">Add Item</h5>
+        <button (click)="resetFilter()" type="button" class="closeBtn" data-dismiss="modal" aria-label="Close">
           X
         </button>
       </div>
@@ -243,21 +230,9 @@
           </div>
           <div class="form-group">
             <label for="price">Item Colors</label>
-            <input
-              [ngModel]="selectedItem?.colors"
-              #colors="ngModel"
-              id="colors"
-              name="colors"
-              type="text"
-              class="form-control"
-              [class.is-invalid]="colors.invalid && colors.touched"
-              required
-            />
-            <small
-              class="text-danger"
-              [class.d-none]="colors.valid || colors.untouched"
-              >Invalid Colors!</small
-            >
+            <input [ngModel]="selectedItem?.colors" #colors="ngModel" id="colors" name="colors" type="text"
+              class="form-control" [class.is-invalid]="colors.invalid && colors.touched" />
+            <small class="text-danger" [class.d-none]="colors.valid || colors.untouched">Invalid Colors!</small>
           </div>
           <div class="form-group">
             <label for="image">Item Image</label>
@@ -279,7 +254,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetFilter()">
             Close
           </button>
           <button

@@ -1,30 +1,35 @@
 require("./utils/database");
 require("./seeds/seeds");
 
-const express = require("express");
-const logger = require("morgan");
+const path = require("path");
 const cors = require("cors");
+const passport = require("passport");
+const logger = require("morgan");
+const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const passport = require("passport");
-const path = require("path");
 const fileUpload = require("express-fileupload");
-const itemsRoute = require("./routes/item.router");
-const userRoute = require("./routes/user.router");
-const dashboardRoute = require("./routes/index.router");
-const cartRoute = require("./routes/cart.router");
-const orderRoute = require("./routes/order.router");
 const jwtAuthentication = require("./utils/passport");
-const { createServer } = require("http");
+
+const userRoute = require("./routes/user.router");
+const cartRoute = require("./routes/cart.router");
+const itemsRoute = require("./routes/item.router");
+const orderRoute = require("./routes/order.router");
+const branchRoute = require("./routes/branch.router");
+const dashboardRoute = require("./routes/index.router");
+
 const { port } = require("./config");
-const { calculateTree } = require("./services/ahoCorasickImplementation");
+const { createServer } = require("http");
 const { setupWebSocket } = require("./utils/websocket");
+const { calculateTree } = require("./services/ahoCorasickImplementation");
+
 /** App initialization **/
 const app = express();
 const server = createServer(app);
 app.use(express.static(path.resolve(__dirname, "../public")));
 
 calculateTree();
+
 /** Middlewares **/
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,6 +68,7 @@ app.use("/api", itemsRoute);
 app.use("/api/user", userRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/cart", cartRoute);
+app.use("/api/branch", branchRoute);
 
 /** Setup Port & Listening to Server **/
 server.listen(port, () => console.log(`server running on port ${port}!!`));
