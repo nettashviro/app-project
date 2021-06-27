@@ -18,6 +18,20 @@ const getOrders = (req, res, next) => {
     });
 };
 
+const getUserOrders = (req, res, next) => {
+  Order.find({ customer: req.params.userId })
+    .then((orders) => {
+      if (orders.length < 1) {
+        return res.status(404).json({ message: `orders not found...` });
+      } else {
+        return res.status(200).json(orders);
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err);
+    });
+};
+
 const addNewOrder = (req, res, next) => {
   let order = new Order({
     _id: new mongoose.Types.ObjectId(),
@@ -102,4 +116,5 @@ module.exports = {
   deleteOrder,
   updateOrder,
   getStoreIncomes,
+  getUserOrders,
 };

@@ -35,8 +35,14 @@ export class CheckoutService {
       "Content-Type": "application/json",
       Authorization: this.token,
     });
+    if (this.user['isAdmin']) {
+      return this.http.get<UserOrderModel[]>(
+        `${this.uri}/order/getOrders`,
+        { headers: headers }
+      );
+    }
     return this.http.get<UserOrderModel[]>(
-      `${this.uri}/order/getOrders`,
+      `${this.uri}/order/getUserOrders/${this.user['id']}`,
       { headers: headers }
     );
   }
