@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { SocketService } from "./services/socket.service";
 
 @Component({
   selector: "app-root",
@@ -8,7 +9,9 @@ import { Component, OnInit } from "@angular/core";
 export class AppComponent implements OnInit {
   title = "client";
 
-  constructor() {}
+  constructor(private socketService: SocketService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.socketService.emit("onlineUserCount", null);
+  }
 }
