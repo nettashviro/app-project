@@ -18,6 +18,7 @@ import { ContactComponent } from "./components/contact/contact.component";
 
 import { AuthGuard } from "./guards/auth.guard";
 import { AuthGuardAdmin } from "./guards/auth.guard.admin";
+import { LoginGuard } from "./guards/login.guard";
 
 const routes: Routes = [
   { path: "items", component: ItemsComponent },
@@ -26,8 +27,12 @@ const routes: Routes = [
   { path: "shipping", component: ShippingComponent },
   { path: "conditions", component: ConditionsComponent },
   { path: "map", component: MapComponent },
-  { path: "register", component: RegisterComponent },
-  { path: "authenticate", component: LoginComponent },
+  { path: "register", component: RegisterComponent, canActivate: [LoginGuard] },
+  {
+    path: "authenticate",
+    component: LoginComponent,
+    canActivate: [LoginGuard],
+  },
   { path: "contact", component: ContactComponent },
   {
     path: "",
