@@ -90,7 +90,7 @@
       <div class="modal-header">
         <h5 *ngIf="modalState=='edit'" class="modal-title" id="itemModalTitle">Edit Item</h5>
         <h5 *ngIf="modalState=='add'" class="modal-title" id="itemModalTitle">Add Item</h5>
-        <button type="button" class="closeBtn" data-dismiss="modal" aria-label="Close">
+        <button (click)="resetFilter()" type="button" class="closeBtn" data-dismiss="modal" aria-label="Close">
           X
         </button>
       </div>
@@ -140,7 +140,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetFilter()">
             Close
           </button>
           <button data-dismiss="modal" (click)="onSubmit(userItem)" [disabled]="userItem.form.invalid" class="btn btn-primary">
