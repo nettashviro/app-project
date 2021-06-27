@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { SocketService } from "src/app/services/socket.service";
 import { ItemService } from '../../services/item.service';
 import { StatService } from "src/app/services/stat.service";
-import {AuthService} from "../../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-admin",
@@ -16,6 +16,7 @@ export class AdminComponent implements OnInit {
   usersCount: any;
   ordersCount: any;
   cashierCount: any;
+  totalIncomes: number;
   uniqueConnectionsAproximation = 0;
   constructor(
     private socketService: SocketService,
@@ -28,7 +29,7 @@ export class AdminComponent implements OnInit {
     this.statService.getUsers().subscribe((data) => {
       this.usersCount = data["users"].length;
     });
-
+    this.totalIncomes = 9999
     this.statService.getOrders().subscribe((data) => {
       this.ordersCount = data.length;
     });
@@ -62,6 +63,16 @@ export class AdminComponent implements OnInit {
       error => {
         this.uniqueConnectionsAproximation = -1;
       });
+
+      this.getTotalIncomes();
+  }
+
+  getTotalIncomes() {
+    this.itemService.getTotalIncomes().subscribe((totalIncomes) => {
+      this.totalIncomes = totalIncomes;
+    }, (err)=> {
+      this.totalIncomes = 0;
+    });
   }
 
   setCashierCount() {
@@ -79,12 +90,12 @@ export class AdminComponent implements OnInit {
       } else {
         this.foundItem = 'item doesnt exist';
       }
-        console.log(data);
+      console.log(data);
     },
-    error => {
-      if (error.status === 400) {
-        this.foundItem = 'item doesnt exist';
-      }
-    });
+      error => {
+        if (error.status === 400) {
+          this.foundItem = 'item doesnt exist';
+        }
+      });
   }
 }
