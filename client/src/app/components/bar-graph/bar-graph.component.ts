@@ -11,8 +11,8 @@ export class BarGraphComponent implements OnInit {
    * For Bar Chart
    */
   barConfig = {
-    height: 200,
-    width: 200,
+    height: 250,
+    width: 300,
     top: 20,
     right: 5,
     bottom: 25,

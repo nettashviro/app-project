@@ -6,6 +6,7 @@ import { UserItemService } from "../../services/user-item.service";
 import { CheckoutService } from "../../services/checkout.service";
 
 import { UserItemModel } from "../../models/user-item.model";
+import { SharedService } from "src/app/services/shared.service";
 
 @Component({
   selector: "app-checkout",
@@ -20,6 +21,7 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private flashMessage: NgFlashMessageService,
     private userItemService: UserItemService,
+    private sharedService: SharedService,
     public checkoutService: CheckoutService,
     private router: Router
   ) {}
@@ -32,11 +34,17 @@ export class CheckoutComponent implements OnInit {
   onLoadUser() {
     this.customer = JSON.parse(localStorage.getItem("user")).id;
   }
-  
+
   fetchUserItems() {
     this.userItemService.getUserItem(this.customer).subscribe((data) => {
-      this.items = data.items;
-      this.price = data.items.length > 0 ? data.items.map(item => Number(item.price)).reduceRight((x, y) => x + y) : 0;
+      let validItems = data.items.filter((item) => item != null);
+      this.items = validItems;
+      this.price =
+        validItems.length > 0
+          ? validItems
+              .map((item) => Number(item.price))
+              .reduceRight((x, y) => x + y)
+          : 0;
     });
   }
 
@@ -49,6 +57,9 @@ export class CheckoutComponent implements OnInit {
 
     this.checkoutService.saveOrder(order).subscribe((data) => {
       if (data) {
+        this.userItemService.deleteUserCart().subscribe((data) => {
+          this.sharedService.fetchUserItems();
+        });
         this.flashMessage.showFlashMessage({
           messages: ["Order confirmed!"],
           dismissible: true,

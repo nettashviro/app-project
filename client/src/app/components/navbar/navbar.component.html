@@ -144,7 +144,9 @@
               (mouseover)="shoppingBagMouseOvered = true"
               (mouseout)="shoppingBagMouseOvered = false"
             ></i>
-            <span class="badge rounded-pill badge-notification">1</span>
+            <span class="badge rounded-pill badge-notification">{{
+              sharedService.globalAmountUserItem
+            }}</span>
           </button>
         </li>
       </ul>

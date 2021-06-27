@@ -39,6 +39,7 @@ const connectionsGroupByHour = (req, res, next) => {
         count: { $sum: 1 },
       },
     },
+    { $sort: { "_id.year": 1, "_id.month": 1, "_id.dayOfMonth": 1 } },
     {
       $addFields: {
         _id: {
