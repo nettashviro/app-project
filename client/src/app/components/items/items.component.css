@@ -11,6 +11,43 @@
     width: 10px;
 }
 
+.searchInput {
+    padding: 5px;
+    padding-left: 10px;
+    width: 300px;
+    outline: none;
+}
+
+.header {
+    margin-right: 5px;
+}
+
+.categoriesFilter {
+    margin-top: 10px;
+    margin-right: 100px;
+}
+
+.categoryFilter {
+    margin-right: 5px;
+    border-color: #ced4da;
+}
+
+.priceRange {
+    margin-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.searchItems {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.searchIcon {
+    margin-left: -23px;
+}
+
 .btn-edit {
     background-color: #6399ea;
     margin-left: 5px;
@@ -42,4 +79,54 @@
 
 .itemImg {
     height: 170px;
+}
+
+.noItems {
+    display: flex;
+    justify-content: center;
+}
+
+.colorsFilter {
+    margin-top: 10px;
+}
+
+.colorFilter {
+    margin-right: 5px;
+}
+
+.colors {
+    max-height: 180px;
+    width: 200px;
+    overflow-y: scroll;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+}
+
+.priceFilter {
+    margin-right: 100px;
+}
+.priceInput {
+    border: 5px solid lightgray;
+    border-radius: 3px;
+    color:pink;
+}
+
+.addNewItem {
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addItem {
+    height: 50px;
+    width: 50px;
+    border-radius: 30px;
 }

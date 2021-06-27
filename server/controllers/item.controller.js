@@ -1,7 +1,10 @@
 const Item = require("../models/item.model");
 const mongoose = require("mongoose");
+const { all } = require("../routes/item.router");
+const { search } = require("../services/ahoCorasickImplementation")
+const path = require('path')
 
-const getItems = async(req, res, next) => {
+const getItems = async (req, res, next) => {
     try {
         let items = await Item.find()
         if (items.length < 1) {
@@ -20,7 +23,8 @@ const addItem = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         category: req.body.category,
-        image: req.body.image,
+        image: 'liron',
+        colors: req.body.colors,
         price: req.body.price,
     });
     return item
@@ -64,8 +68,8 @@ const deleteItem = (req, res, next) => {
 const findItemByField = (req, res, next) => {
     const { field, value } = req.params;
     Item.find({
-            [field]: value
-        })
+        [field]: value
+    })
         .exec()
         .then((items) => {
             if (items.length < 1) {
@@ -79,9 +83,13 @@ const findItemByField = (req, res, next) => {
         });
 };
 
-const updateItem = async(req, res, next) => {
+const updateItem = async (req, res, next) => {
     try {
         const item = req.body
+        console.log("item", req.files)
+        console.log("image", req.body.image)
+        delete item.image
+        console.log("item", req.body)
         await Item.updateOne({ _id: item._id }, item, {})
         return res.status(200).json({})
     } catch (err) {
@@ -90,10 +98,48 @@ const updateItem = async(req, res, next) => {
     }
 }
 
+const getItemCategories = async (req, res, next) => {
+    try {
+        const categories = await Item.find().distinct('category')
+        return res.status(200).json(categories)
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
+
+const getItemColors = async (req, res, next) => {
+    const colors = []
+    try {
+        const allItems = await Item.find();
+        allItems.forEach(item => {
+            item.colors.forEach(color => {
+                if (!colors.includes(color))
+                    colors.push(color)
+            })
+        })
+        return res.status(200).json(colors)
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
+const quickSearchInStore = (req, res, next) => {
+    const found = search(req.params.value)
+    if (found) {
+        res.status(200).send({ message: 'found' })
+    } else {
+        res.status(400).send({ message: 'not found' })
+    }
+}
+
 module.exports = {
     getItems,
     addItem,
     updateItem,
     deleteItem,
-    findItemByField
+    findItemByField,
+    getItemColors,
+    quickSearchInStore,
+    getItemCategories
 }

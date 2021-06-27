@@ -18,8 +18,17 @@ import { ItemModel } from "../../models/item.model";
 })
 export class ItemsComponent implements OnInit {
   items: ItemModel[];
+  itemsCopy: ItemModel[];
+  categories: string[];
+  fetchedColors: string[];
   image: File;
+  search: string;
+  minPrice: number;
+  maxPrice: number;
+  pickedCategories: string[];
+  pickedColors: string[];
   selectedItem: ItemModel;
+  modalState: string;
 
   constructor(
     private itemService: ItemService,
@@ -28,16 +37,110 @@ export class ItemsComponent implements OnInit {
     private userItemService: UserItemService,
     private flashMessage: NgFlashMessageService,
     private router: Router
-  ) {}
+  ) {
+    this.minPrice = 0;
+    this.maxPrice = 0;
+    this.search = '';
+    this.pickedCategories = [];
+    this.pickedColors = [];
+    this.fetchedColors = []
+    this.modalState = ''
+  }
 
   ngOnInit() {
     this.fetchItems();
+    this.fetchCategories();
+    this.fetchColors();
   }
 
   fetchItems() {
     this.itemService.getItems().subscribe((items) => {
       this.items = items;
+      this.itemsCopy = items;
     });
+  }
+
+  fetchCategories() {
+    this.itemService.getCategories().subscribe((categories) => {
+      this.categories = categories;
+    })
+  }
+
+  fetchColors() {
+    this.itemService.getColors().subscribe((colors) => {
+      this.fetchedColors = colors;
+    })
+  }
+
+  pickCategory(isChecked: boolean, category: string) {
+    if (isChecked) {
+      this.pickedCategories.push(category)
+    } else {
+      this.pickedCategories = this.pickedCategories.filter(curr => curr !== category)
+    }
+    this.items = this.getFilteredData()
+  }
+
+  pickColor(isChecked: boolean, color: string) {
+    if (isChecked) {
+      this.pickedColors.push(color)
+    } else {
+      this.pickedColors = this.pickedColors.filter(curr => curr !== color)
+    }
+    this.items = this.getFilteredData()
+  }
+
+  onMaxChange(value: string) {
+    this.maxPrice = parseInt(value)
+    this.items = this.getFilteredData();
+  }
+
+  onMinChange(value: string) {
+    this.minPrice = parseInt(value)
+    this.items = this.getFilteredData();
+  }
+
+  onSearchChange(value: string) {
+    this.search = value;
+    this.items = this.getFilteredData();
+  }
+
+  getFilteredData() {
+    return this.filterColors(this.filterCategories(this.filterSearch(this.filterPrices(this.itemsCopy))))
+  }
+
+  filterPrices(items: ItemModel[]) {
+    if ((this.maxPrice == this.minPrice && this.minPrice == 0) || isNaN(this.minPrice) || isNaN(this.maxPrice)) {
+      return items
+        .filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+    } else {
+      return items
+        .filter((item) => parseInt(item.price) > this.minPrice)
+        .filter((item) => parseInt(item.price) < this.maxPrice)
+    }
+  }
+
+  filterSearch(items: ItemModel[]) {
+    return items.filter((item) => item.name.includes(this.search) || item.category.includes(this.search))
+  }
+
+  filterCategories(items: ItemModel[]) {
+    if (!this.pickedCategories.length) {
+      return items
+    }
+    return items.filter(item => this.pickedCategories.includes(item.category))
+  }
+
+  filterColors(items: ItemModel[]) {
+    if (!this.pickedColors.length) {
+      return items
+    }
+    return items.filter(item => this.matchedColors(this.pickedColors, item.colors))
+  }
+
+  matchedColors(pickedColors: string[], itemColors: string[]): boolean {
+    const intersection = pickedColors.filter(element => itemColors.includes(element));
+    return Boolean(intersection.length)
   }
 
   onAddToCart(_id: string, name: string, price: string) {
@@ -70,7 +173,7 @@ export class ItemsComponent implements OnInit {
           timeout: 2000,
           type: "success",
         });
-        this.fetchItems();
+        this.ngOnInit();
       } else {
         this.flashMessage.showFlashMessage({
           messages: ["Item Deleted Unsuccessfully"],
@@ -84,57 +187,69 @@ export class ItemsComponent implements OnInit {
 
   setItemForEdit(item: ItemModel) {
     this.selectedItem = item;
+    this.modalState = 'edit'
+  }
+
+  newItemState() {
+    this.modalState = 'add'
   }
 
   uploadImage(file: File) {
-    console.log(file[0]);
     this.image = file[0];
   }
 
-  onEditItem(form: NgForm) {
-    // let image;
-    // if (!this.image) {
-    //   image = this.selectedItem.image;
-    //   this.selectedItem = { ...this.selectedItem, ...form.value };
-    //   this.selectedItem.image = image;
-    // } else {
-      this.selectedItem = { ...this.selectedItem, ...form.value };
-    //   this.selectedItem.image = this.image.name;
-    // }
-    // let image = form.value.image.split('\\')
-
-    //Check for valid contact number
-    /*
-    if (!this.validateService.validateContactNumber(userItem.contact_info)) {
-      console.log(`contact number error`);
-      return false;
+  onSubmit(form: NgForm) {
+    if (typeof (form.value.colors) == 'string') {
+      this.selectedItem = { ...this.selectedItem, colors: form.value.colors.split(',') }
+    } else {
+      this.selectedItem = { ...this.selectedItem, colors: form.value.colors }
     }
-
-    //Check for valid credit card
-    if (!this.validateService.validateCreditCardNumber(userItem.credit_card)) {
-      console.log(`credit card number error`);
-      return false;
+    this.selectedItem = { ...this.selectedItem, ...{ name: form.value.name, category: form.value.category, price: form.value.price, } };
+    if (this.image) {
+      this.selectedItem = { ...this.selectedItem, ...{ image: this.image } }
     }
-    */
+    if (this.modalState == 'add') {
+      console.log("add", this.selectedItem)
+      this.itemService.createItem(this.selectedItem).subscribe((data) => {
+        this.flashMessage.showFlashMessage({
+          messages: ["Item was added successfully!"],
+          dismissible: true,
+          timeout: 2000,
+          type: "success",
+        });
+        this.ngOnInit();
+        return true;
+      }, (err) => {
+        this.flashMessage.showFlashMessage({
+          messages: ["There was an error adding the item"],
+          dismissible: true,
+          timeout: 2000,
+          type: "danger",
+        });
+      })
 
-    this.itemService.updateItem(this.selectedItem).subscribe((data) => {
-      if (data) {
+    } else if (this.modalState == 'edit') {
+      console.log(form.value)
+      console.log("edit", this.selectedItem)
+
+      this.itemService.updateItem(this.selectedItem).subscribe((data) => {
         this.flashMessage.showFlashMessage({
           messages: ["Item was updated successfully!"],
           dismissible: true,
           timeout: 2000,
           type: "success",
         });
-        this.fetchItems();
+        this.ngOnInit();
         return true;
-      } else {
+      }, (err) => {
         this.flashMessage.showFlashMessage({
           messages: ["There was an error adding the item to your cart"],
           dismissible: true,
           timeout: 2000,
           type: "danger",
         });
-      }
-    });
+      })
+    }
+    this.modalState = ''
   }
 }

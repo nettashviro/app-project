@@ -78,7 +78,7 @@
             <h5 class="card-title text-uppercase text-muted mb-0">
               מספר מוכרים בחנות
             </h5>
-            <input [(ngModel)]="cashierCount" (input)="setCashierCount()" />
+            <input [(ngModel)]="cashierCount" (input)="setCashierCount()" class="form-control" />
           </div>
           <div class="col-auto">
             <div
@@ -92,6 +92,42 @@
             >
               <i class="fas fa-shopping-cart"></i>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-stats mb-4 mb-xl-0">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <h5 class="card-title text-uppercase text-muted mb-0">
+              ?האם המוצר קיים
+            </h5>
+            <div class="row">
+              <input [(ngModel)]="itemName" class="form-control"  />
+              <button (click)="searchItemExists()" class="btn btn-secondary">שלח</button>
+            </div>
+            <br/>
+            <span class="h6 font-weight-bold mb-0">{{ foundItem }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-stats mb-4 mb-xl-0">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <h5 class="card-title text-uppercase text-muted mb-0">
+              הערכת חיבורים יחודיים
+            </h5>
+            <br/>
+            <span class="h6 font-weight-bold mb-0">{{ uniqueConnectionsAproximation | uniqueConnections }}</span>
+            <br/><br/>
+            <h5 class="card-title text-uppercase text-muted mb-0">
+              צפי חיבורים לחודש הבא
+            </h5>
+            <br/>
+            <span class="h6 font-weight-bold mb-0">{{ uniqueConnectionsAproximation | expectedUniqueConnections | uniqueConnections }}</span>
           </div>
         </div>
       </div>

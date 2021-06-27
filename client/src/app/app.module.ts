@@ -26,6 +26,8 @@ import { D3BarChartDirective } from "./directives/d3-bar-chart.directive";
 import { PieGraphComponent } from "./components/pie-graph/pie-graph.component";
 import { D3PieChartDirective } from "./directives/d3-pie-chart.directive";
 
+import { AdminUniqueConnectionsPipe } from "./components/admin/admin.uniqueConnections.pipe";
+import { AdminExpectedUniqueConnectionsPipe } from "./components/admin/admin.expectedUniqueConnections.pipe";
 export function tokenGetter() {
   return localStorage.getItem("access_token");
 }
@@ -44,6 +46,8 @@ export function tokenGetter() {
     D3ChartsDirective,
     D3BarChartDirective,
     D3PieChartDirective,
+    AdminUniqueConnectionsPipe,
+    AdminExpectedUniqueConnectionsPipe,
   ],
   imports: [
     BrowserModule,
