@@ -30,9 +30,9 @@ export class PieGraphComponent implements OnInit {
 
   constructor(private connectionsService: ConnectionsService) {}
 
-  // ngOnInit() {
-  //   this.fetchData();
-  // }
+  ngOnInit() {
+    // this.fetchData();
+  }
 
   // fetchData() {
   //   this.connectionsService.getConnectionByDate().subscribe((items) => {
