@@ -36,10 +36,16 @@ export class ItemService {
   }
 
   createItem(item: ItemModel): Observable<ItemModel[]> {
-    let headers = new HttpHeaders({ "Content-Type": "application/json" });
-    return this.http.post<ItemModel[]>(`${this.uri}/addItem`, item, {
-      headers: headers,
+    let headers = new HttpHeaders({
+      "Content-Type": "application/json",
     });
+    return this.http.post<ItemModel[]>(`${this.uri}/addItem`, item, {
+      headers
+    });
+  }
+
+  updateImage(image: FormData): Observable<ItemModel[]> {
+    return this.http.put<ItemModel[]>(`${this.uri}/updateImage`, image);
   }
 
   searchItemExists(itemName) {

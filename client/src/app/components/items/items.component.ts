@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
 import { NgFlashMessageService } from "ng-flash-messages";
 
 import { ItemService } from "../../services/item.service";
@@ -22,7 +22,8 @@ export class ItemsComponent implements OnInit {
   itemsCopy: ItemModel[];
   categories: string[];
   fetchedColors: string[];
-  image: File;
+  image: FormData;
+  imageName: string;
   search: string;
   minPrice: number;
   maxPrice: number;
@@ -52,8 +53,7 @@ export class ItemsComponent implements OnInit {
   ngOnInit() {
     this.fetchItems();
     this.fetchCategories();
-    this.fetchColors();
-  }
+    this.fetchColors();  }
 
   fetchItems() {
     this.itemService.getItems().subscribe((items) => {
@@ -221,7 +221,11 @@ export class ItemsComponent implements OnInit {
   }
 
   uploadImage(file: File) {
-    this.image = file[0];
+    const formData: FormData = new FormData();
+    formData.append('image', file[0], file[0].name)
+    console.log("csa", formData.get('image'))
+    this.image = formData;
+    this.imageName = file[0].name;
   }
 
   onSubmit(form: NgForm) {
@@ -233,21 +237,13 @@ export class ItemsComponent implements OnInit {
     } else {
       this.selectedItem = { ...this.selectedItem, colors: form.value.colors };
     }
-    this.selectedItem = {
-      ...this.selectedItem,
-      ...{
-        name: form.value.name,
-        category: form.value.category,
-        price: form.value.price,
-      },
-    };
+    this.selectedItem = { ...this.selectedItem, ...{ name: form.value.name, category: form.value.category, price: form.value.price } };
     if (this.image) {
-      this.selectedItem = { ...this.selectedItem, ...{ image: this.image } };
+      this.selectedItem = { ...this.selectedItem, ...{ image: this.imageName } }
     }
-    if (this.modalState == "add") {
-      console.log("add", this.selectedItem);
-      this.itemService.createItem(this.selectedItem).subscribe(
-        (data) => {
+    if (this.modalState == 'add') {
+      this.itemService.createItem(this.selectedItem).subscribe((data) => {
+        this.itemService.updateImage(this.image).subscribe((data) => {
           this.flashMessage.showFlashMessage({
             messages: ["Item was added successfully!"],
             dismissible: true,
@@ -256,22 +252,47 @@ export class ItemsComponent implements OnInit {
           });
           this.ngOnInit();
           return true;
-        },
-        (err) => {
+        }, ((err) => {
           this.flashMessage.showFlashMessage({
-            messages: ["There was an error adding the item"],
+            messages: ["There was an error adding the items image"],
             dismissible: true,
             timeout: 2000,
             type: "danger",
           });
-        }
-      );
-    } else if (this.modalState == "edit") {
-      console.log(form.value);
-      console.log("edit", this.selectedItem);
+        }))
 
-      this.itemService.updateItem(this.selectedItem).subscribe(
-        (data) => {
+      }, (err) => {
+        this.flashMessage.showFlashMessage({
+          messages: ["There was an error adding the item"],
+          dismissible: true,
+          timeout: 2000,
+          type: "danger",
+        });
+      })
+
+    } else if (this.modalState == 'edit') {
+      this.itemService.updateItem(this.selectedItem).subscribe((data) => {
+        console.log("this.selectedItem",this.selectedItem)
+        if (this.image) {
+          this.itemService.updateImage(this.image).subscribe((data) => {
+            this.flashMessage.showFlashMessage({
+              messages: ["Item was updated successfully!"],
+              dismissible: true,
+              timeout: 2000,
+              type: "success",
+            });
+            this.ngOnInit();
+            return true;
+          }, (err) => {
+            console.log("err", err)
+            this.flashMessage.showFlashMessage({
+              messages: ["There was an error updating the items image"],
+              dismissible: true,
+              timeout: 2000,
+              type: "danger",
+            });
+          })
+        } else {
           this.flashMessage.showFlashMessage({
             messages: ["Item was updated successfully!"],
             dismissible: true,
@@ -279,17 +300,16 @@ export class ItemsComponent implements OnInit {
             type: "success",
           });
           this.ngOnInit();
-          return true;
-        },
-        (err) => {
-          this.flashMessage.showFlashMessage({
-            messages: ["There was an error adding the item to your cart"],
-            dismissible: true,
-            timeout: 2000,
-            type: "danger",
-          });
         }
-      );
+      }, (err) => {
+        console.log("err", err)
+        this.flashMessage.showFlashMessage({
+          messages: ["There was an error updating the item"],
+          dismissible: true,
+          timeout: 2000,
+          type: "danger",
+        });
+      })
     }
     this.modalState = "";
   }
