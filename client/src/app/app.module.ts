@@ -20,23 +20,34 @@ import { UserItemService } from "./services/user-item.service";
 import { AuthGuard } from "./guards/auth.guard";
 import { AdminComponent } from "./components/admin/admin.component";
 import { ContactComponent } from "./components/contact/contact.component";
+import { BarGraphComponent } from "./components/bar-graph/bar-graph.component";
+import { D3ChartsDirective } from "./directives/d3-charts.directive";
+import { D3BarChartDirective } from "./directives/d3-bar-chart.directive";
+import { PieGraphComponent } from "./components/pie-graph/pie-graph.component";
+import { D3PieChartDirective } from "./directives/d3-pie-chart.directive";
+
 import { AdminUniqueConnectionsPipe } from "./components/admin/admin.uniqueConnections.pipe";
-import { AdminExpectedUniqueConnectionsPipe }  from "./components/admin/admin.expectedUniqueConnections.pipe"
+import { AdminExpectedUniqueConnectionsPipe } from "./components/admin/admin.expectedUniqueConnections.pipe";
 export function tokenGetter() {
   return localStorage.getItem("access_token");
 }
 
 @NgModule({
   declarations: [
+    ...RoutingComponents,
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    ...RoutingComponents,
     AdminComponent,
     MapComponent,
     ContactComponent,
+    BarGraphComponent,
+    PieGraphComponent,
+    D3ChartsDirective,
+    D3BarChartDirective,
+    D3PieChartDirective,
     AdminUniqueConnectionsPipe,
-    AdminExpectedUniqueConnectionsPipe
+    AdminExpectedUniqueConnectionsPipe,
   ],
   imports: [
     BrowserModule,

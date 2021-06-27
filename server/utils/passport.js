@@ -10,7 +10,6 @@ module.exports = (passport) => {
 
   passport.use(
     new Strategy(opts, (jwt_payload, done) => {
-      console.log(jwt_payload);
       User.findOne({ _id: jwt_payload.user._id })
         .select("name email username _id date")
         .exec()

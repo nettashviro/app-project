@@ -20,11 +20,9 @@ export class UserItemService {
       "Content-Type": "application/json",
       Authorization: this.token,
     });
-    return this.http.post<UserItemModel>(
-      `${this.uri}/cart/addItem`,
-      userItem,
-      { headers: headers }
-    );
+    return this.http.post<UserItemModel>(`${this.uri}/cart/addItem`, userItem, {
+      headers: headers,
+    });
   }
 
   //Get all items to cart
@@ -46,8 +44,23 @@ export class UserItemService {
       "Content-Type": "application/json",
       Authorization: this.token,
     });
-    console.log("user", this.user)
-    return this.http.delete<DeleteModel>(`${this.uri}/cart/deleteItem/${this.user['id']}/${id}`, {
+    return this.http.delete<DeleteModel>(
+      `${this.uri}/cart/deleteItem/${this.user["id"]}/${id}`,
+      {
+        headers: headers,
+      }
+    );
+  }
+
+  // Delete cart
+  deleteUserCart(): Observable<DeleteModel> {
+    this.onLoadToken();
+    let headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: this.token,
+    });
+    console.log("make req");
+    return this.http.delete<DeleteModel>(`${this.uri}/cart/deleteCart`, {
       headers: headers,
     });
   }

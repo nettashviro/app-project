@@ -24,7 +24,7 @@ const app = express();
 const server = createServer(app);
 app.use(express.static(path.resolve(__dirname, "../public")));
 
-calculateTree()
+calculateTree();
 /** Middlewares **/
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,10 +58,10 @@ setupWebSocket(server);
 
 /** Routes */
 app.get("/health", (req, res) => res.send("alive"));
+app.use("/api", dashboardRoute);
 app.use("/api", itemsRoute);
 app.use("/api/user", userRoute);
 app.use("/api/order", orderRoute);
-app.use("/api", dashboardRoute);
 app.use("/api/cart", cartRoute);
 
 /** Setup Port & Listening to Server **/

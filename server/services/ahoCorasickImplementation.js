@@ -5,67 +5,66 @@ const mongoose = require("mongoose");
 // const connection = require("../utils/database");
 
 const calculateTree = () => {
-  if(global.start) {
-    return global.start
+  if (global.start) {
+    return global.start;
   }
-  global.start = { }
+  global.start = {};
 
   Item.find({}, (err, items) => {
-    if(err) {
-      console.error(err)
-      throw err
+    if (err) {
+      console.error(err);
+      throw err;
     }
 
-    items.map(item => {
-      let current = global.start
-      for(let ch of item.name) {
-        if(!current[ch]) {
-          current[ch] = { }
+    items.map((item) => {
+      let current = global.start;
+      for (let ch of item.name) {
+        if (!current[ch]) {
+          current[ch] = {};
         }
 
-        current = current[ch]
+        current = current[ch];
       }
-      current['isWord'] = true
-    })
+      current["isWord"] = true;
+    });
 
-    console.log(global.start)
-  })
-}
+    // console.log(global.start)
+  });
+};
 
 search = (word) => {
-  if(!global.start) {
-    throw {err: 'global.start not found'}
+  if (!global.start) {
+    throw { err: "global.start not found" };
   }
 
-  let current = global.start
-  for(let ch of word) {
-    if(!current[ch]) {
-      return false
+  let current = global.start;
+  for (let ch of word) {
+    if (!current[ch]) {
+      return false;
     }
 
-    current = current[ch]
+    current = current[ch];
   }
 
-  return current['isWord']
-}
+  return current["isWord"];
+};
 
 const addWord = (word) => {
-  if(!global.start) {
-    throw {err: 'global.start not found'}
+  if (!global.start) {
+    throw { err: "global.start not found" };
   }
 
-  let current = global.start
-  for(let ch of word) {
+  let current = global.start;
+  for (let ch of word) {
     if (!current[ch]) {
-      current[ch] = { }
+      current[ch] = {};
     }
 
-    current = current[ch]
+    current = current[ch];
   }
 
-  current['isWord'] = true;
-}
-
+  current["isWord"] = true;
+};
 
 // class AhoCorasick {
 //   static instance;
@@ -150,9 +149,8 @@ const addWord = (word) => {
 // }
 // let ahoCorasick = new AhoCorasick()
 
-
 module.exports = {
   calculateTree,
   addWord,
-  search
-}
+  search,
+};
