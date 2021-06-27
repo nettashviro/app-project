@@ -10,9 +10,9 @@ export class SharedService {
   constructor(private userItemService: UserItemService) {}
 
   fetchUserItems() {
-    if (this.userItemService.user && this.userItemService.user.id) {
+    if (this.userItemService.user && this.userItemService.user["id"]) {
       this.userItemService
-        .getUserItem(this.userItemService.user.id)
+        .getUserItem(this.userItemService.user["id"])
         .subscribe((data) => {
           let validItems = data.items.filter((item) => item != null);
           this.setGlobalAmountUserItem(validItems.length);
