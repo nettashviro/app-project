@@ -23,7 +23,7 @@ const addItem = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         category: req.body.category,
-        image: 'liron',
+        image: req.body.image,
         colors: req.body.colors,
         price: req.body.price,
     });
@@ -33,6 +33,7 @@ const addItem = (req, res, next) => {
             return res.status(200).json({ success: true, item: item });
         })
         .catch((err) => {
+            console.log("err", err)
             return res.status(500).json(err);
         });
 };
@@ -40,7 +41,6 @@ const addItem = (req, res, next) => {
 
 const deleteItem = (req, res, next) => {
     const itemId = req.params.id;
-    console.log("itemId", itemId)
     Item.find({ _id: itemId })
         .exec()
         .then((items) => {
@@ -70,7 +70,6 @@ const findItemByField = (req, res, next) => {
     Item.find({
         [field]: value
     })
-        .exec()
         .then((items) => {
             if (items.length < 1) {
                 return res.status(404).json({ message: `items not found...` });
@@ -86,11 +85,27 @@ const findItemByField = (req, res, next) => {
 const updateItem = async (req, res, next) => {
     try {
         const item = req.body
-        console.log("item", req.files)
-        console.log("image", req.body.image)
-        delete item.image
-        console.log("item", req.body)
         await Item.updateOne({ _id: item._id }, item, {})
+        return res.status(200).json({})
+    } catch (err) {
+        console.log("err", err)
+        return res.status(500).json(err);
+    }
+}
+
+const updateImage = async (req, res, next) => {
+    try {
+        const imageName = Object.keys(req.files)[0];
+        const myVideo = req.files[imageName];
+        let filename = `${__dirname}\\..\\..\\client\\src\\assets\\images\\${myVideo.name}`
+        myVideo
+            .mv(filename, async (err) => {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    console.log("success")
+                }
+            });
         return res.status(200).json({})
     } catch (err) {
         console.log("err", err)
@@ -137,6 +152,7 @@ module.exports = {
     getItems,
     addItem,
     updateItem,
+    updateImage,
     deleteItem,
     findItemByField,
     getItemColors,

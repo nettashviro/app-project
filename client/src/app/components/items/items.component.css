@@ -100,6 +100,12 @@
     overflow-y: scroll;
 }
 
+.categories {
+    max-height: 180px;
+    width: 200px;
+    overflow-y: scroll;
+}
+
 .filters {
     display: flex;
     justify-content: space-between;
