@@ -150,13 +150,14 @@
     <!-- <app-pie-graph></app-pie-graph> -->
   </div>
   <div class="totalIncomes">
-    <h5>הכנסות של משתמשים:</h5>
-
+    <h5>קניות של משתמשים:</h5>
+    <div style="overflow-y: scroll; max-height: 300px;">
     <div *ngFor="let totalIncome of totalIncomes">
       <div>
         <b class="money">{{ totalIncome.count }}</b>
         {{ totalIncome.name }}
       </div>
     </div>
+  </div>
   </div>
 </div>
