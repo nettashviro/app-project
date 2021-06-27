@@ -72,6 +72,7 @@ const search = (word) => {
 
   let current = getLeaf(global.start, word)
 
+  console.log(current['count'])
   return current['isWord']
 }
 
@@ -108,9 +109,17 @@ const removeWord = (word) => {
 
 }
 
-const update = (prevName, newName) => {
+const update = (prevName, newName, prevColors, newColors) => {
   removeWord(prevName)
   addWord(newName)
+
+  for(let color of prevColors) {
+    removeWord(color)
+  }
+
+  for(let color of newColors) {
+    addWord(color)
+  }
 }
 
 

@@ -90,6 +90,9 @@ const updateItem = async (req, res, next) => {
 
         res.locals.itemPreviousName = previousItem[0].name;
         res.locals.itemNewName = item.name;
+
+        res.locals.itemPreviousColors = previousItem[0].colors;
+        res.locals.itemNewColors = item.colors;
         await Item.updateOne({ _id: item._id }, item, {})
         next()
         return res.status(200).json({})
