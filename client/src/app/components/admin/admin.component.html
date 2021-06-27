@@ -150,7 +150,13 @@
     <!-- <app-pie-graph></app-pie-graph> -->
   </div>
   <div class="totalIncomes">
-    <h5>סך כל הכנסות:</h5>
-    <div class="money">{{totalIncomes}}</div>
+    <h5>הכנסות של משתמשים:</h5>
+
+    <div *ngFor="let totalIncome of totalIncomes">
+      <div>
+        <b class="money">{{ totalIncome.count }}</b>
+        {{ totalIncome.name }}
+      </div>
+    </div>
   </div>
 </div>

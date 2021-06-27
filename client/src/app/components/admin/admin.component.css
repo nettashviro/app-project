@@ -12,7 +12,7 @@
   max-width: 350px;
 }
 
-.totalIncomes{
+.totalIncomes {
   direction: rtl;
   width: 300px;
   border: 1px solid lightgray;
@@ -22,11 +22,11 @@
   padding: 10px;
 }
 .money {
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .money::before {
   content: "₪";
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 400;
 }
