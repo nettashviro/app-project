@@ -85,7 +85,11 @@ const findItemByField = (req, res, next) => {
 const updateItem = async (req, res, next) => {
     try {
         const item = req.body
+        // let previousItem = await Item.find({_id: item.id})
+        // res.locals.itemPreviousName = previousItem.name;
+        // res.locals.itemNewName = item.name;
         await Item.updateOne({ _id: item._id }, item, {})
+        // next()
         return res.status(200).json({})
     } catch (err) {
         console.log("err", err)

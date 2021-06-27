@@ -98,6 +98,11 @@ const removeWord = (word) => {
 
 }
 
+const update = (prevName, newName) => {
+  removeWord(prevName)
+  addWord(newName)
+}
+
 
 // class AhoCorasick {
 //   static instance;
@@ -187,5 +192,5 @@ module.exports = {
   calculateTree,
   addWord,
   search,
-  removeWord
+  update
 }
