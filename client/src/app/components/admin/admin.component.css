@@ -1,0 +1,10 @@
+.flex-parent {
+  display: flex;
+}
+.flex-child {
+  flex: 1;
+}
+
+.flex-child-wider {
+  flex: 2;
+}

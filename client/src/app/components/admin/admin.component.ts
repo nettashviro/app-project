@@ -23,7 +23,7 @@ export class AdminComponent implements OnInit {
     });
 
     this.statService.getOrders().subscribe((data) => {
-      this.ordersCount = data["orders"].length;
+      this.ordersCount = data.length;
     });
   }
 
@@ -38,7 +38,7 @@ export class AdminComponent implements OnInit {
       this.usersCount = data;
     });
 
-    this.socketService.listen("newOrder").subscribe((data) => {
+    this.socketService.listen("ordersCount").subscribe((data) => {
       console.log("newOrder");
       this.ordersCount = data;
     });

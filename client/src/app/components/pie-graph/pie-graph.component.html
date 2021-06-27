@@ -1,0 +1,18 @@
+<div
+  d3-charts
+  d3-pie-chart
+  [type]="'pie'"
+  [config]="pieConfig"
+  [data]="pieData"
+  [color]="pieColors"
+  [drillthrough]="true"
+  [fontcolor]="'#000'"
+  (onDrillthrough)="drilledPie($event)"
+  [tooltip]="true"
+  [tooltipstyle]="tooltipStyle"
+  [label]="pieLabels"
+  [value]="pieValue"
+  [displaylabel]="pieDisplayLabels"
+  [displayvalue]="pieDisplayValue"
+  [fontsize]="9"
+></div>
