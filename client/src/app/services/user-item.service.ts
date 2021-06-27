@@ -2,9 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
-import { UserItemModel } from "../models/user-item.model";
+import { allUserItemsModel, UserItemModel } from "../models/user-item.model";
 import { DeleteModel } from "../models/delete.model";
-import { UserModel } from "../models/user.model";
 
 @Injectable({ providedIn: "root" })
 export class UserItemService {
@@ -29,13 +28,13 @@ export class UserItemService {
   }
 
   //Get all items to cart
-  getUserItem(id: string): Observable<UserItemModel[]> {
+  getUserItem(id: string): Observable<allUserItemsModel> {
     this.onLoadToken();
     let headers = new HttpHeaders({
       "Content-Type": "application/json",
       Authorization: this.token,
     });
-    return this.http.get<UserItemModel[]>(`${this.uri}/cart/getCart/${id}`, {
+    return this.http.get<allUserItemsModel>(`${this.uri}/cart/getCart/${id}`, {
       headers: headers,
     });
   }
