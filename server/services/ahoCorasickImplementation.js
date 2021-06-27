@@ -32,9 +32,6 @@ const calculateTree = () => {
 
       for(let color of item.colors) {
         current = global.start;
-        if(color == 'Mint') {
-          console.log('')
-        }
         for (let ch of color) {
           if (!current[ch]) {
             current[ch] = {};
